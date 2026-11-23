@@ -7,22 +7,26 @@
 // General style
 $font-family-sans-serif: $body-font;
 $headings-font-family:   $headers-font;
-$body-bg:                $light-gray;
+$body-bg:                $platinum;
 $font-size-base:         1rem;
 
 // Colors
-$body-color: $gray;
-$primary:    $blue;
-$success:    $green;
-$info:       $yellow;
-$danger:     $red;
-$warning:    $orange;
+$body-color:      $ink;
+$headings-color:  $blue-slate;
+$primary:         $blue-slate;
+$secondary:       $pacific-blue;
+$info:            $pacific-blue;
+$success:         $green;
+$danger:          $red;
+$warning:         $yellow;
+$link-color:      $blue-slate;
 
 // Buttons & inputs' radius
-$border-radius-sm:            .0625rem;
-$border-radius:               .125rem;
-$border-radius-lg:            .25rem;
-$border-radius-xl:            .5rem;
+$border-radius-sm:            .25rem;
+$border-radius:               .375rem;
+$border-radius-lg:            .5rem;
+$border-radius-xl:            .75rem;
 $border-radius-xxl:           1rem;
 
 // Override other variables below!
+$input-bg: $white; // inputs stay visible on the Platinum page background

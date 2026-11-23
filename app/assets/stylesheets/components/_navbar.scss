@@ -1,12 +1,24 @@
-.navbar-lewagon {
+.navbar-sagasu {
   justify-content: space-between;
-  background: white;
+  background: $white;
+  border-bottom: 1px solid $platinum;
 }
 
-.navbar-lewagon .navbar-collapse {
+.navbar-sagasu .navbar-collapse {
   flex-grow: 0;
 }
 
-.navbar-lewagon .navbar-brand img {
-  width: 40px;
+.navbar-sagasu .navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -.02em;
+  color: $blue-slate;
+
+  img {
+    width: 36px;
+    height: 36px;
+  }
 }

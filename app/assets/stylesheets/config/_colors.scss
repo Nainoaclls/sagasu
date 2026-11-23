@@ -1,10 +1,15 @@
-// Define variables for your color scheme
+// Sagasu palette (see docs/brand/README.md)
 
-// For example:
-$red: #FD1015;
-$blue: #0D6EFD;
-$yellow: #FFC65A;
-$orange: #E67E22;
-$green: #1EDD88;
-$gray: #0E0000;
-$light-gray: #F4F4F4;
+// Brand
+$blue-slate:    #326273; // logo, navbar, headings, primary buttons
+$pacific-blue:  #5C9EAD; // icons, links, active states (NOT for white text: 3.0:1)
+$light-pacific: #A3CDD6; // Pacific Blue on dark backgrounds only
+$tangerine:     #E39774; // accent: AI suggestions, selected supplier (use dark text on it)
+$white:         #FFFFFF;
+$platinum:      #EEEEEE; // page background, secondary surfaces
+$ink:           #1E2F36; // body text
+
+// Functional (toned down to match the B2B palette)
+$green:  #3E8E6E; // success / approved
+$red:    #C0504D; // danger / returned
+$yellow: #D9A441; // warning / pending
