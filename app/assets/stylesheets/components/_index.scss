@@ -1,5 +1,16 @@
-// Import your components CSS files here.
-@import "alert";
-@import "avatar";
-@import "form_legend_clear";
+// Shared components, in dependency order
+@import "base";
+@import "buttons";
+@import "badges";
+@import "cards";
+@import "forms";
 @import "navbar";
+@import "toasts";
+@import "stepper";
+@import "dialog";
+@import "overlay";
+@import "empty";
+@import "footer";
+@import "auth";
+@import "motion";
+@import "form_legend_clear";

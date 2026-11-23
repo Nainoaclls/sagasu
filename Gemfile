@@ -47,6 +47,13 @@ gem "font-awesome-sass", "~> 6.1"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 
+# Authorization: one policy per model decides who can do what
+gem "pundit"
+# AI provider client (OpenAI) for item grouping and supplier suggestions
+gem "ruby_llm"
+# Full-text supplier search in PostgreSQL
+gem "pg_search"
+
 group :development, :test do
   gem "dotenv-rails"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

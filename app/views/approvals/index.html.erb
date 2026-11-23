@@ -1,0 +1,85 @@
+<% content_for :title, "Approvals" %>
+
+<div class="sg-container sg-page" data-controller="reveal">
+  <header class="sg-page-head sg-reveal">
+    <div>
+      <h1>Approvals</h1>
+      <p>Bidder lists sent to you. Open one to review it, then approve or return it with a comment.</p>
+    </div>
+  </header>
+
+  <section aria-labelledby="pending-title" class="mb-5">
+    <div class="sg-section-title">
+      <h2 id="pending-title"><%= icon("fa-hourglass-half") %> Waiting for you <span class="sg-count"><%= @pending.size %></span></h2>
+    </div>
+
+    <% if @pending.any? %>
+      <div class="sg-approval-list">
+        <% @pending.each do |approval| %>
+          <article class="sg-card sg-card-interactive sg-approval sg-reveal">
+            <div class="sg-approval-main">
+              <p class="sg-caption mb-1"><%= approval.project.erp_rfq.presence || "RFQ project" %> · sent <%= time_ago_in_words(approval.created_at) %> ago</p>
+              <h3 class="h5 mb-1"><%= link_to approval.project.title, project_path(approval.project), class: "sg-stretched text-decoration-none" %></h3>
+              <p class="mb-2 text-muted small">
+                <%= icon("fa-user") %> <%= approval.project.user.name %> ·
+                <%= icon("fa-location-dot") %> <%= approval.project.client_area.presence || "Area not set" %>
+              </p>
+              <ul class="sg-project-counts mb-0">
+                <li><strong><%= approval.snapshot_groups.size %></strong> groups</li>
+                <li><strong><%= approval.snapshot_supplier_count %></strong> suppliers</li>
+                <li><strong><%= approval.project.items.size %></strong> materials</li>
+              </ul>
+              <% if approval.snapshot["buyer_comment"].present? %>
+                <p class="sg-buyer-comment small"><%= icon("fa-comment") %> “<%= approval.snapshot["buyer_comment"] %>”</p>
+              <% end %>
+            </div>
+            <span class="btn btn-primary sg-above-hover" aria-hidden="true">Review <%= icon("fa-arrow-right") %></span>
+          </article>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="sg-empty sg-reveal">
+        <%= image_tag "mascot/success.webp", alt: "", width: 120, height: 106 %>
+        <div>
+          <h3>All caught up</h3>
+          <p>No bidder list is waiting for your approval.</p>
+        </div>
+      </div>
+    <% end %>
+  </section>
+
+  <section aria-labelledby="decided-title">
+    <div class="sg-section-title">
+      <h2 id="decided-title"><%= icon("fa-clock-rotate-left") %> Decided</h2>
+    </div>
+    <% if @decided.any? %>
+      <div class="sg-card sg-card-flush">
+        <div class="sg-table-wrap">
+          <table class="sg-table">
+            <caption class="visually-hidden">Bidder lists you already decided</caption>
+            <thead>
+              <tr>
+                <th scope="col">Project</th>
+                <th scope="col">Buyer</th>
+                <th scope="col">Decision</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @decided.each do |approval| %>
+                <tr>
+                  <td><%= link_to approval.project.title, project_path(approval.project), class: "fw-bold" %></td>
+                  <td><%= approval.project.user.name %></td>
+                  <td><%= approval_status_badge(approval) %></td>
+                  <td class="text-nowrap"><%= l(approval.decided_at, format: :short) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% else %>
+      <p class="sg-empty-compact">Your past decisions will be listed here.</p>
+    <% end %>
+  </section>
+</div>

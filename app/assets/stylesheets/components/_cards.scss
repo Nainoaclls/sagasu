@@ -1,0 +1,71 @@
+.sg-card {
+  background: $white;
+  border: 1px solid $border-color;
+  border-radius: 14px;
+  box-shadow: $shadow-sm;
+  padding: 1.5rem;
+}
+
+.sg-card-flush { padding: 0; overflow: hidden; }
+
+// Cards that are links or contain a primary link: lift on hover, keep focus visible
+.sg-card-interactive {
+  position: relative;
+  transition: transform $motion $ease-out, box-shadow $motion $ease-out, border-color $motion;
+  &:hover, &:focus-within { transform: translateY(-3px); box-shadow: $shadow-md; border-color: #C9D6DB; }
+  // Makes the whole card clickable through its main link (one tab stop)
+  .sg-stretched::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+  .sg-above { position: relative; z-index: 2; }
+}
+
+.sg-card-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+  margin-bottom: 1rem;
+  h3 { font-size: 1.125rem; margin: 0; }
+}
+
+.sg-panel-soft {
+  background: $pacific-soft; border-radius: 12px; padding: 1rem 1.25rem;
+  border-left: 4px solid $blue-slate;
+}
+
+.sg-ai-note {
+  display: flex; gap: .75rem; align-items: flex-start;
+  background: $tangerine-soft; border-radius: 10px; padding: .75rem 1rem;
+  font-size: .9rem; color: $ink;
+  > i { color: darken($tangerine, 28%); margin-top: .2rem; }
+  strong { display: block; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: darken($tangerine, 40%); }
+}
+
+.sg-kpi {
+  background: $white; border: 1px solid $border-color; border-radius: 14px; padding: 1.25rem 1.5rem;
+  box-shadow: $shadow-sm;
+  .sg-kpi-value { font-size: 2rem; font-weight: 700; color: $blue-slate; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .sg-kpi-label { color: $muted; font-size: .875rem; margin-top: .25rem; }
+  .sg-kpi-icon {
+    width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center;
+    background: $pacific-soft; color: $blue-slate; margin-bottom: .75rem;
+  }
+}
+
+.sg-facts {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem;
+  margin: 0;
+  > div { background: $canvas; border-radius: 10px; padding: .875rem 1rem; }
+  dt { font-size: .75rem; color: $muted; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  dd { margin: .25rem 0 0; font-weight: 700; color: $ink; }
+  .is-missing dd { color: $yellow; font-weight: 400; font-style: normal; }
+}
+
+.sg-table {
+  width: 100%; border-collapse: separate; border-spacing: 0; font-size: .9375rem;
+  th {
+    text-align: left; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase;
+    color: $muted; font-weight: 700; padding: .625rem .75rem; border-bottom: 1px solid $border-color;
+  }
+  td { padding: .75rem; border-bottom: 1px solid $platinum; vertical-align: middle; }
+  tbody tr { transition: background-color $motion-fast; }
+  tbody tr:hover { background: #FAFBFB; }
+  tbody tr:last-child td { border-bottom: 0; }
+}
+.sg-table-wrap { overflow-x: auto; overflow-y: hidden; }

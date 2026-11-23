@@ -1,0 +1,66 @@
+<% content_for :title, "Projects" %>
+
+<div class="sg-container sg-page" data-controller="reveal">
+  <header class="sg-page-head sg-reveal">
+    <div>
+      <p class="sg-eyebrow mb-1"><%= Time.current.strftime("%A %-d %B") %></p>
+      <h1>Welcome back, <%= current_user.first_name %></h1>
+      <p><%= current_user.buyer? ? "Your RFQ projects and bidder lists." : "Bidder lists you were asked to review." %></p>
+    </div>
+    <% if policy(Project).create? %>
+      <%= link_to new_project_path, class: "btn btn-primary btn-lg", data: { controller: "ripple", action: "click->ripple#burst" } do %>
+        <%= icon("fa-plus") %> New RFQ project
+      <% end %>
+    <% end %>
+  </header>
+
+  <section class="sg-kpis" aria-label="Summary">
+    <% [[@stats.active_count, "Active projects", "fa-folder-open"],
+        [@stats.shortlisted_count, "Suppliers on bidder lists", "fa-list-check"],
+        [@stats.pending_count, "Waiting for approval", "fa-hourglass-half"]].each do |value, label, icon_name| %>
+      <div class="sg-kpi sg-reveal">
+        <div class="sg-kpi-icon"><%= icon(icon_name) %></div>
+        <div class="sg-kpi-value" data-controller="countup" data-countup-end-value="<%= value %>"><%= value %></div>
+        <div class="sg-kpi-label"><%= label %></div>
+      </div>
+    <% end %>
+    <div class="sg-kpi sg-reveal">
+      <div class="sg-kpi-icon is-accent"><%= icon("fa-wand-magic-sparkles") %></div>
+      <div class="sg-kpi-value"><%= @stats.ai_kept_rate ? "#{@stats.ai_kept_rate}%" : "–" %></div>
+      <div class="sg-kpi-label">AI suggestions kept by buyers</div>
+    </div>
+  </section>
+
+  <% if @projects.empty? %>
+    <div class="sg-empty sg-reveal">
+      <%= image_tag "mascot/welcome.webp", alt: "", width: 120, height: 133 %>
+      <div>
+        <h2 class="h3">Let's build your first bidder list</h2>
+        <p>Create an RFQ project, paste your materials, and Sagasu will group them and suggest suppliers.</p>
+        <% if policy(Project).create? %>
+          <%= link_to new_project_path, class: "btn btn-primary" do %><%= icon("fa-plus") %> New RFQ project<% end %>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <section data-controller="filter" aria-labelledby="projects-title">
+      <div class="sg-section-title">
+        <h2 id="projects-title"><%= icon("fa-folder-open") %> Projects</h2>
+        <div class="sg-tabs" role="group" aria-label="Filter projects by status">
+          <% [["all", "All"], ["draft", "Draft"], ["pending_approval", "Waiting"], ["returned", "Returned"], ["approved", "Approved"]].each do |status, label| %>
+            <button type="button" class="sg-tab" data-filter-target="tab" data-status="<%= status %>"
+                    data-action="filter#select" aria-pressed="<%= status == 'all' %>">
+              <%= label %> <span class="sg-tab-count"><%= @stats.count_for(status) %></span>
+            </button>
+          <% end %>
+        </div>
+      </div>
+      <p class="visually-hidden" aria-live="polite" data-filter-target="status"></p>
+
+      <div class="sg-project-grid">
+        <%= render partial: "projects/card", collection: @projects, as: :project %>
+      </div>
+      <p class="sg-empty-compact mt-3" data-filter-target="empty" hidden>No project with this status.</p>
+    </section>
+  <% end %>
+</div>

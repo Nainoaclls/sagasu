@@ -1,16 +1,32 @@
+# Routes follow docs/Sagasu_Routes.pdf (# = user story number).
+# One addition: item_groups#create, so a buyer can add a group by hand when the AI grouping misses one (story 6).
 Rails.application.routes.draw do
   devise_for :users
-  root to: "pages#home"
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  root to: "pages#home" # 1, 2
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  resources :projects, only: %i[index new create show] do # 3
+    resources :items, only: [:create]                            # 4
+    resources :item_groups, only: [:create] do                   # 6 (manual group)
+      collection { post :generate }                              # 5 (AI)
+    end
+    resources :approvals, only: [:create]                        # 12
+  end
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  resources :items, only: %i[update destroy] # 4, 6
+
+  resources :item_groups, only: [:update] do                     # 6
+    resources :group_suppliers, only: [:create] do               # 9
+      collection { post :suggest }                               # 7 (AI)
+    end
+  end
+
+  resources :group_suppliers, only: [:update]                    # 8
+
+  resources :suppliers, only: %i[index show] do # 9, 10
+    resources :reviews, only: [:create] # 11
+  end
+
+  resources :approvals, only: %i[index update] # 13, 14
 end

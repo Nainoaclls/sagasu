@@ -1,0 +1,8 @@
+.sg-footer {
+  margin-top: auto; background: $white; border-top: 1px solid $border-color;
+  padding: 2rem 0; font-size: .875rem; color: $muted;
+  .sg-footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+  .sg-brand-small { display: inline-flex; align-items: center; gap: .5rem; font-weight: 700; color: $blue-slate; text-decoration: none; }
+  img { width: 24px; height: 24px; }
+  a { color: $muted; }
+}

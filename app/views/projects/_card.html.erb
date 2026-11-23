@@ -1,0 +1,30 @@
+<article class="sg-card sg-card-interactive sg-project-card sg-reveal" data-filter-target="item" data-status="<%= project.status %>">
+  <div class="sg-card-head">
+    <div>
+      <p class="sg-caption mb-1"><%= project.erp_rfq.presence || "No ERP RFQ yet" %></p>
+      <h3><%= link_to project.title, project, class: "sg-stretched text-decoration-none" %></h3>
+    </div>
+    <%= project_status_badge(project) %>
+  </div>
+
+  <p class="sg-project-meta">
+    <span><%= icon("fa-building") %> <%= project.client_name.presence || "Client to set" %></span>
+    <span><%= icon("fa-location-dot") %> <%= project.client_area.presence || "Area to set" %></span>
+  </p>
+
+  <ul class="sg-project-counts" aria-label="Bidder list contents">
+    <li><strong><%= project.items.size %></strong> materials</li>
+    <li><strong><%= project.item_groups.size %></strong> groups</li>
+    <li><strong><%= project.selected_suppliers_size %></strong> suppliers selected</li>
+  </ul>
+
+  <div class="sg-progress" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100"
+       aria-valuenow="<%= project_progress(project) %>" style="--progress: <%= project_progress(project) %>">
+    <span></span>
+  </div>
+
+  <p class="sg-caption mt-2 mb-0">
+    <% if project.user_id != current_user.id %>By <%= project.user.name %> · <% end %>
+    Updated <%= time_ago_in_words(project.updated_at) %> ago
+  </p>
+</article>

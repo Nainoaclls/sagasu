@@ -1,0 +1,130 @@
+// ---------- New project ----------
+.sg-new-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1.5rem; align-items: start;
+  @media (max-width: 991.98px) { grid-template-columns: minmax(0, 1fr); } }
+.sg-new-aside { position: sticky; top: 92px; }
+.sg-new-mascot { width: 120px; height: auto; display: block; margin: -.5rem auto .5rem; }
+.sg-next-steps { padding-left: 1.25rem; margin: 0; font-size: .9375rem; color: $muted; li { margin-bottom: .75rem; } strong { color: $ink; } }
+
+// ---------- Workspace ----------
+.sg-project-head {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem;
+  h1 { font-size: 2.25rem; margin: 0 0 .5rem; }
+  @media (max-width: 720px) {
+    flex-direction: column-reverse; gap: .5rem;
+    h1 { font-size: 1.75rem; }
+  }
+}
+.sg-project-facts {
+  display: flex; flex-wrap: wrap; gap: .375rem 1.25rem; list-style: none; padding: 0; margin: 0;
+  color: $muted; font-size: .9375rem; i { color: $pacific-blue; width: 1.1em; }
+}
+.sg-need {
+  position: relative; margin: 0 0 1.5rem; padding: 1rem 1.25rem 1rem 3rem;
+  background: $white; border-radius: 14px; border: 1px solid $border-color; font-size: 1.0625rem;
+  > i { position: absolute; left: 1.1rem; top: 1.15rem; color: $tangerine; }
+  p { margin: 0; }
+}
+
+.sg-workspace-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 1.5rem; align-items: start;
+  @media (max-width: 1099.98px) { grid-template-columns: minmax(0, 1fr); } }
+.sg-workspace-aside { position: sticky; top: 92px;
+  @media (max-width: 1099.98px) { position: static; } }
+
+.sg-banner {
+  display: flex; gap: 1rem; align-items: flex-start; border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+  > i { font-size: 1.25rem; margin-top: .15rem; }
+  strong { display: block; }
+  p { margin: .125rem 0 0; }
+  &.is-pending { background: $yellow-soft; color: #5E4610; > i { color: $yellow; } }
+  &.is-returned { background: $red-soft; color: #6E2A26; > i { color: $red; } }
+  &.is-approved { background: $green-soft; color: #1F4F3C; align-items: center; }
+}
+.sg-hanko-sm { width: 48px; height: 48px; font-size: .875rem; }
+
+.sg-add-materials, .sg-add-group {
+  margin-top: 1rem; border-top: 1px solid $platinum; padding-top: 1rem;
+  summary {
+    cursor: pointer; font-weight: 700; color: $blue-slate; display: inline-flex; align-items: center; gap: .5rem;
+    min-height: 44px; list-style: none; border-radius: 8px; padding: 0 .5rem; margin-left: -.5rem;
+    &::-webkit-details-marker { display: none; }
+    &:hover { background: $pacific-soft; }
+  }
+}
+.sg-add-group { border-top: 0; padding-top: 0; }
+
+// ---------- Groups ----------
+.sg-groups { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+.sg-group { border-top: 4px solid $pacific-blue; }
+.sg-group-head { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; }
+.sg-group-icon {
+  flex: none; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
+  background: $pacific-soft; color: $blue-slate; font-size: 1.125rem;
+}
+.sg-group-title { font-size: 1.125rem; margin: .375rem 0 0; }
+.sg-group-items { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; margin: 0 0 1.25rem; }
+.sg-group-suppliers { border-top: 1px solid $platinum; padding-top: 1rem; }
+
+// ---------- Supplier cards ----------
+.sg-supplier-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: .75rem; }
+.sg-supplier {
+  display: flex; gap: 1rem; justify-content: space-between; align-items: flex-start;
+  border: 1px solid $border-color; border-radius: 14px; padding: 1rem 1.125rem; background: $white;
+  transition: border-color $motion, box-shadow $motion, background-color $motion;
+  &:hover { box-shadow: $shadow-sm; }
+  &.is-selected { border-color: $blue-slate; background: linear-gradient(90deg, $pacific-soft, $white 55%); box-shadow: inset 4px 0 0 $blue-slate; }
+  &.is-declined { opacity: .72; background: $canvas; }
+  @media (max-width: 640px) { flex-direction: column; }
+}
+.sg-supplier-main { min-width: 0; flex: 1; }
+.sg-supplier-title { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; a { color: $blue-slate; } }
+.sg-supplier-reason { font-size: .9375rem; margin-bottom: .75rem; }
+.sg-supplier-actions { display: flex; flex-direction: column; align-items: flex-end; gap: .5rem; flex: none;
+  @media (max-width: 640px) { flex-direction: row; flex-wrap: wrap; align-items: center; } }
+
+.sg-evidence {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .5rem 1.5rem;
+  ul { list-style: none; padding: 0; margin: 0; font-size: .875rem; }
+  li { display: flex; gap: .5rem; align-items: baseline; margin-bottom: .25rem; }
+  .is-ok { color: $green; }
+  .is-todo { color: $yellow; }
+}
+.sg-evidence-title { font-size: .6875rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: $muted; margin-bottom: .25rem; }
+
+// ---------- Supplier picker ----------
+.sg-picker-list {
+  list-style: none; padding: .25rem; margin: .5rem 0 0; border: 1px solid $border-color; border-radius: 12px; background: $white;
+  box-shadow: $shadow-md; max-height: 340px; overflow-y: auto;
+  li { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .5rem .75rem; border-radius: 8px; animation: sg-appear $motion $ease-out both; }
+  li:hover { background: $canvas; }
+}
+
+// ---------- Bidder list aside ----------
+.sg-bidder-groups {
+  list-style: none; padding: 0; margin: 0;
+  > li { padding: .625rem 0; border-bottom: 1px dashed $platinum; }
+  > li:last-child { border-bottom: 0; }
+  ul { list-style: none; padding: 0; margin: .25rem 0 0; font-size: .875rem; }
+  ul i { color: $green; }
+}
+.sg-bidder-group-title { font-weight: 700; font-size: .875rem; color: $blue-slate; }
+.sg-checklist {
+  background: $canvas; border-radius: 12px; padding: .875rem 1rem;
+  ul { list-style: none; padding: 0; margin: 0; font-size: .875rem; }
+  li { display: flex; gap: .5rem; align-items: baseline; margin-bottom: .375rem; color: $muted; }
+  i { font-size: .625rem; color: $tangerine; }
+}
+
+.sg-timeline {
+  list-style: none; padding: 0 0 0 1rem; margin: 0; border-left: 2px solid $platinum;
+  > li { position: relative; padding: 0 0 1rem .75rem; }
+  > li::before { content: ""; position: absolute; left: calc(-1rem - 6px); top: .35rem; width: 10px; height: 10px; border-radius: 50%; background: $pacific-blue; box-shadow: 0 0 0 3px $white; }
+}
+.sg-snapshot summary { font-size: .8125rem; color: $blue-slate; cursor: pointer; font-weight: 700; }
+
+// ---------- Approver decision ----------
+.sg-decision {
+  background: $white; border: 2px solid $blue-slate; border-radius: 18px; padding: 1.5rem; margin-bottom: 1.5rem;
+  box-shadow: $shadow-md;
+}
+.sg-decision-head { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; .sg-hanko { color: $blue-slate; border-color: $blue-slate; } }
+.sg-buyer-comment { margin: .5rem 0 0; color: $muted; font-style: italic; }

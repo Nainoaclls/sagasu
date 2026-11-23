@@ -1,39 +1,75 @@
-<nav class="navbar navbar-expand-sm navbar-light navbar-sagasu">
-  <div class="container-fluid">
-    <%= link_to root_path, class: "navbar-brand" do %>
-      <%= image_tag "sagasu-logo-mark.svg", alt: "" %>
+<header class="sg-nav" data-controller="navbar">
+  <nav class="sg-container sg-nav-inner navbar navbar-expand-md py-0" aria-label="Main">
+    <%= link_to root_path, class: "sg-brand", "aria-label": "Sagasu home" do %>
+      <%= image_tag "sagasu-logo-mark.svg", alt: "", width: 34, height: 34 %>
       <span>Sagasu</span>
     <% end %>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
+            aria-controls="main-nav" aria-expanded="false" aria-label="Open the menu">
+      <%= icon("fa-bars") %>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
-        <% if user_signed_in? %>
-          <li class="nav-item active">
-            <%= link_to "Home", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Messages", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item dropdown">
-          <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
-          </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Action", "#", class: "dropdown-item" %>
-              <%= link_to "Another action", "#", class: "dropdown-item" %>
-              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
-            </div>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
-          </li>
-        <% end %>
-      </ul>
+    <div class="collapse navbar-collapse justify-content-between" id="main-nav">
+      <% if user_signed_in? %>
+        <ul class="sg-nav-links">
+          <li><%= nav_link_to "Projects", projects_path, "fa-folder-open", active: controller_name.in?(%w[projects]) %></li>
+          <li><%= nav_link_to "Suppliers", suppliers_path, "fa-magnifying-glass", active: controller_name.in?(%w[suppliers reviews]) %></li>
+          <% if current_user.approver? %>
+            <li>
+              <%= link_to approvals_path, class: "sg-nav-link", "aria-current": (controller_name == "approvals" ? "page" : nil) do %>
+                <%= icon("fa-stamp") %>
+                <span>Approvals</span>
+                <% count = current_user.pending_approvals_count %>
+                <% if count.positive? %>
+                  <span class="sg-count"><%= count %><span class="visually-hidden"> waiting</span></span>
+                <% end %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+
+        <div class="d-flex align-items-center gap-3">
+          <% if current_user.buyer? %>
+            <%= link_to new_project_path, class: "btn btn-primary btn-sm d-none d-lg-inline-flex",
+                data: { controller: "ripple", action: "click->ripple#burst" } do %>
+              <%= icon("fa-plus") %> New project
+            <% end %>
+          <% end %>
+          <div class="dropdown">
+            <button class="btn btn-quiet btn-sm d-inline-flex align-items-center gap-2 px-1" type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false" aria-label="Account menu for <%= current_user.name %>">
+              <span class="sg-avatar" aria-hidden="true"><%= current_user.initials %></span>
+              <span class="d-md-none d-xl-inline"><%= current_user.first_name %></span>
+              <%= icon("fa-chevron-down", class: "small") %>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li class="px-3 py-2">
+                <div class="fw-bold"><%= current_user.name %></div>
+                <div class="small text-muted mb-1"><%= current_user.email %></div>
+                <span class="sg-role-pill"><%= current_user.role %></span>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li><%= link_to edit_user_registration_path, class: "dropdown-item" do %><%= icon("fa-user-gear") %> Account<% end %></li>
+              <li>
+                <%= button_to destroy_user_session_path, method: :delete, class: "dropdown-item", form: { data: { turbo: false } } do %>
+                  <%= icon("fa-arrow-right-from-bracket") %> Log out
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      <% else %>
+        <ul class="sg-nav-links">
+          <li><a class="sg-nav-link" href="<%= root_path %>#how-it-works">How it works</a></li>
+          <li><a class="sg-nav-link" href="<%= root_path %>#trust">Trust &amp; evidence</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-2">
+          <%= link_to "Log in", new_user_session_path, class: "btn btn-quiet btn-sm" %>
+          <%= link_to "Get started", new_user_registration_path, class: "btn btn-primary btn-sm",
+              data: { controller: "ripple", action: "click->ripple#burst" } %>
+        </div>
+      <% end %>
     </div>
-  </div>
-</nav>
+  </nav>
+</header>

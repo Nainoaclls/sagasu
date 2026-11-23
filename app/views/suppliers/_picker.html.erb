@@ -1,0 +1,27 @@
+<%# Search results inside a project group (story 9). Forms target _top so the whole page refreshes. %>
+<%= turbo_frame_tag dom_id(item_group, :picker), class: "sg-picker-results" do %>
+  <% if params[:query].blank? %>
+  <% elsif suppliers.empty? %>
+    <p class="sg-empty-compact mt-2" role="status">No supplier matches “<%= params[:query] %>”.</p>
+  <% else %>
+    <ul class="sg-picker-list" aria-label="Search results">
+      <% suppliers.each do |supplier| %>
+        <li>
+          <div>
+            <span class="fw-bold"><%= supplier.name %></span>
+            <span class="sg-caption d-block"><%= supplier.location %> · <%= supplier.category_label %></span>
+          </div>
+          <% if linked_ids.include?(supplier.id) %>
+            <span class="sg-badge sg-badge-outline">Already in group</span>
+          <% else %>
+            <%= button_to item_group_group_suppliers_path(item_group), params: { group_supplier: { supplier_id: supplier.id } },
+                  class: "btn btn-ghost btn-sm", form: { data: { turbo_frame: "_top" } },
+                  "aria-label": "Add #{supplier.name} to #{item_group.title}" do %>
+              <%= icon("fa-plus") %> Add
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>

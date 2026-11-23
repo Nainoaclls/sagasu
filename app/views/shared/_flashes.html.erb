@@ -1,14 +1,15 @@
-<% if notice %>
-  <div class="alert alert-info alert-dismissible fade show m-1" role="alert">
-    <%= notice %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-    </button>
-  </div>
-<% end %>
-<% if alert %>
-  <div class="alert alert-warning alert-dismissible fade show m-1" role="alert">
-    <%= alert %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-    </button>
-  </div>
-<% end %>
+<%# Toasts: announced politely by screen readers, auto-close, pause on hover/focus %>
+<div class="sg-toasts" aria-live="polite" aria-atomic="false">
+  <% flash_toasts.each do |type, (css, icon_name, label)| %>
+    <% next if flash[type].blank? %>
+    <div class="sg-toast <%= css %>" role="status" data-controller="toast"
+         data-action="mouseenter->toast#pause mouseleave->toast#resume focusin->toast#pause focusout->toast#resume">
+      <%= icon(icon_name) %>
+      <div class="sg-toast-body">
+        <span class="visually-hidden"><%= label %>:</span>
+        <%= flash[type] %>
+      </div>
+      <button type="button" class="btn-close" aria-label="Dismiss message" data-action="toast#close"></button>
+    </div>
+  <% end %>
+</div>

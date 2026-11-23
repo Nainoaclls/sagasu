@@ -1,0 +1,97 @@
+<% supplier = link.supplier %>
+<div class="sg-supplier <%= 'is-selected' if link.selected? %> <%= 'is-declined' if link.rejected_suggestion? %> sg-appear"
+     id="<%= dom_id(link) %>" data-controller="dialog">
+  <div class="sg-supplier-main">
+    <div class="sg-supplier-title">
+      <%= link_to supplier.name, supplier_path(supplier), class: "fw-bold" %>
+      <% if link.ai_suggested? %>
+        <span class="sg-badge sg-badge-ai <%= 'is-fresh' if link.created_at > 2.minutes.ago %>"><%= icon("fa-wand-magic-sparkles") %> AI suggestion</span>
+      <% else %>
+        <span class="sg-badge sg-badge-outline"><%= icon("fa-user") %> Added by buyer</span>
+      <% end %>
+    </div>
+    <p class="sg-caption mb-2"><%= icon("fa-location-dot") %> <%= supplier.location %> · <%= supplier.category_label %></p>
+
+    <% if link.ai_reason.present? %>
+      <p class="sg-supplier-reason"><%= link.ai_reason %></p>
+    <% end %>
+
+    <% if link.evidence.any? || link.missing_info.any? %>
+      <div class="sg-evidence">
+        <% if link.evidence.any? %>
+          <div>
+            <p class="sg-evidence-title">Evidence</p>
+            <ul>
+              <% link.evidence.each do |fact| %><li><%= icon("fa-check", class: "is-ok") %> <%= fact %></li><% end %>
+            </ul>
+          </div>
+        <% end %>
+        <% if link.missing_info.any? %>
+          <div>
+            <p class="sg-evidence-title">To confirm</p>
+            <ul>
+              <% link.missing_info.each do |gap| %><li><%= icon("fa-circle-question", class: "is-todo") %> <%= gap %></li><% end %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if link.rejected_suggestion? %>
+      <p class="sg-caption mt-2 mb-0"><%= icon("fa-comment") %> Declined: <%= link.feedback_reason %></p>
+    <% end %>
+  </div>
+
+  <div class="sg-supplier-actions">
+    <% if link.selected? %>
+      <span class="sg-badge sg-badge-approved"><%= icon("fa-check") %> On bidder list</span>
+    <% end %>
+
+    <% if can_edit %>
+      <% if link.selected? %>
+        <% if link.ai_suggested? %>
+          <button type="button" class="btn btn-quiet btn-sm" data-action="dialog#open">Remove</button>
+        <% else %>
+          <%= button_to "Remove", group_supplier_path(link), method: :patch, params: { group_supplier: { selected: false } },
+                class: "btn btn-quiet btn-sm", "aria-label": "Remove #{supplier.name} from the bidder list" %>
+        <% end %>
+      <% else %>
+        <%= button_to group_supplier_path(link), method: :patch, params: { group_supplier: { selected: true, feedback_reason: "" } },
+              class: "btn btn-primary btn-sm", "aria-label": "Add #{supplier.name} to the bidder list",
+              data: { controller: "ripple", action: "click->ripple#burst" } do %>
+          <%= icon("fa-plus") %> Add to list
+        <% end %>
+        <% if link.ai_suggested? && link.feedback_reason.blank? %>
+          <button type="button" class="btn btn-quiet btn-sm" data-action="dialog#open">Decline</button>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if can_edit && link.ai_suggested? %>
+    <%# Story 8: declining an AI suggestion asks why. The reason improves the next suggestions. %>
+    <dialog class="sg-dialog" data-dialog-target="dialog" data-action="click->dialog#backdrop close->dialog#restoreFocus"
+            aria-labelledby="<%= dom_id(link, :dialog_title) %>">
+      <%= form_with model: link, method: :patch do |f| %>
+        <%= f.hidden_field :selected, value: false %>
+        <div class="sg-dialog-body">
+          <h2 id="<%= dom_id(link, :dialog_title) %>">Why not <%= supplier.name %>?</h2>
+          <p class="text-muted mb-0">Optional. Your reason helps Sagasu suggest better suppliers. It is a hint, never a blacklist.</p>
+          <fieldset>
+            <legend class="visually-hidden">Reason</legend>
+            <div class="sg-reason-chips">
+              <% GroupSupplier::FEEDBACK_REASONS.each_with_index do |reason, index| %>
+                <%= f.radio_button :feedback_reason, reason, id: dom_id(link, "reason_#{index}") %>
+                <%= f.label :feedback_reason, reason, for: dom_id(link, "reason_#{index}") %>
+              <% end %>
+            </div>
+          </fieldset>
+        </div>
+        <div class="sg-dialog-foot">
+          <button type="button" class="btn btn-quiet" data-action="dialog#close">Cancel</button>
+          <%= f.button class: "btn btn-primary" do %><%= link.selected? ? "Remove from list" : "Decline suggestion" %><% end %>
+        </div>
+      <% end %>
+    </dialog>
+  <% end %>
+</div>

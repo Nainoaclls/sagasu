@@ -1,0 +1,83 @@
+<% content_for :title, "Suppliers" %>
+
+<div class="sg-container sg-page">
+  <header class="sg-page-head">
+    <div>
+      <h1>Suppliers</h1>
+      <p>Search your supplier records by name, city or material. Missing details are shown as “to confirm”.</p>
+    </div>
+  </header>
+
+  <%= form_with url: suppliers_path, method: :get, class: "sg-filters sg-card", role: "search",
+        data: { controller: "autosubmit", turbo_frame: "supplier_results", turbo_action: "advance" } do |f| %>
+    <div class="sg-search flex-grow-1">
+      <%= icon("fa-magnifying-glass") %>
+      <%= f.label :query, "Search suppliers", class: "visually-hidden" %>
+      <%= f.search_field :query, value: params[:query], class: "form-control", autocomplete: "off",
+                         placeholder: "Bricks, Saitama, insulation…", data: { action: "input->autosubmit#debounced" } %>
+    </div>
+    <div>
+      <%= f.label :category, "Material", class: "visually-hidden" %>
+      <%= f.select :category, MaterialCategory.options, { include_blank: "All materials", selected: params[:category] },
+                   class: "form-select", data: { action: "change->autosubmit#now" } %>
+    </div>
+    <div>
+      <%= f.label :area, "Delivers to", class: "visually-hidden" %>
+      <%= f.select :area, Prefecture::ALL, { include_blank: "Any delivery area", selected: params[:area] },
+                   class: "form-select", data: { action: "change->autosubmit#now" } %>
+    </div>
+    <noscript><%= f.submit "Search", class: "btn btn-primary" %></noscript>
+  <% end %>
+
+  <%= turbo_frame_tag "supplier_results", data: { turbo_action: "advance" } do %>
+    <p class="sg-results-count" role="status">
+      <strong><%= number_with_delimiter(@total) %></strong> <%= "supplier".pluralize(@total) %>
+      <% if params[:query].present? %> for “<%= params[:query] %>”<% end %>
+    </p>
+
+    <% if @suppliers.any? %>
+      <div class="sg-supplier-grid" data-controller="reveal">
+        <% @suppliers.each do |supplier| %>
+          <article class="sg-card sg-card-interactive sg-supplier-card sg-reveal">
+            <div class="d-flex align-items-start gap-3">
+              <span class="sg-group-icon" aria-hidden="true"><%= icon(MaterialCategory.icon(supplier.category)) %></span>
+              <div class="min-w-0">
+                <h2 class="h6 mb-1"><%= link_to supplier.name, supplier, class: "sg-stretched", data: { turbo_frame: "_top" } %></h2>
+                <p class="sg-caption mb-0"><%= supplier.category_label %></p>
+              </div>
+            </div>
+            <ul class="sg-supplier-facts">
+              <li><%= icon("fa-location-dot") %> <%= supplier.location %></li>
+              <li><%= icon("fa-gauge-high") %> <%= supplier.capacity_label || "Capacity to confirm" %></li>
+              <li><%= icon("fa-truck-fast") %> <%= supplier.lead_time_days ? "#{supplier.lead_time_days}-day lead time" : "Lead time to confirm" %></li>
+            </ul>
+            <% if supplier.missing_details.any? %>
+              <span class="sg-badge sg-badge-pending"><%= icon("fa-circle-question") %> <%= pluralize(supplier.missing_details.size, "detail") %> to confirm</span>
+            <% else %>
+              <span class="sg-badge sg-badge-approved"><%= icon("fa-circle-check") %> Complete record</span>
+            <% end %>
+          </article>
+        <% end %>
+      </div>
+
+      <nav class="sg-pagination" aria-label="Pages">
+        <% if @page > 1 %>
+          <%= link_to suppliers_path(request.query_parameters.merge(page: @page - 1)), class: "btn btn-ghost btn-sm" do %><%= icon("fa-arrow-left") %> Previous<% end %>
+        <% end %>
+        <span class="sg-caption">Page <%= @page %> of <%= [(@total / SuppliersController::PER_PAGE.to_f).ceil, 1].max %></span>
+        <% if @page * SuppliersController::PER_PAGE < @total %>
+          <%= link_to suppliers_path(request.query_parameters.merge(page: @page + 1)), class: "btn btn-ghost btn-sm" do %>Next <%= icon("fa-arrow-right") %><% end %>
+        <% end %>
+      </nav>
+    <% else %>
+      <div class="sg-empty">
+        <%= image_tag "mascot/research.webp", alt: "", width: 120, height: 80, class: "rounded-3" %>
+        <div>
+          <h2 class="h3">No supplier matched</h2>
+          <p>Try a broader word (for example “brick” instead of a product code) or another delivery area.</p>
+          <%= link_to "Clear the search", suppliers_path, class: "btn btn-ghost btn-sm", data: { turbo_frame: "_top" } %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

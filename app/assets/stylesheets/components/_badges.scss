@@ -1,0 +1,41 @@
+.sg-badge {
+  display: inline-flex; align-items: center; gap: .375rem;
+  padding: .25rem .625rem; border-radius: 999px;
+  font-size: .75rem; font-weight: 700; line-height: 1.4; white-space: nowrap;
+  background: $platinum; color: $ink;
+  i { font-size: .8em; }
+}
+
+.sg-badge-draft    { background: $platinum; color: #3D4E57; }
+.sg-badge-pending  { background: $yellow-soft; color: $yellow; }
+.sg-badge-approved { background: $green-soft; color: $green; }
+.sg-badge-returned { background: $red-soft; color: $red; }
+.sg-badge-info     { background: $pacific-soft; color: $blue-slate; }
+
+// AI suggestion marker: always says "AI", never color alone
+.sg-badge-ai {
+  background: $tangerine; color: $ink;
+  box-shadow: 0 0 0 0 rgba(227, 151, 116, .5);
+}
+.sg-badge-ai.is-fresh { animation: sg-pulse 1.8s $ease-out 2; }
+@keyframes sg-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(227, 151, 116, .55); }
+  100% { box-shadow: 0 0 0 10px rgba(227, 151, 116, 0); }
+}
+
+.sg-badge-outline { background: transparent; border: 1px solid #C6D0D4; color: $muted; }
+
+.sg-count {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 1.375rem; height: 1.375rem; padding: 0 .375rem; border-radius: 999px;
+  background: $tangerine; color: $ink; font-size: .75rem; font-weight: 700;
+}
+
+.sg-stars { color: #B7791F; letter-spacing: .05em; white-space: nowrap; }
+.sg-stars .is-empty { color: #C9CFD2; }
+
+.sg-chip {
+  display: inline-flex; align-items: center; gap: .375rem;
+  padding: .3rem .7rem; border-radius: 999px; border: 1px solid $border-color;
+  background: $white; font-size: .8125rem; color: $ink;
+}

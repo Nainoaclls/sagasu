@@ -1,0 +1,28 @@
+// Native <dialog>: focus trap and Escape key come for free
+.sg-dialog {
+  border: 0; border-radius: 18px; padding: 0; width: calc(100vw - 2rem); max-width: 520px;
+  box-shadow: $shadow-lg; color: $ink;
+  &::backdrop { background: rgba(30, 47, 54, .45); backdrop-filter: blur(3px); }
+  &[open] { animation: sg-dialog-in $motion-slow $ease-out; }
+
+  .sg-dialog-body { padding: 1.5rem 1.5rem 1rem; }
+  .sg-dialog-foot {
+    display: flex; justify-content: flex-end; gap: .5rem; flex-wrap: wrap;
+    padding: 1rem 1.5rem 1.25rem; background: $canvas; border-top: 1px solid $border-color;
+  }
+  h2 { font-size: 1.25rem; margin-bottom: .25rem; }
+}
+
+@keyframes sg-dialog-in { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: none; } }
+
+.sg-reason-chips {
+  display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0;
+  input { position: absolute; opacity: 0; }
+  label {
+    padding: .5rem .875rem; border-radius: 999px; border: 1px solid $border-color; cursor: pointer;
+    font-size: .875rem; min-height: 40px; display: inline-flex; align-items: center; margin: 0;
+    transition: background-color $motion-fast, border-color $motion-fast;
+  }
+  input:checked + label { background: $blue-slate; border-color: $blue-slate; color: $white; }
+  input:focus-visible + label { outline: 3px solid $blue-slate; outline-offset: 2px; }
+}

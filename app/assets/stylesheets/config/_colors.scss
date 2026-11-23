@@ -1,15 +1,34 @@
-// Sagasu palette (see docs/brand/README.md)
+// Sagasu palette (docs/brand/README.md). Contrast ratios are WCAG 2.1, against the background named.
 
 // Brand
-$blue-slate:    #326273; // logo, navbar, headings, primary buttons
-$pacific-blue:  #5C9EAD; // icons, links, active states (NOT for white text: 3.0:1)
+$blue-slate:    #326273; // logo, navbar, headings, primary buttons (white text: 6.7:1)
+$slate-dark:    #24495A; // hover / pressed state of Blue Slate
+$pacific-blue:  #5C9EAD; // icons, borders, charts. Never behind white text (3.0:1)
 $light-pacific: #A3CDD6; // Pacific Blue on dark backgrounds only
-$tangerine:     #E39774; // accent: AI suggestions, selected supplier (use dark text on it)
+$pacific-soft:  #E8F2F5; // light tint for selected rows and info panels
+$tangerine:     #E39774; // accent: AI suggestions, selected supplier. Use Ink text on it (5.9:1)
+$tangerine-soft:#FBEDE6; // light tint behind AI explanations
 $white:         #FFFFFF;
-$platinum:      #EEEEEE; // page background, secondary surfaces
-$ink:           #1E2F36; // body text
+$platinum:      #EEEEEE; // borders, secondary surfaces
+$canvas:        #F4F5F5; // page background (lighter Platinum)
+$ink:           #1E2F36; // body text (14.9:1 on white)
+$muted:         #4F6470; // secondary text (6.2:1 on white, 5.6:1 on canvas)
 
-// Functional (toned down to match the B2B palette)
-$green:  #3E8E6E; // success / approved
-$red:    #C0504D; // danger / returned
-$yellow: #D9A441; // warning / pending
+// Status: always shown with an icon and a text label, never color alone
+$green:       #2F7A5C;  // approved (5.2:1 on its tint)
+$green-soft:  #E6F3EC;
+$red:         #B2453F;  // returned / error (5.4:1 on its tint)
+$red-soft:    #FBEBEA;
+$yellow:      #8A6416;  // pending (5.3:1 on its tint)
+$yellow-soft: #FBF1DC;
+
+// Elevation
+$shadow-sm: 0 1px 2px rgba(30, 47, 54, .06), 0 1px 3px rgba(30, 47, 54, .05);
+$shadow-md: 0 8px 24px rgba(30, 47, 54, .08);
+$shadow-lg: 0 18px 48px rgba(30, 47, 54, .14);
+
+// Motion (design kit tokens)
+$ease-out: cubic-bezier(.2, .8, .2, 1);
+$motion-fast: 120ms;
+$motion: 180ms;
+$motion-slow: 420ms;

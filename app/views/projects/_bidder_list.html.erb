@@ -1,0 +1,84 @@
+<div class="sg-card sg-bidder-card">
+  <div class="sg-section-title mb-2">
+    <h2><%= icon("fa-list-check") %> Bidder list</h2>
+    <span class="sg-count" aria-label="<%= project.selected_suppliers_size %> suppliers selected"><%= project.selected_suppliers_size %></span>
+  </div>
+
+  <% if project.item_groups.empty? %>
+    <p class="text-muted small mb-0">Your selected suppliers will appear here, group by group.</p>
+  <% else %>
+    <ul class="sg-bidder-groups">
+      <% project.item_groups.each do |group| %>
+        <% selected = group.group_suppliers.select(&:selected?) %>
+        <li>
+          <span class="sg-bidder-group-title"><%= group.title %></span>
+          <% if selected.any? %>
+            <ul><% selected.each do |link| %><li><%= icon("fa-check") %> <%= link.supplier.name %></li><% end %></ul>
+          <% else %>
+            <p class="sg-caption mb-0"><%= icon("fa-circle-exclamation") %> No supplier selected yet</p>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% if policy(project).submit? %>
+    <hr class="sg-divider">
+    <% if project.ready_for_approval? %>
+      <%= form_with model: [project, Approval.new], class: "sg-submit-form" do |f| %>
+        <h3 class="h6"><%= icon("fa-paper-plane") %> Send for approval</h3>
+        <div class="mb-3">
+          <%= f.label :approver_id, "Approver", class: "form-label" %>
+          <%= f.collection_select :approver_id, approvers, :id, :name, { prompt: "Choose an approver" }, class: "form-select", required: true %>
+        </div>
+        <div class="mb-3">
+          <%= label_tag "approval_buyer_comment", "Comment for the approver", class: "form-label" %>
+          <%= text_area_tag "approval[buyer_comment]", project.buyer_comment, id: "approval_buyer_comment", rows: 3,
+                            class: "form-control", maxlength: 1000, placeholder: "Why these bidders, anything to watch…" %>
+        </div>
+        <%= f.button class: "btn btn-primary w-100", data: { controller: "ripple", action: "click->ripple#burst" } do %>
+          <%= icon("fa-paper-plane") %> Send for approval
+        <% end %>
+      <% end %>
+    <% else %>
+      <div class="sg-checklist" role="status">
+        <p class="fw-bold small mb-2">Before sending for approval</p>
+        <ul>
+          <% project.submission_blockers.each do |blocker| %>
+            <li><%= icon("fa-circle", style: "regular") %> <%= blocker %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<% if project.approvals.any? %>
+  <section class="sg-card mt-3" aria-labelledby="history-title">
+    <h2 id="history-title" class="h6 mb-3"><%= icon("fa-clock-rotate-left") %> Approval history</h2>
+    <ol class="sg-timeline">
+      <% project.approvals.reverse_each do |approval| %>
+        <li>
+          <div class="d-flex justify-content-between align-items-center gap-2">
+            <span class="small fw-bold"><%= approval.approver.name %></span>
+            <%= approval_status_badge(approval) %>
+          </div>
+          <p class="sg-caption mb-1">
+            Sent <%= l(approval.created_at, format: :short) %>
+            <% if approval.decided_at %> · decided <%= l(approval.decided_at, format: :short) %><% end %>
+          </p>
+          <% if approval.comment.present? %><p class="small mb-1">“<%= approval.comment %>”</p><% end %>
+          <details class="sg-snapshot">
+            <summary>Submitted version (<%= pluralize(approval.snapshot_supplier_count, "supplier") %>)</summary>
+            <% approval.snapshot_groups.each do |group| %>
+              <p class="fw-bold small mb-1 mt-2"><%= group["title"] %></p>
+              <ul class="small mb-0">
+                <% Array(group["suppliers"]).each do |supplier| %><li><%= supplier["name"] %></li><% end %>
+              </ul>
+            <% end %>
+          </details>
+        </li>
+      <% end %>
+    </ol>
+  </section>
+<% end %>

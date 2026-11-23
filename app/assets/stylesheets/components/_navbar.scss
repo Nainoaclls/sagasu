@@ -1,24 +1,55 @@
-.navbar-sagasu {
-  justify-content: space-between;
-  background: $white;
-  border-bottom: 1px solid $platinum;
-}
+.sg-nav {
+  position: sticky; top: 0; z-index: 1030;
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: saturate(160%) blur(10px);
+  border-bottom: 1px solid $border-color;
+  transition: box-shadow $motion;
+  &.is-scrolled { box-shadow: $shadow-md; }
 
-.navbar-sagasu .navbar-collapse {
-  flex-grow: 0;
-}
+  .sg-nav-inner { display: flex; align-items: center; gap: 1.5rem; min-height: 68px; }
 
-.navbar-sagasu .navbar-brand {
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  font-weight: 700;
-  font-size: 1.5rem;
-  letter-spacing: -.02em;
-  color: $blue-slate;
-
-  img {
-    width: 36px;
-    height: 36px;
+  .sg-brand {
+    display: inline-flex; align-items: center; gap: .5rem; text-decoration: none;
+    font-weight: 700; font-size: 1.4rem; letter-spacing: -.02em; color: $blue-slate;
+    img { width: 34px; height: 34px; transition: transform $motion-slow $ease-out; }
+    &:hover img { transform: rotate(-12deg) scale(1.06); }
   }
+
+  .sg-nav-links { display: flex; align-items: center; gap: .25rem; margin: 0; padding: 0; list-style: none; }
+
+  .sg-nav-link {
+    display: inline-flex; align-items: center; gap: .5rem; min-height: 44px;
+    padding: .5rem .875rem; border-radius: 10px; text-decoration: none;
+    color: $muted; font-weight: 700; font-size: .9375rem;
+    transition: color $motion, background-color $motion;
+    &:hover { color: $blue-slate; background: $pacific-soft; }
+    &[aria-current="page"] { color: $blue-slate; background: $pacific-soft; }
+  }
+
+  .sg-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: inline-grid; place-items: center;
+    background: $blue-slate; color: $white; font-weight: 700; font-size: .875rem;
+    border: 2px solid $white; box-shadow: 0 0 0 2px $light-pacific;
+  }
+
+  .dropdown-menu {
+    border: 1px solid $border-color; border-radius: 12px; box-shadow: $shadow-lg; padding: .5rem;
+    min-width: 240px;
+    .dropdown-item { border-radius: 8px; padding: .5rem .75rem; min-height: 40px; display: flex; align-items: center; gap: .5rem; }
+    .dropdown-item:active { background: $blue-slate; }
+  }
+
+  .navbar-toggler { border: 0; min-height: 44px; min-width: 44px; }
+}
+
+.sg-role-pill {
+  font-size: .6875rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: $blue-slate; background: $pacific-soft; padding: .125rem .5rem; border-radius: 999px;
+}
+
+@media (max-width: 767.98px) {
+  .sg-nav .sg-nav-inner { flex-wrap: wrap; }
+  .sg-nav .navbar-collapse { flex-basis: 100%; }
+  .sg-nav .sg-nav-links { flex-direction: column; align-items: stretch; padding: .5rem 0 1rem; }
 }

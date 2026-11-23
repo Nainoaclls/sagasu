@@ -1,0 +1,53 @@
+<section id="groups" aria-labelledby="groups-title">
+  <div class="sg-section-title">
+    <h2 id="groups-title"><%= icon("fa-layer-group") %> Groups &amp; suppliers</h2>
+    <% if can_edit && project.items.any? %>
+      <%= form_with url: generate_project_item_groups_path(project), method: :post,
+            data: { controller: "ai-busy", ai_busy_message_value: ai_overlay_message(:grouping),
+                    action: "turbo:submit-start->ai-busy#start turbo:submit-end->ai-busy#stop",
+                    turbo_confirm: (project.item_groups.any? ? "Regroup all materials? Current groups and their suppliers will be replaced." : nil) } do %>
+        <button type="submit" class="btn <%= project.item_groups.any? ? 'btn-ghost' : 'btn-accent' %>"
+                data-controller="ripple" data-action="click->ripple#burst">
+          <%= icon("fa-wand-magic-sparkles") %> <%= project.item_groups.any? ? "Regroup with AI" : "Group with AI" %>
+        </button>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if project.item_groups.empty? %>
+    <div class="sg-empty">
+      <%= image_tag "mascot/welcome.webp", alt: "", width: 120, height: 133 %>
+      <div>
+        <h3><%= project.items.any? ? "Ready to group your materials" : "Add materials first" %></h3>
+        <p>
+          <%= project.items.any? ? "Sagasu groups materials that one type of supplier can quote together, and explains each group." : "Paste your material list above, then let Sagasu group it." %>
+        </p>
+      </div>
+    </div>
+  <% else %>
+    <% if can_edit && project.ungrouped_items.any? %>
+      <div class="sg-banner is-pending mb-3" role="status">
+        <%= icon("fa-triangle-exclamation") %>
+        <div>
+          <strong><%= pluralize(project.ungrouped_items.size, "material") %> not in a group</strong>
+          <p>Choose a group in the Materials table before sending for approval.</p>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="sg-groups">
+      <%= render partial: "item_groups/item_group", collection: project.item_groups, locals: { can_edit: can_edit } %>
+    </div>
+  <% end %>
+
+  <% if can_edit && project.items.any? %>
+    <details class="sg-add-group mt-3">
+      <summary><%= icon("fa-plus") %> Add a group by hand</summary>
+      <%= form_with model: [project, ItemGroup.new], class: "d-flex flex-wrap gap-2 mt-3" do |f| %>
+        <%= f.label :title, "Group name", class: "visually-hidden" %>
+        <%= f.text_field :title, class: "form-control", placeholder: "e.g. Waterproofing", required: true, maxlength: 80, style: "max-width: 320px" %>
+        <%= f.button class: "btn btn-ghost" do %><%= icon("fa-plus") %> Add group<% end %>
+      <% end %>
+    </details>
+  <% end %>
+</section>

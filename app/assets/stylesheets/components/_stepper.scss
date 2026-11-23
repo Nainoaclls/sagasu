@@ -1,0 +1,39 @@
+// Progress through the bidder-list journey: Materials > Groups > Suppliers > Approval
+.sg-stepper {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem;
+  list-style: none; margin: 0; padding: 0; counter-reset: step;
+
+  li {
+    position: relative; display: flex; align-items: center; gap: .625rem;
+    padding: .75rem .875rem; border-radius: 12px; background: $white; border: 1px solid $border-color;
+    font-size: .875rem; font-weight: 700; color: $muted;
+    transition: background-color $motion, border-color $motion, color $motion;
+  }
+
+  .sg-step-dot {
+    flex: none; width: 28px; height: 28px; border-radius: 50%;
+    display: grid; place-items: center; font-size: .8125rem;
+    background: $platinum; color: $muted;
+    transition: background-color $motion, color $motion, transform $motion $ease-out;
+  }
+
+  .is-done { color: $ink; .sg-step-dot { background: $green-soft; color: $green; } }
+  .is-current {
+    color: $blue-slate; border-color: $blue-slate; background: $pacific-soft;
+    .sg-step-dot { background: $blue-slate; color: $white; transform: scale(1.08); }
+  }
+}
+
+@media (max-width: 720px) {
+  .sg-stepper { grid-template-columns: repeat(2, 1fr); }
+}
+
+// Progress bar on dashboard cards
+.sg-progress {
+  height: 6px; border-radius: 999px; background: $platinum; overflow: hidden;
+  span {
+    display: block; height: 100%; width: calc(var(--progress, 0) * 1%);
+    background: linear-gradient(90deg, $pacific-blue, $blue-slate); border-radius: inherit;
+    transition: width 900ms $ease-out;
+  }
+}

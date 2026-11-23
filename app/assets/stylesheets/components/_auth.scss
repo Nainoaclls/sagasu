@@ -1,0 +1,30 @@
+.sg-auth {
+  display: grid; grid-template-columns: 1.05fr 1fr; min-height: calc(100vh - 69px);
+
+  .sg-auth-art {
+    position: relative; overflow: hidden;
+    background: linear-gradient(160deg, $blue-slate 0%, $slate-dark 100%); color: $white;
+    padding: 3.5rem; display: flex; flex-direction: column; justify-content: space-between;
+    h2 { color: $white; font-size: 2rem; max-width: 22ch; }
+    p { color: $light-pacific; max-width: 40ch; }
+    img { width: 70%; max-width: 320px; align-self: center; filter: drop-shadow(0 24px 40px rgba(0, 0, 0, .35)); animation: sg-bob 4s ease-in-out infinite; }
+    &::after {
+      content: ""; position: absolute; inset: auto -10% -30% -10%; height: 60%;
+      background: image-url("wave.webp") center / cover; opacity: .12; pointer-events: none;
+    }
+  }
+
+  .sg-auth-form { display: grid; place-items: center; padding: 3rem 1.5rem; background: $white; }
+  .sg-auth-card { width: 100%; max-width: 420px; }
+  .sg-auth-card h1 { font-size: 2rem; margin-bottom: .25rem; }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    .sg-auth-art { display: none; }
+  }
+}
+
+.sg-demo-accounts {
+  margin-top: 1.5rem; padding: 1rem; border-radius: 12px; background: $canvas; font-size: .875rem;
+  code { color: $blue-slate; font-size: .875rem; }
+}

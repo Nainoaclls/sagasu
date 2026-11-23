@@ -1,0 +1,2 @@
+class ItemPolicy < ProjectContentPolicy
+end

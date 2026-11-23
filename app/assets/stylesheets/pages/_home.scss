@@ -1,1 +1,135 @@
-// Specific CSS for your home-page
+// ---------- Hero ----------
+.sg-hero {
+  position: relative; overflow: hidden;
+  padding: 4.5rem 0 5rem;
+  background:
+    radial-gradient(900px 420px at 85% 10%, rgba(92, 158, 173, .18), transparent 60%),
+    radial-gradient(600px 300px at 10% 90%, rgba(227, 151, 116, .12), transparent 60%),
+    $white;
+  &::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 140px;
+    background: image-url("wave.webp") bottom center / cover no-repeat; opacity: .55; pointer-events: none;
+  }
+}
+
+.sg-hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 3.5rem; align-items: center; position: relative; z-index: 1; }
+@media (max-width: 991.98px) { .sg-hero-grid { grid-template-columns: 1fr; } }
+
+.sg-hero-copy h1 { margin: 1rem 0 1.25rem; max-width: 16ch; }
+.sg-highlight {
+  color: $blue-slate;
+  background: linear-gradient(transparent 62%, rgba(227, 151, 116, .45) 62%);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+.sg-hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin: 2rem 0 1.5rem; }
+.sg-hero-proof {
+  display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; list-style: none; padding: 0; margin: 0;
+  font-size: .9375rem; color: $muted;
+  i { color: $green; margin-right: .25rem; }
+}
+
+// ---------- Demo card ----------
+.sg-hero-stage { perspective: 1200px; }
+.sg-demo {
+  margin: 0; background: $white; border-radius: 20px; padding: 1.25rem 1.5rem 1.5rem;
+  border: 1px solid $border-color; box-shadow: $shadow-lg;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 300ms $ease-out;
+  display: grid; gap: 1rem;
+}
+.sg-demo-head {
+  display: flex; align-items: center; gap: .75rem; font-size: .8125rem; color: $muted; font-weight: 700;
+  padding-bottom: .75rem; border-bottom: 1px solid $platinum;
+}
+.sg-demo-dots { display: inline-flex; gap: 5px; span { width: 10px; height: 10px; border-radius: 50%; background: $platinum; } span:first-child { background: $tangerine; } }
+.sg-demo-label { font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: $muted; margin-bottom: .5rem; }
+.sg-demo-bubble {
+  margin: 0; background: $pacific-soft; border-radius: 14px 14px 14px 4px; padding: .75rem 1rem;
+  font-size: 1rem; color: $ink;
+}
+.sg-demo-supplier {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .625rem .75rem; border: 1px solid $platinum; border-radius: 12px; margin-bottom: .5rem;
+  p { margin: .25rem 0 0; font-size: .8125rem; color: $muted; i { color: $green; } }
+}
+.sg-to-confirm { color: $yellow; i { color: $yellow !important; } }
+.sg-demo-approval { display: flex; align-items: center; gap: 1rem; background: $green-soft; border-radius: 14px; padding: .875rem 1rem; }
+.sg-hanko {
+  flex: none; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+  border: 3px solid $red; color: $red; font-weight: 700; font-size: 1rem; transform: rotate(-12deg);
+  font-family: "Yu Gothic", "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+
+// Step-by-step play (demo_controller.js). Without JS: all steps shown.
+.sg-demo.is-playing .sg-demo-step {
+  opacity: .15; transform: translateY(6px) scale(.99);
+  transition: opacity 500ms $ease-out, transform 500ms $ease-out;
+  &.is-shown { opacity: 1; transform: none; }
+}
+.sg-demo.is-playing .sg-demo-step.is-shown .sg-hanko { animation: sg-stamp 500ms $ease-out both; }
+@keyframes sg-stamp { from { transform: rotate(-12deg) scale(1.8); opacity: 0; } to { transform: rotate(-12deg) scale(1); opacity: 1; } }
+
+// ---------- Pain / stats ----------
+.sg-pain { padding: 5rem 0; background: $canvas; }
+.sg-pain-head { max-width: 720px; margin-bottom: 2.5rem; h2 { margin: .5rem 0 1rem; } }
+.sg-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin: 0;
+  @media (max-width: 720px) { grid-template-columns: 1fr; }
+}
+.sg-stat {
+  background: $white; border-radius: 18px; padding: 1.75rem; border: 1px solid $border-color;
+  display: flex; flex-direction: column-reverse;
+  dd { font-size: 3rem; font-weight: 700; color: $blue-slate; margin: 0; line-height: 1; font-variant-numeric: tabular-nums; }
+  dt { color: $muted; font-weight: 400; margin-top: .5rem; }
+  &.is-accent { background: $blue-slate; border-color: $blue-slate; dd { color: $tangerine; } dt { color: $light-pacific; } }
+}
+
+// ---------- Steps ----------
+.sg-steps-section { padding: 5rem 0; background: $white; h2 { margin: .5rem 0 2.5rem; } }
+.sg-steps {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; list-style: none; padding: 0; margin: 0;
+  counter-reset: steps;
+  @media (max-width: 991.98px) { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 560px) { grid-template-columns: 1fr; }
+}
+.sg-step {
+  counter-increment: steps; position: relative;
+  background: $canvas; border-radius: 18px; padding: 1.5rem; border: 1px solid transparent;
+  transition: border-color $motion, transform $motion $ease-out, box-shadow $motion;
+  &:hover { border-color: $border-color; transform: translateY(-4px); box-shadow: $shadow-md; background: $white; }
+  &::before {
+    content: counter(steps, decimal-leading-zero); position: absolute; top: 1.25rem; right: 1.25rem;
+    font-weight: 700; color: #C6D0D4; font-size: .875rem;
+  }
+  h3 { font-size: 1.125rem; margin: 1rem 0 .5rem; }
+  p { color: $muted; margin: 0; font-size: .9375rem; }
+}
+.sg-step-icon {
+  width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; font-size: 1.25rem;
+  background: $blue-slate; color: $white;
+  &.is-accent { background: $tangerine; color: $ink; }
+}
+
+// ---------- Trust ----------
+.sg-trust { padding: 5rem 0; background: linear-gradient(180deg, $canvas, $white); }
+.sg-trust-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 3rem; align-items: center; @media (max-width: 991.98px) { grid-template-columns: 1fr; } }
+.sg-trust-art img { width: 100%; max-width: 380px; height: auto; display: block; margin: 0 auto; animation: sg-bob 5s ease-in-out infinite; }
+.sg-trust h2 { margin: .5rem 0 2rem; }
+.sg-principles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; @media (max-width: 720px) { grid-template-columns: 1fr; } }
+.sg-principle {
+  display: flex; gap: 1rem; background: $white; border-radius: 16px; padding: 1.25rem; border: 1px solid $border-color;
+  > i { font-size: 1.25rem; color: $blue-slate; margin-top: .2rem; }
+  h3 { font-size: 1rem; margin-bottom: .25rem; }
+  p { margin: 0; color: $muted; font-size: .9375rem; }
+}
+
+// ---------- CTA ----------
+.sg-cta { padding: 2rem 0 5rem; background: $white; }
+.sg-cta-card {
+  position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+  background: linear-gradient(135deg, $blue-slate, $slate-dark); color: $white; border-radius: 24px; padding: 3rem;
+  h2 { color: $white; margin-bottom: .75rem; }
+  p { color: $light-pacific; margin-bottom: 1.5rem; max-width: 48ch; }
+  .sg-cta-mascot { width: 220px; height: auto; flex: none; filter: drop-shadow(0 20px 30px rgba(0, 0, 0, .3)); }
+  @media (max-width: 720px) { flex-direction: column; text-align: center; padding: 2rem; .sg-cta-mascot { width: 160px; } }
+}

@@ -1,0 +1,16 @@
+<%# Two-column shell for every authentication page: brand story on the left, form on the right %>
+<div class="sg-auth">
+  <div class="sg-auth-art sg-on-dark">
+    <div>
+      <p class="sg-eyebrow" style="color: #A3CDD6"><%= icon("fa-helmet-safety") %> Sagasu for construction buyers</p>
+      <h2>Find the right suppliers, not just search results.</h2>
+      <p>Group your materials, review AI suggestions with their evidence, and get your bidder list approved.</p>
+    </div>
+    <%= image_tag "mascot/welcome.webp", alt: "", width: 640, height: 708 %>
+  </div>
+  <div class="sg-auth-form">
+    <div class="sg-auth-card">
+      <%= yield %>
+    </div>
+  </div>
+</div>

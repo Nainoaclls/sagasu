@@ -1,0 +1,13 @@
+.sg-empty {
+  display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 1.5rem;
+  background: $white; border: 1px dashed #C6D0D4; border-radius: 16px; padding: 1.5rem 2rem;
+  img { width: 120px; height: auto; }
+  h3 { font-size: 1.125rem; margin-bottom: .25rem; }
+  p { color: $muted; margin-bottom: .75rem; }
+  @media (max-width: 560px) { grid-template-columns: 1fr; text-align: center; img { margin: 0 auto; } }
+}
+
+.sg-empty-compact {
+  text-align: center; padding: 1.5rem; color: $muted; border: 1px dashed #C6D0D4; border-radius: 12px;
+  background: rgba(255, 255, 255, .6); font-size: .9375rem;
+}

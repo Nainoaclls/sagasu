@@ -1,32 +1,45 @@
-// This is where you override default Bootstrap variables
-// 1. Find all Bootstrap variables that you can override at the end of each component's documentation under the `Sass variables` anchor
-// e.g. here are the ones you can override for the navbar https://getbootstrap.com/docs/5.3/components/navbar/#sass-variables
-// 2. These variables are defined with default value (see https://robots.thoughtbot.com/sass-default)
-// 3. You can override them below!
+// Bootstrap overrides. Sass variables per component: https://getbootstrap.com/docs/5.3/
 
 // General style
 $font-family-sans-serif: $body-font;
 $headings-font-family:   $headers-font;
-$body-bg:                $platinum;
+$headings-font-weight:   700;
+$body-bg:                $canvas;
 $font-size-base:         1rem;
+$line-height-base:       1.6;
 
 // Colors
 $body-color:      $ink;
 $headings-color:  $blue-slate;
 $primary:         $blue-slate;
-$secondary:       $pacific-blue;
+$secondary:       $muted;
 $info:            $pacific-blue;
 $success:         $green;
 $danger:          $red;
 $warning:         $yellow;
 $link-color:      $blue-slate;
+$link-hover-color: $slate-dark;
+$border-color:    #DDE1E3;
 
-// Buttons & inputs' radius
-$border-radius-sm:            .25rem;
-$border-radius:               .375rem;
-$border-radius-lg:            .5rem;
-$border-radius-xl:            .75rem;
-$border-radius-xxl:           1rem;
+// Shape (design kit: 6 / 12 / 20)
+$border-radius-sm:  .375rem;
+$border-radius:     .5rem;
+$border-radius-lg:  .75rem;
+$border-radius-xl:  1.25rem;
+$border-radius-xxl: 1.5rem;
 
-// Override other variables below!
-$input-bg: $white; // inputs stay visible on the Platinum page background
+// Controls: 44px minimum touch target
+$input-bg:            $white;
+$input-border-color:  #B9C3C8;
+$input-padding-y:     .625rem;
+$input-padding-x:     .875rem;
+$input-focus-border-color: $blue-slate;
+$input-focus-box-shadow:   0 0 0 .2rem rgba(50, 98, 115, .2);
+$btn-padding-y:       .625rem;
+$btn-padding-x:       1.25rem;
+$btn-font-weight:     700;
+$form-label-font-weight: 700;
+$form-label-font-size:   .875rem;
+
+$enable-shadows: false;
+$enable-smooth-scroll: true;

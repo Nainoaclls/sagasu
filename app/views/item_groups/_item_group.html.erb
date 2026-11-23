@@ -1,0 +1,74 @@
+<% links = item_group.ordered_group_suppliers %>
+<article class="sg-card sg-group sg-appear" id="<%= dom_id(item_group) %>" aria-labelledby="<%= dom_id(item_group, :title) %>">
+  <header class="sg-group-head">
+    <span class="sg-group-icon" aria-hidden="true"><%= icon(MaterialCategory.icon(item_group.category)) %></span>
+    <div class="flex-grow-1">
+      <% if can_edit %>
+        <%= form_with model: item_group, class: "sg-inline-edit", data: { controller: "dirty" } do |f| %>
+          <%= f.label :title, "Group name", class: "visually-hidden", for: dom_id(item_group, :title) %>
+          <%= f.text_field :title, id: dom_id(item_group, :title), maxlength: 80, required: true,
+                           data: { dirty_target: "input", action: "input->dirty#check keydown->dirty#cancel" } %>
+          <%= f.button "Save", class: "btn btn-primary btn-sm" %>
+        <% end %>
+      <% else %>
+        <h3 id="<%= dom_id(item_group, :title) %>" class="sg-group-title"><%= item_group.title %></h3>
+      <% end %>
+      <p class="sg-caption mb-0">
+        <%= pluralize(item_group.items.size, "material") %> ·
+        <%= item_group.selected_count %> on the bidder list
+      </p>
+    </div>
+  </header>
+
+  <% if item_group.ai_reason.present? %>
+    <div class="sg-ai-note mb-3">
+      <%= icon("fa-wand-magic-sparkles") %>
+      <div><strong>Why this group</strong><%= item_group.ai_reason %></div>
+    </div>
+  <% end %>
+
+  <ul class="sg-group-items" aria-label="Materials in <%= item_group.title %>">
+    <% item_group.items.each do |item| %>
+      <li class="sg-chip"><%= item.description %> <span class="sg-caption"><%= item.quantity_label %></span></li>
+    <% end %>
+    <% if item_group.items.empty? %><li class="sg-caption">No material yet: move some here from the Materials table.</li><% end %>
+  </ul>
+
+  <div class="sg-group-suppliers">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
+      <h4 class="h6 m-0">Suppliers</h4>
+      <% if can_edit %>
+        <%= form_with url: suggest_item_group_group_suppliers_path(item_group), method: :post,
+              data: { controller: "ai-busy", ai_busy_message_value: ai_overlay_message(:suggestion),
+                      action: "turbo:submit-start->ai-busy#start turbo:submit-end->ai-busy#stop" } do %>
+          <button type="submit" class="btn btn-accent btn-sm" data-controller="ripple" data-action="click->ripple#burst">
+            <%= icon("fa-wand-magic-sparkles") %> <%= links.any?(&:ai_suggested?) ? "Suggest more" : "Suggest suppliers" %>
+          </button>
+        <% end %>
+      <% end %>
+    </div>
+
+    <% if links.any? %>
+      <div class="sg-supplier-list">
+        <%= render partial: "group_suppliers/group_supplier", collection: links, as: :link, locals: { can_edit: can_edit } %>
+      </div>
+    <% else %>
+      <p class="sg-empty-compact"><%= can_edit ? "Ask Sagasu for suggestions, or search a supplier below." : "No supplier for this group." %></p>
+    <% end %>
+
+    <% if can_edit %>
+      <div class="sg-picker">
+        <%= form_with url: suppliers_path, method: :get, class: "sg-search mt-3", role: "search",
+              data: { controller: "autosubmit", turbo_frame: dom_id(item_group, :picker) } do |f| %>
+          <%= hidden_field_tag :item_group_id, item_group.id, id: nil %>
+          <%= icon("fa-magnifying-glass") %>
+          <%= f.label :query, "Search a supplier to add to #{item_group.title}", class: "visually-hidden", for: dom_id(item_group, :query) %>
+          <%= f.search_field :query, id: dom_id(item_group, :query), class: "form-control", autocomplete: "off",
+                             placeholder: "Search a supplier to add (name, city, material)…",
+                             data: { action: "input->autosubmit#debounced" } %>
+        <% end %>
+        <%= turbo_frame_tag dom_id(item_group, :picker), class: "sg-picker-results" %>
+      </div>
+    <% end %>
+  </div>
+</article>

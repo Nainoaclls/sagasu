@@ -1,0 +1,31 @@
+<%# Banner above the workspace: returned comment, waiting state, or the approver's decision form %>
+<% latest = project.latest_approval %>
+
+<% if pending_approval && policy(pending_approval).update? %>
+  <%= render "approvals/decision", approval: pending_approval %>
+<% elsif project.pending_approval? && latest %>
+  <div class="sg-banner is-pending" role="status">
+    <%= icon("fa-hourglass-half") %>
+    <div>
+      <strong>Waiting for <%= latest.approver.name %></strong>
+      <p>Sent <%= time_ago_in_words(latest.created_at) %> ago. The bidder list is locked until a decision.</p>
+    </div>
+  </div>
+<% elsif project.returned? && latest&.returned? %>
+  <div class="sg-banner is-returned" role="status">
+    <%= icon("fa-rotate-left") %>
+    <div>
+      <strong><%= latest.approver.name %> returned the list</strong>
+      <p>“<%= latest.comment %>”</p>
+      <p class="small mb-0">Adjust the bidder list, then send it again. The previous version is kept in the history.</p>
+    </div>
+  </div>
+<% elsif project.approved? && latest&.approved? %>
+  <div class="sg-banner is-approved" role="status">
+    <span class="sg-hanko sg-hanko-sm" aria-hidden="true">承認</span>
+    <div>
+      <strong>Approved by <%= latest.approver.name %></strong>
+      <p><%= latest.comment.presence || "The bidder list is final. You can now contact the bidders." %></p>
+    </div>
+  </div>
+<% end %>

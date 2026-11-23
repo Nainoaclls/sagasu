@@ -1,31 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title><%= content_for(:title) || "Sagasu" %></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title><%= content_for?(:title) ? "#{yield(:title)} · Sagasu" : "Sagasu · Find the right suppliers" %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Sagasu helps construction buyers find, compare and approve the right suppliers with an AI that shows its evidence.">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Sagasu">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#326273">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%# After an action, Turbo refreshes the page by morphing it: no flash, scroll position kept %>
+    <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+    <script>document.documentElement.classList.add("js")</script>
 
     <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body><%= render "shared/navbar" %>
-<%= render "shared/flashes" %>
+  <body class="<%= yield(:body_class) %>">
+    <a class="sg-skip-link" href="#main">Skip to content</a>
+    <%= render "shared/navbar" %>
 
-    <%= yield %>
+    <main id="main" tabindex="-1">
+      <%= yield %>
+    </main>
+
+    <%= render "shared/footer" %>
+    <%= render "shared/flashes" %>
+    <%= render "shared/ai_overlay" if user_signed_in? %>
   </body>
 </html>

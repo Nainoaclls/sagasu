@@ -1,0 +1,77 @@
+<section id="materials" class="sg-card mb-4" aria-labelledby="materials-title">
+  <div class="sg-section-title">
+    <h2 id="materials-title"><%= icon("fa-cubes-stacked") %> Materials <span class="sg-badge sg-badge-info"><%= project.items.size %></span></h2>
+  </div>
+
+  <% if project.items.any? %>
+    <div class="sg-table-wrap">
+      <table class="sg-table">
+        <caption class="visually-hidden">Materials of this RFQ and their group</caption>
+        <thead>
+          <tr>
+            <th scope="col">Material</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Group</th>
+            <% if can_edit %><th scope="col"><span class="visually-hidden">Actions</span></th><% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% project.items.each do |item| %>
+            <tr class="sg-appear">
+              <td>
+                <span class="fw-bold"><%= item.description %></span>
+                <% if item.erp_material.present? %><br><span class="sg-caption"><%= item.erp_material %></span><% end %>
+              </td>
+              <td class="sg-number text-nowrap"><%= item.quantity_label %></td>
+              <td>
+                <% if can_edit && project.item_groups.any? %>
+                  <%= form_with model: item, data: { controller: "autosubmit" } do |f| %>
+                    <%= f.label :item_group_id, "Group for #{item.description}", class: "visually-hidden", for: "item_group_#{item.id}" %>
+                    <%= f.select :item_group_id, project.item_groups.map { |group| [group.title, group.id] },
+                                 { include_blank: "Not grouped" },
+                                 { class: "form-select form-select-sm", id: "item_group_#{item.id}", data: { action: "change->autosubmit#now" } } %>
+                    <noscript><%= f.submit "Move", class: "btn btn-sm btn-ghost mt-1" %></noscript>
+                  <% end %>
+                <% elsif item.item_group %>
+                  <span class="sg-chip"><%= item.item_group.title %></span>
+                <% else %>
+                  <span class="sg-caption">Not grouped</span>
+                <% end %>
+              </td>
+              <% if can_edit %>
+                <td class="text-end">
+                  <%= button_to item_path(item), method: :delete, class: "btn btn-danger-quiet btn-icon btn-sm",
+                      form: { data: { turbo_confirm: "Remove “#{item.description}”?" } },
+                      "aria-label": "Remove #{item.description}" do %>
+                    <%= icon("fa-trash-can") %>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% elsif !can_edit %>
+    <p class="sg-empty-compact">No materials yet.</p>
+  <% end %>
+
+  <% if can_edit %>
+    <details class="sg-add-materials" <%= "open" if project.items.empty? %>>
+      <summary><%= icon("fa-plus") %> Add materials</summary>
+      <%= form_with url: project_items_path(project), scope: :items, class: "mt-3", data: { controller: "materials" } do |f| %>
+        <%= f.label :materials_text, "Paste one material per line", class: "form-label" %>
+        <%= f.text_area :materials_text, rows: 5, class: "form-control sg-paste", required: true,
+                        placeholder: "Facing bricks, red; 50000; pcs\nMortar mix M4; 300; bag",
+                        "aria-describedby": "add-materials-count",
+                        data: { materials_target: "input", action: "input->materials#update" } %>
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-2">
+          <span id="add-materials-count" class="sg-hint-count" data-materials-target="count" aria-live="polite">One material per line</span>
+          <%= f.button class: "btn btn-primary", data: { controller: "ripple", action: "click->ripple#burst" } do %>
+            <%= icon("fa-plus") %> Add to project
+          <% end %>
+        </div>
+      <% end %>
+    </details>
+  <% end %>
+</section>

@@ -1,0 +1,22 @@
+// Scroll reveal (reveal_controller.js adds .is-visible). Without JS, content is simply visible.
+.js .sg-reveal {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 600ms $ease-out, transform 600ms $ease-out;
+  transition-delay: var(--delay, 0ms);
+  &.is-visible { opacity: 1; transform: none; }
+}
+
+// New elements inserted after an action (morph refresh) gently appear
+.sg-appear { animation: sg-appear $motion-slow $ease-out both; }
+@keyframes sg-appear { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+// Respect the OS setting: no movement, instant state changes
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js .sg-reveal { opacity: 1; transform: none; }
+}

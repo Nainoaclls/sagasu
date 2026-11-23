@@ -1,18 +1,13 @@
-<h2>Forgot your password?</h2>
+<% content_for :title, "Forgot your password" %>
+<%= render layout: "devise/shared/auth_shell" do %>
+  <h1>Forgot your password?</h1>
+  <p class="text-muted mb-4">We'll email you a link to choose a new one.</p>
 
-<%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= f.error_notification %>
+  <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+    <%= f.error_notification %>
+    <%= f.input :email, required: true, autofocus: true, input_html: { autocomplete: "email" } %>
+    <%= f.button :button, "Send reset link", class: "btn btn-primary btn-lg w-100" %>
+  <% end %>
 
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" } %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Send me password reset instructions" %>
-  </div>
+  <%= render "devise/shared/links" %>
 <% end %>
-
-<%= render "devise/shared/links" %>

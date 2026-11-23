@@ -1,0 +1,10 @@
+<%# Shown by ai_busy_controller.js while an AI request runs %>
+<div id="ai-overlay" class="sg-ai-overlay" hidden role="status" aria-live="assertive">
+  <div class="sg-ai-overlay-card">
+    <%= image_tag "mascot/research.webp", alt: "", width: 720, height: 480 %>
+    <div class="sg-ai-overlay-text">
+      <h2>Sagasu is searching<span class="sg-dots" aria-hidden="true"><span></span><span></span><span></span></span></h2>
+      <p data-ai-message>Sagasu is working</p>
+    </div>
+  </div>
+</div>
