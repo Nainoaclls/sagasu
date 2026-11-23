@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- SQL XML created by WWW SQL Designer, https://github.com/ondras/wwwsqldesigner/ -->
+<!-- Sagasu schema v3 - 9 tables (MVP + approval snapshot, AI feedback, review status). created_at / updated_at are added automatically by Rails. -->
+<sql>
+<datatypes db="postgresql">
+  <group label="Numeric" color="rgb(238,238,170)">
+    <type label="Integer" length="0" sql="INTEGER" quote=""/>
+    <type label="Decimal" length="1" sql="DECIMAL" quote=""/>
+    <type label="Serial" length="0" sql="SERIAL" quote=""/>
+  </group>
+  <group label="Character" color="rgb(255,200,200)">
+    <type label="Text" length="0" sql="TEXT" quote="'"/>
+    <type label="Boolean" length="0" sql="BOOLEAN" quote=""/>
+  </group>
+  <group label="Date &amp; Time" color="rgb(200,255,200)">
+    <type label="Timestamp" length="1" sql="TIMESTAMP" quote="'"/>
+    <type label="Date" length="0" sql="DATE" quote="'"/>
+  </group>
+</datatypes>
+
+<table x="1100" y="60" name="users">
+<row name="id" null="1" autoincrement="1"><datatype>INTEGER</datatype><default>NULL</default></row>
+<row name="email" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="name" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="role" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<key type="PRIMARY" name=""><part>id</part></key>
+<comment>Devise. role: buyer / approver</comment>
+</table>
+
+<table x="840" y="60" name="projects">
+<row name="id" null="1" autoincrement="1"><datatype>INTEGER</datatype><default>NULL</default></row>
+<row name="user_id" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default><relation table="users" row="id" /></row>
+<row name="title" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="erp_rfq" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="scope" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="client_name" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="client_area" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="budget_amount" null="1" autoincrement="0"><datatype>DECIMAL</datatype><default>NULL</default></row>
+<row name="budget_currency" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="status" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="buyer_comment" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<key type="PRIMARY" name=""><part>id</part></key>
+<comment>RFQ project = bidder list (1:1 merged). status: draft / pending_approval / approved / returned</comment>
+</table>
+
+<table x="1100" y="300" name="approvals">
+<row name="id" null="1" autoincrement="1"><datatype>INTEGER</datatype><default>NULL</default></row>
+<row name="project_id" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default><relation table="projects" row="id" /></row>
+<row name="approver_id" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default><relation table="users" row="id" /></row>
+<row name="status" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="comment" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="decided_at" null="1" autoincrement="0"><datatype>TIMESTAMP</datatype><default>NULL</default></row>
+<row name="snapshot" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<key type="PRIMARY" name=""><part>id</part></key>
+<comment>status: pending / approved / returned. One row per submission = approval history. snapshot (jsonb): frozen copy of groups + selected suppliers at submission time</comment>
+</table>
+
+<table x="840" y="400" name="items">
+<row name="id" null="1" autoincrement="1"><datatype>INTEGER</datatype><default>NULL</default></row>
+<row name="project_id" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default><relation table="projects" row="id" /></row>
+<row name="item_group_id" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default><relation table="item_groups" row="id" /></row>
+<row name="erp_material" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="description" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="quantity" null="1" autoincrement="0"><datatype>DECIMAL</datatype><default>NULL</default></row>
+<row name="unit_of_measure" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<key type="PRIMARY" name=""><part>id</part></key>
+<comment>Material line. item_group_id optional (nil before AI grouping)</comment>
+</table>
+
+<table x="580" y="60" name="item_groups">
+<row name="id" null="1" autoincrement="1"><datatype>INTEGER</datatype><default>NULL</default></row>
+<row name="project_id" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default><relation table="projects" row="id" /></row>
+<row name="title" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="description" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="ai_reason" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="position" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default></row>
+<key type="PRIMARY" name=""><part>id</part></key>
+<comment>Material group proposed by AI, editable by buyer</comment>
+</table>
+
+<table x="320" y="60" name="group_suppliers">
+<row name="id" null="1" autoincrement="1"><datatype>INTEGER</datatype><default>NULL</default></row>
+<row name="item_group_id" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default><relation table="item_groups" row="id" /></row>
+<row name="supplier_id" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default><relation table="suppliers" row="id" /></row>
+<row name="ai_run_id" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default><relation table="ai_runs" row="id" /></row>
+<row name="ai_suggested" null="1" autoincrement="0"><datatype>BOOLEAN</datatype><default>NULL</default></row>
+<row name="ai_reason" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="selected" null="1" autoincrement="0"><datatype>BOOLEAN</datatype><default>NULL</default></row>
+<row name="feedback_reason" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="source" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<key type="PRIMARY" name=""><part>id</part></key>
+<key type="UNIQUE" name=""><part>item_group_id</part><part>supplier_id</part></key>
+<comment>Candidate supplier per group (= bidder list). source: ai / search. feedback_reason: why the buyer rejected an AI suggestion (minimal AI feedback loop)</comment>
+</table>
+
+<table x="40" y="60" name="suppliers">
+<row name="id" null="1" autoincrement="1"><datatype>INTEGER</datatype><default>NULL</default></row>
+<row name="name" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="country" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="category" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="tax_id" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="erp_vendor_code" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="website" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="description" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<key type="PRIMARY" name=""><part>id</part></key>
+</table>
+
+<table x="40" y="380" name="reviews">
+<row name="id" null="1" autoincrement="1"><datatype>INTEGER</datatype><default>NULL</default></row>
+<row name="user_id" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default><relation table="users" row="id" /></row>
+<row name="supplier_id" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default><relation table="suppliers" row="id" /></row>
+<row name="project_id" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default><relation table="projects" row="id" /></row>
+<row name="rating" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default></row>
+<row name="comment" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="visibility" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="ai_usable" null="1" autoincrement="0"><datatype>BOOLEAN</datatype><default>NULL</default></row>
+<row name="status" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<key type="PRIMARY" name=""><part>id</part></key>
+<comment>visibility: organization (default) / project. project_id optional, required when visibility = project. status: unverified (default) / verified / disputed - anti-blacklisting</comment>
+</table>
+
+<table x="580" y="380" name="ai_runs">
+<row name="id" null="1" autoincrement="1"><datatype>INTEGER</datatype><default>NULL</default></row>
+<row name="project_id" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default><relation table="projects" row="id" /></row>
+<row name="user_id" null="1" autoincrement="0"><datatype>INTEGER</datatype><default>NULL</default><relation table="users" row="id" /></row>
+<row name="kind" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="model" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="prompt" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="output" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<row name="status" null="1" autoincrement="0"><datatype>TEXT</datatype><default>NULL</default></row>
+<key type="PRIMARY" name=""><part>id</part></key>
+<comment>AI audit trail. kind: grouping / supplier_suggestion</comment>
+</table>
+</sql>

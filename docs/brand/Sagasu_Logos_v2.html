@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sagasu — Logo options v2</title>
+<style>
+  :root { --pacific: #5C9EAD; --white: #FFFFFF; --slate: #326273; --platinum: #EEEEEE; --tangerine: #E39774; --ink: #1E2F36; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 36px 44px; background: #F6F7F8; font-family: "Segoe UI", Arial, sans-serif; color: var(--ink); width: 1400px; }
+  h1 { margin: 0; font-size: 30px; font-weight: 600; }
+  .sub { color: #5b6b70; margin: 4px 0 20px; font-size: 15px; }
+  .palette { display: flex; border-radius: 10px; overflow: hidden; margin-bottom: 26px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .sw { flex: 1; padding: 14px 12px 10px; font-size: 12px; }
+  .sw b { display: block; font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .card { background: #fff; border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.07); overflow: hidden; }
+  .card.wide { grid-column: span 2; }
+  .head { padding: 14px 20px 0; display: flex; align-items: baseline; gap: 10px; }
+  .letter { font-weight: 700; color: #fff; background: var(--slate); border-radius: 6px; padding: 1px 8px; font-size: 14px; }
+  .head h2 { margin: 0; font-size: 18px; font-weight: 600; }
+  .rec { font-size: 11px; font-weight: 700; color: var(--ink); background: var(--tangerine); border-radius: 4px; padding: 2px 7px; }
+  .show { display: flex; gap: 12px; padding: 14px 20px; }
+  .tile { flex: 1; height: 130px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+  .light { background: #fff; border: 1px solid #eceef0; }
+  .dark { background: var(--slate); --s: #A3CDD6; }
+  .icons { width: 120px; flex: 0 0 120px; background: var(--platinum); }
+  .word { font-size: 32px; font-weight: 700; letter-spacing: -.5px; line-height: 1; }
+  .light .word { color: var(--slate); }
+  .dark .word { color: #fff; }
+  .why { padding: 0 20px 16px; font-size: 13.5px; line-height: 1.5; color: #3b4b50; }
+  .why b { color: var(--ink); }
+  .appicons { display: flex; gap: 26px; align-items: flex-end; padding: 16px 20px; }
+  .appicons figure { margin: 0; text-align: center; font-size: 11px; color: #5b6b70; }
+  .appicons figcaption { margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <!-- A: Refined original -->
+    <symbol id="a" viewBox="0 0 100 100">
+      <line x1="66" y1="66" x2="86" y2="86" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+      <circle cx="44" cy="44" r="30" fill="none" stroke="currentColor" stroke-width="10"/>
+      <path d="M22 60 C34 68 50 60 45 48 C41 39 46 34 52 34" fill="none" style="stroke: var(--s, #5C9EAD)" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="58" cy="29" r="6.5" fill="#E39774"/>
+    </symbol>
+    <!-- B: Dotted trail -->
+    <symbol id="b" viewBox="0 0 100 100">
+      <line x1="66" y1="66" x2="86" y2="86" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+      <circle cx="44" cy="44" r="30" fill="none" stroke="currentColor" stroke-width="10"/>
+      <path d="M28 58 C36 64 50 58 45 48 C41 40 46 35 52 34" fill="none" style="stroke: var(--s, #5C9EAD)" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 8.5"/>
+      <circle cx="27" cy="57" r="4" fill="none" style="stroke: var(--s, #5C9EAD)" stroke-width="2.5"/>
+      <circle cx="58" cy="29" r="7" fill="#E39774"/>
+    </symbol>
+    <!-- C: Open lens / road in -->
+    <symbol id="c" viewBox="0 0 100 100">
+      <line x1="66" y1="66" x2="86" y2="86" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+      <circle cx="44" cy="44" r="30" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-dasharray="146 42.5" transform="rotate(176 44 44)"/>
+      <path d="M8 76 C22 68 40 66 43 53 C45 43 47 37 53 34" fill="none" style="stroke: var(--s, #5C9EAD)" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="59" cy="29" r="6.5" fill="#E39774"/>
+    </symbol>
+    <!-- D: Network S -->
+    <symbol id="d" viewBox="0 0 100 100">
+      <line x1="66" y1="66" x2="86" y2="86" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+      <circle cx="44" cy="44" r="30" fill="none" stroke="currentColor" stroke-width="10"/>
+      <path d="M28 56 C36 60 46 56 44 47 C42 40 48 34 56 32" fill="none" style="stroke: var(--s, #5C9EAD)" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="28" cy="56" r="5" style="fill: var(--s, #5C9EAD)"/>
+      <circle cx="44" cy="47" r="5" style="fill: var(--s, #5C9EAD)"/>
+      <circle cx="57" cy="32" r="7" fill="#E39774"/>
+    </symbol>
+    <!-- E: App icon -->
+    <symbol id="e" viewBox="0 0 100 100">
+      <rect x="0" y="0" width="100" height="100" rx="24" fill="#326273"/>
+      <g transform="translate(13 13) scale(.74)">
+        <line x1="66" y1="66" x2="86" y2="86" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+        <circle cx="44" cy="44" r="30" fill="none" stroke="#FFFFFF" stroke-width="10"/>
+        <path d="M22 60 C34 68 50 60 45 48 C41 39 46 34 52 34" fill="none" style="stroke: var(--s, #5C9EAD)" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="58" cy="29" r="6.5" fill="#E39774"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<h1>Sagasu — Logo options v2</h1>
+<div class="sub">Inspirées du logo d'équipe (loupe + S + point lumineux) · palette Pacific / Slate / Tangerine · 23 novembre 2026</div>
+
+<div class="palette">
+  <div class="sw" style="background:#326273;color:#fff"><b>Blue Slate</b>#326273 · logo, nav, boutons</div>
+  <div class="sw" style="background:#5C9EAD;color:#fff"><b>Pacific Blue</b>#5C9EAD · principal, icônes</div>
+  <div class="sw" style="background:#E39774"><b>Tangerine</b>#E39774 · accent, sélection IA</div>
+  <div class="sw" style="background:#FFFFFF"><b>White</b>#FFFFFF · fonds</div>
+  <div class="sw" style="background:#EEEEEE"><b>Platinum</b>#EEEEEE · fonds secondaires</div>
+  <div class="sw" style="background:#1E2F36;color:#fff"><b>Ink (ajout)</b>#1E2F36 · texte courant</div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <div class="head"><span class="letter">A</span><h2>Original affiné</h2><span class="rec">RECOMMANDÉ</span></div>
+    <div class="show">
+      <div class="tile light"><svg width="66" height="66" style="color:#326273"><use href="#a"/></svg><div class="word">Sagasu</div></div>
+      <div class="tile dark"><svg width="66" height="66" style="color:#FFFFFF"><use href="#a"/></svg><div class="word">Sagasu</div></div>
+      <div class="tile icons"><svg width="48" height="48" style="color:#326273"><use href="#a"/></svg><svg width="24" height="24" style="color:#326273"><use href="#a"/></svg></div>
+    </div>
+    <div class="why"><b>Ce qui change :</b> même idée que le logo de l'équipe (loupe, chemin en S, point trouvé), mais avec des traits réguliers, un S plus lisible et un point <b>Tangerine</b> à la place du bleu lumineux. <b>Pourquoi :</b> fidèle à ce que vous avez déjà, plus net en petit, et le point orange devient « le fournisseur trouvé ».</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><span class="letter">B</span><h2>Trail</h2></div>
+    <div class="show">
+      <div class="tile light"><svg width="66" height="66" style="color:#326273"><use href="#b"/></svg><div class="word">Sagasu</div></div>
+      <div class="tile dark"><svg width="66" height="66" style="color:#FFFFFF"><use href="#b"/></svg><div class="word">Sagasu</div></div>
+      <div class="tile icons"><svg width="48" height="48" style="color:#326273"><use href="#b"/></svg><svg width="24" height="24" style="color:#326273"><use href="#b"/></svg></div>
+    </div>
+    <div class="why"><b>Ce qui change :</b> le S devient une trace en pointillés, du point de départ (le besoin) jusqu'au point orange (le fournisseur). <b>Pourquoi :</b> plus léger et « tech », il évoque l'IA qui trace un chemin. Limite : les pointillés disparaissent en favicon 16 px.</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><span class="letter">C</span><h2>Open Lens</h2></div>
+    <div class="show">
+      <div class="tile light"><svg width="66" height="66" style="color:#326273"><use href="#c"/></svg><div class="word">Sagasu</div></div>
+      <div class="tile dark"><svg width="66" height="66" style="color:#FFFFFF"><use href="#c"/></svg><div class="word">Sagasu</div></div>
+      <div class="tile icons"><svg width="48" height="48" style="color:#326273"><use href="#c"/></svg><svg width="24" height="24" style="color:#326273"><use href="#c"/></svg></div>
+    </div>
+    <div class="why"><b>Ce qui change :</b> la loupe s'ouvre et le chemin vient de l'extérieur pour entrer dans la lentille. <b>Pourquoi :</b> raconte « on part du marché et on zoome sur le bon fournisseur ». Le plus dynamique et le plus distinctif, mais un peu moins compact.</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><span class="letter">D</span><h2>Network S</h2></div>
+    <div class="show">
+      <div class="tile light"><svg width="66" height="66" style="color:#326273"><use href="#d"/></svg><div class="word">Sagasu</div></div>
+      <div class="tile dark"><svg width="66" height="66" style="color:#FFFFFF"><use href="#d"/></svg><div class="word">Sagasu</div></div>
+      <div class="tile icons"><svg width="48" height="48" style="color:#326273"><use href="#d"/></svg><svg width="24" height="24" style="color:#326273"><use href="#d"/></svg></div>
+    </div>
+    <div class="why"><b>Ce qui change :</b> le S est formé de nœuds reliés, comme un réseau de fournisseurs ; le dernier nœud, orange, est celui qui est retenu. <b>Pourquoi :</b> mélange votre logo et la piste « Lens Network ». Plus « données / IA », un peu plus chargé.</div>
+  </div>
+
+  <div class="card wide">
+    <div class="head"><span class="letter">E</span><h2>App icon &amp; favicon (version A)</h2></div>
+    <div class="appicons">
+      <figure><svg width="120" height="120"><use href="#e"/></svg><figcaption>App icon 120 px</figcaption></figure>
+      <figure><svg width="64" height="64"><use href="#e"/></svg><figcaption>64 px</figcaption></figure>
+      <figure><svg width="32" height="32"><use href="#e"/></svg><figcaption>Favicon 32</figcaption></figure>
+      <figure><svg width="16" height="16"><use href="#e"/></svg><figcaption>16</figcaption></figure>
+      <div style="flex:1"></div>
+      <div class="why" style="max-width:640px;padding:0 0 6px"><b>Usage :</b> onglet du navigateur, icône sur l'écran d'accueil d'un mobile, avatar LinkedIn ou Slack. Le symbole est toujours sur un carré Blue Slate, donc il reste lisible sur n'importe quel fond. <b>Mascotte :</b> gardez le robot pour l'assistant IA et les écrans vides (« Sagasu cherche… »), en le recolorant en Blue Slate et Tangerine, mais pas dans le logo.</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

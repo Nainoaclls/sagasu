@@ -1,0 +1,273 @@
+Sagasu — Concept Document
+
+Version: 0.2 (working draft) Date: 2026-11-15 Status: Conceptual
+discussion; no XML/ERD changes approved
+
+1. Vision
+
+Sagasu is an AI-assisted procurement platform that helps buyers
+discover, evaluate, compare, and shortlist suppliers, collaborate using
+organizational knowledge, and produce auditable bidder lists. The
+initial prototype focuses on supplier discovery and bidder-list
+creation; the longer-term vision includes approval governance and
+agentic AI improvement.
+
+2. Business problem
+
+Supplier knowledge is fragmented across ERP master data, the open web,
+purchasing history, individual buyers’ experience, evaluations, and
+bidding records. Sagasu aims to improve discovery, knowledge
+sharing, decision quality, and traceability while retaining human
+responsibility for procurement decisions.
+
+3. Main users
+
+-   Buyers: search suppliers, create bidding projects, group items,
+    review AI suggestions, comment, and select candidates.
+-   Approvers and team managers: examine rationale, comments, and bidder
+    lists; approve or request adjustments.
+-   Audit department: reconstruct decisions, changes, supporting
+    evidence, and who acted when.
+-   AI agent: assists within defined permissions; does not independently
+    establish adverse supplier facts.
+
+4. Current functional concept
+
+4.1 Supplier registry
+
+Supplier identity, country, tax ID, ERP vendor code, and description;
+later support for provenance and multiple data sources.
+
+4.2 Bidding projects and bidder lists
+
+Projects/RFQs contain items, quantities, and units. Buyers organize
+items into editable groups and associate candidate suppliers with each
+group. A consolidated bidder list is created for the project, with buyer
+comments and approval status.
+
+4.3 AI supplier suggestions
+
+AI suggests suppliers for material groups, provides reasons, and
+distinguishes its suggestions from buyer selections. Capture
+source/evidence and user adjustments.
+
+4.4 Peer collaboration
+
+Buyers can share observations and reviews to improve team knowledge.
+Comments are not all equally visible or suitable for future AI use;
+access policies and attribution need design.
+
+4.5 Approvals
+
+Reusable approval strategies and ordered steps; record actual approvers,
+outcomes, comments, and timestamps.
+
+5. Principles agreed or strongly supported
+
+1.  Auditable decisions: retain the original state and evidence
+    available at the time.
+2.  Human accountability: AI recommends; authorized people decide.
+3.  Explainability: AI explains the factual basis for its conclusions
+    without automatically exposing a comment author.
+4.  Controlled oversight: authorized managers/auditors can trace
+    restricted evidence and attribution, subject to explicit access
+    policy and access logging.
+5.  Learning from corrections: feedback can improve future
+    recommendations, but an observation is not automatically a verified
+    fact.
+6.  Separation of history and current knowledge: preserve historical
+    records even as validated knowledge changes.
+7.  Privacy is not one Boolean: visibility, use in authorized AI
+    context, and eligibility for future learning are separate
+    dimensions.
+8.  Learning permission does not equal permission to cite, quote, or
+    disclose a source.
+
+6. Privacy, collaboration, and evidence — design proposal
+
+-   Visibility scope: authorized bid-list participants vs authorized
+    broader team/organization (exact roles TBD).
+-   AI context permission: may AI use the comment in a workflow where
+    the requesting user is entitled to its contents?
+-   AI learning permission: may it be considered as a candidate for
+    future reusable knowledge?
+-   Disclosure/citation policy: whether original text, identity, or
+    derived conclusions may be shown to a particular audience.
+-   Audit override is not unrestricted access: define
+    lawful/organizational authorization, access logging, and controls.
+-   Private-to-document comments may be eligible for restricted AI
+    learning, but outputs must not leak their content through
+    paraphrases or indirect identification.
+-   If no disclosure-safe rationale can be generated, AI should provide
+    a limited explanation or escalate to authorized review rather than
+    reveal restricted facts.
+
+7. Anti-blacklisting and evidence governance
+
+A single buyer’s negative comment must not silently blacklist a
+supplier. Proposed safeguards: - Store observations with provenance,
+time, scope, and status (unverified/verified/disputed/superseded). -
+Distinguish allegations, documented incidents, transactional evidence,
+and formal evaluations. - Require corroboration or authorized review
+before severe adverse assessments influence recommendations. - Allow
+correction, challenge, and contextual updates; do not erase the audit
+history. - Surface uncertainty and distinguish low confidence from
+proven supplier performance. - Log who reviewed or approved a material
+knowledge change.
+
+8. Audit and revision design considerations
+
+Retain: - Bid-list versions/snapshots, including group membership and
+selected suppliers. - Change events (actor, action, before/after or
+immutable references, timestamp, reason). - Approval step and actual
+acting user. - AI execution ID, model/version, prompt/version, relevant
+configuration, retrieved evidence identifiers/versions, output,
+timestamp, and user request. - Access to sensitive audit evidence should
+itself be logged. - Historical AI recommendations should remain
+reconstructable as-of their original decision time; later knowledge must
+not overwrite the past.
+
+9. AI improvement architecture
+
+Separate three layers: A. Immutable audit trail: what happened and what
+was known then. B. Feedback and validation: buyer corrections, rejection
+reasons, review decisions, and outcome signals. C. Governed knowledge
+memory: validated, permission-aware facts usable in later
+recommendations.
+
+Recommended initial approach: retrieval-augmented generation (RAG) and
+structured feedback rather than immediate model fine-tuning. A
+correction is a learning candidate, not automatically ground truth.
+Changes to ranking rules, prompts, or knowledge should be tested and
+versioned.
+
+10. Data sources
+
+Current conceptual sources
+
+-   Supplier master and ERP identifiers.
+-   Public web and selected external supplier sources.
+-   Buyer and approver comments/reviews.
+-   Bid-project, material-group, bidder-list, and approval history.
+
+Planned / future sources (not yet designed)
+
+-   Purchase history: supplier, material, description, buyer, date, plus
+    available transactional attributes.
+-   Annual supplier evaluation: structured performance data,
+    methodology, period, and evidence. These sources should remain
+    separate in provenance and governance; no schema changes are
+    approved for them yet.
+
+11. Existing ERD baseline (13 tables)
+
+gr_buyer, user, supplier, review, bid_project, bid_item, bid_list,
+bid_itm_group, bid_group_item, suppliers_in_itm_group, approval_stg,
+approval_step, approval_rcd.
+
+Existing fields include review.is_private, review.ai_accessible,
+approval_rcd.is_private, approval_rcd.ai_accessible; supplier assignment
+includes ai_reason, source_type, is_ai_suggested, is_selected. These are
+baseline fields, not final policy definitions.
+
+12. Candidate future data entities (NOT approved changes)
+
+-   bid_list_versions
+-   audit_events
+-   ai_runs
+-   ai_feedback
+-   ai_knowledge
+-   ai_knowledge_sources
+-   supplier_sources These are discussion candidates, not a commitment
+    to add seven tables.
+
+13. Open design questions
+
+-   What are the exact peer visibility levels and who can change them?
+-   Are buyer identities visible to peers, anonymized in ordinary views,
+    or always attributable to certain roles?
+-   What evidence threshold should apply to a negative supplier
+    assessment?
+-   Who can validate, dispute, or retire AI knowledge?
+-   Can a private comment inform aggregate metrics, and under what
+    minimum-group and disclosure rules?
+-   How should approval snapshots and revisions work when a list is
+    returned for correction?
+-   Which AI actions require mandatory human approval?
+-   What retention periods, access logs, and deletion/legal-hold
+    requirements apply?
+-   How are confidential facts explained to users without revealing
+    protected sources?
+
+14. ForLater backlog
+
+-   Passive behavioral feedback: observe when buyers remove, reorder, or
+    ignore AI-suggested suppliers without explicit comments; treat as
+    weak signals, not verified knowledge. Requires careful auditability
+    and interpretation.
+-   Purchase-history ingestion and linking to
+    supplier/material/buyer/date.
+-   Annual supplier evaluation integration.
+-   More autonomous agentic workflows with human-controlled knowledge
+    updates.
+-   Model fine-tuning only if justified by validated data and
+    governance.
+-   Advanced supplier data provenance, freshness, and confidence.
+-   Detailed role/permission matrix and evidence-disclosure policy.
+-   Supplier dispute/correction process.
+-   Metrics to evaluate AI suggestion quality and feedback
+    effectiveness.
+
+15. Immediate next steps (discussion, not implementation)
+
+1.  Agree on a comment visibility and AI-use policy matrix.
+2.  Define what qualifies as evidence vs observation vs validated
+    knowledge.
+3.  Define audit requirements and bid-list versioning behavior.
+4.  Prioritize a minimal feedback loop for the MVP.
+5.  Only then revise the XML ERD and map to Rails models/migrations.
+
+16. Document maintenance
+
+Use this file as the living concept. Track new decisions separately from
+proposals, unanswered questions, and ForLater ideas. Avoid treating
+proposed controls or entities as already implemented.
+
+
+## 17. Decisions from follow-up discussion (v0.2)
+- MVP default: buyer comments are shared with authorized buyers across the organization.
+- MVP exception: buyers may restrict a comment to authorized participants of its bidder list.
+- Buyer attribution is retained for audit and appropriate managerial oversight; normal AI explanations need not identify the buyer.
+- AI explanations must show the grounds for recommendations without exposing restricted source text or identities. Where a safe explanation is impossible, limit the explanation and refer to authorized review.
+- A single buyer's negative comment cannot silently become a supplier blacklist. Preserve evidence status, corroboration and human review for consequential adverse conclusions.
+- The AI-learning flag means eligible for controlled validation and knowledge reuse, not immediate training, publication, or unquestioned factual acceptance.
+- Visibility, AI use within authorized context, and AI learning eligibility are separate controls.
+
+## 18. ForLater additions (v0.2)
+- Configurable delayed publication: share comments after 60 days, after bidding award, or another company-defined trigger.
+- Protect comments during an active tender or award process. The publication clock and triggers must account for cancelled, extended, rejected, or never-awarded processes.
+- Confidentiality overrides must prevent automatic publication even when the time or award trigger is met.
+- Future per-company policy settings for publication and exception approval.
+- Purchase-history integration by supplier, material, description, buyer and date.
+- Supplier annual evaluation integration, developed as a separate feature.
+- Passive buyer-action learning (removing, reordering or ignoring suggestions), retained as a weak and auditable signal, not validated truth.
+
+## 19. Proposed schema v3 mapping (design proposal)
+Baseline 13 tables retained. Proposed additions: bid_list_version, audit_event, ai_run, ai_feedback, ai_knowledge, ai_knowledge_source (19 tables total).
+- review and approval_rcd: new visibility_scope, ai_context_allowed, ai_learning_allowed. Existing is_private and ai_accessible retained for backward compatibility pending migration policy.
+- suppliers_in_itm_group: optional ai_run_id and feedback_status for linking suggestions to an execution.
+- Bid list version snapshots and append-only audit events enable historical reconstruction.
+- AI runs preserve model, prompt, input/evidence references, output, timestamp and status.
+- Feedback captures explicit buyer corrections and their validation status.
+- Governed knowledge retains validation state, time validity, source provenance and permissions.
+- Unique keys proposed for one list per project, group-supplier, strategy-sequence, version numbering and group-item membership.
+- The XML is a logical design. Database-level NOT NULL constraints, foreign-key actions, authorization, audit immutability, and Rails migration details still require implementation decisions.
+- No delayed-publication scheduler, purchase history tables, annual evaluation tables, or passive-learning mechanism is implemented in v3.
+
+## 20. Next decisions before coding
+1. Define visibility_scope values, who counts as an authorized buyer, and whether project restrictions supersede organization-wide access.
+2. Specify how comments are edited or superseded without rewriting audit evidence.
+3. Agree on bid-list snapshot boundaries: draft, submission, approval, revision, award.
+4. Define adverse supplier observation validation thresholds and appeal/correction workflow.
+5. Define which evidence and metadata an ordinary buyer, approver, manager and auditor can see.
+6. Define MVP feedback capture and evaluation metrics.
