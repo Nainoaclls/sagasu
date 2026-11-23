@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sagasu — Routes</title>
+<style>
+  @page { size: A4; margin: 12mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1f2933; font-size: 9.5pt; margin: 0; }
+  header { border-bottom: 3px solid #1e3a8a; padding-bottom: 10px; margin-bottom: 14px; }
+  h1 { margin: 0; font-size: 22pt; color: #1e3a8a; letter-spacing: .5px; }
+  .sub { color: #52606d; margin-top: 4px; font-size: 10.5pt; }
+  .meta { color: #7b8794; font-size: 9pt; margin-top: 6px; }
+  h2 { font-size: 12.5pt; color: #1e3a8a; margin: 12px 0 6px; }
+  table { width: 100%; border-collapse: collapse; }
+  tr { page-break-inside: avoid; }
+  th { background: #1e3a8a; color: #fff; text-align: left; padding: 6px 8px; font-size: 9pt; font-weight: 600; }
+  td { padding: 3.5px 8px; border-bottom: 1px solid #e4e7eb; vertical-align: top; }
+  tbody.story td { background: #fff; }
+  tbody.story:nth-of-type(even) td { background: #f5f7fa; }
+  tbody.ai td { background: #eef4ff !important; }
+  td.n { width: 6%; text-align: center; font-weight: 700; color: #1e3a8a; }
+  td.st { width: 25%; font-weight: 600; }
+  td.v { width: 8%; }
+  td.p { width: 31%; }
+  code { font-family: Consolas, "Courier New", monospace; font-size: 9pt; }
+  .verb { display: inline-block; min-width: 46px; text-align: center; font-family: Consolas, monospace; font-size: 8pt; font-weight: 700; border-radius: 3px; padding: 1px 4px; }
+  .GET { background: #dcfce7; color: #166534; }
+  .POST { background: #dbeafe; color: #1e40af; }
+  .PATCH { background: #fef3c7; color: #92400e; }
+  .DELETE { background: #fee2e2; color: #991b1b; }
+  .tag { display: inline-block; font-size: 7.5pt; font-weight: 700; color: #1e40af; background: #dbe6ff; border-radius: 3px; padding: 1px 5px; margin-left: 4px; vertical-align: 1px; }
+  .legend { font-size: 8.5pt; color: #52606d; margin-top: 8px; }
+  .base { font-size: 9pt; color: #52606d; margin-bottom: 6px; }
+  pre { background: #0f172a; color: #e2e8f0; border-radius: 6px; padding: 12px 14px; font-family: Consolas, "Courier New", monospace; font-size: 8.8pt; line-height: 1.45; margin: 0; white-space: pre; }
+  pre .c { color: #94a3b8; }
+  .page2 { page-break-before: always; }
+  .notes { font-size: 9pt; color: #334155; margin-top: 10px; padding-left: 18px; }
+  .notes li { margin-bottom: 3px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Sagasu — Routes</h1>
+  <div class="sub">Routes mapped to the MVP user stories · Le Wagon Tokyo final project</div>
+  <div class="meta">Version 1.0 · 23 November 2026 · Matches "Sagasu — User Stories v1.0" and "Sagasu Schema MVP"</div>
+</header>
+
+<div class="base">Base URL: <code>https://myapp.herokuapp.com</code> · # = user story number</div>
+
+<table>
+  <thead><tr><th>#</th><th>User story</th><th>Verb</th><th>Path</th><th>Controller#Action</th></tr></thead>
+
+  <tbody class="story">
+    <tr><td class="n">1</td><td class="st">Visit the home page</td><td class="v"><span class="verb GET">GET</span></td><td class="p"><code>/</code></td><td><code>pages#home</code></td></tr>
+  </tbody>
+
+  <tbody class="story">
+    <tr><td class="n" rowspan="5">2</td><td class="st" rowspan="5">Sign up / log in</td><td class="v"><span class="verb GET">GET</span></td><td class="p"><code>/users/sign_up</code></td><td><code>devise/registrations#new</code></td></tr>
+    <tr><td class="v"><span class="verb POST">POST</span></td><td class="p"><code>/users</code></td><td><code>devise/registrations#create</code></td></tr>
+    <tr><td class="v"><span class="verb GET">GET</span></td><td class="p"><code>/users/sign_in</code></td><td><code>devise/sessions#new</code></td></tr>
+    <tr><td class="v"><span class="verb POST">POST</span></td><td class="p"><code>/users/sign_in</code></td><td><code>devise/sessions#create</code></td></tr>
+    <tr><td class="v"><span class="verb DELETE">DELETE</span></td><td class="p"><code>/users/sign_out</code></td><td><code>devise/sessions#destroy</code></td></tr>
+  </tbody>
+
+  <tbody class="story">
+    <tr><td class="n" rowspan="4">3</td><td class="st" rowspan="4">Create an RFQ project</td><td class="v"><span class="verb GET">GET</span></td><td class="p"><code>/projects</code></td><td><code>projects#index</code></td></tr>
+    <tr><td class="v"><span class="verb GET">GET</span></td><td class="p"><code>/projects/new</code></td><td><code>projects#new</code></td></tr>
+    <tr><td class="v"><span class="verb POST">POST</span></td><td class="p"><code>/projects</code></td><td><code>projects#create</code></td></tr>
+    <tr><td class="v"><span class="verb GET">GET</span></td><td class="p"><code>/projects/:id</code></td><td><code>projects#show</code></td></tr>
+  </tbody>
+
+  <tbody class="story">
+    <tr><td class="n" rowspan="2">4</td><td class="st" rowspan="2">Add my list of materials</td><td class="v"><span class="verb POST">POST</span></td><td class="p"><code>/projects/:project_id/items</code></td><td><code>items#create</code></td></tr>
+    <tr><td class="v"><span class="verb DELETE">DELETE</span></td><td class="p"><code>/items/:id</code></td><td><code>items#destroy</code></td></tr>
+  </tbody>
+
+  <tbody class="story ai">
+    <tr><td class="n">5</td><td class="st">Review AI item groups <span class="tag">AI</span></td><td class="v"><span class="verb POST">POST</span></td><td class="p"><code>/projects/:project_id/item_groups/generate</code></td><td><code>item_groups#generate</code></td></tr>
+  </tbody>
+
+  <tbody class="story ai">
+    <tr><td class="n" rowspan="2">6</td><td class="st" rowspan="2">Edit item groups <span class="tag">AI</span></td><td class="v"><span class="verb PATCH">PATCH</span></td><td class="p"><code>/item_groups/:id</code></td><td><code>item_groups#update</code> (rename)</td></tr>
+    <tr><td class="v"><span class="verb PATCH">PATCH</span></td><td class="p"><code>/items/:id</code></td><td><code>items#update</code> (move item)</td></tr>
+  </tbody>
+
+  <tbody class="story ai">
+    <tr><td class="n">7</td><td class="st">Review AI supplier suggestions <span class="tag">AI</span></td><td class="v"><span class="verb POST">POST</span></td><td class="p"><code>/item_groups/:item_group_id/group_suppliers/suggest</code></td><td><code>group_suppliers#suggest</code></td></tr>
+  </tbody>
+
+  <tbody class="story ai">
+    <tr><td class="n">8</td><td class="st">Select or remove suppliers <span class="tag">AI</span></td><td class="v"><span class="verb PATCH">PATCH</span></td><td class="p"><code>/group_suppliers/:id</code></td><td><code>group_suppliers#update</code></td></tr>
+  </tbody>
+
+  <tbody class="story ai">
+    <tr><td class="n" rowspan="2">9</td><td class="st" rowspan="2">Search &amp; add a supplier <span class="tag">AI</span></td><td class="v"><span class="verb GET">GET</span></td><td class="p"><code>/suppliers?query=</code></td><td><code>suppliers#index</code></td></tr>
+    <tr><td class="v"><span class="verb POST">POST</span></td><td class="p"><code>/item_groups/:item_group_id/group_suppliers</code></td><td><code>group_suppliers#create</code></td></tr>
+  </tbody>
+
+  <tbody class="story">
+    <tr><td class="n">10</td><td class="st">Supplier profile &amp; reviews</td><td class="v"><span class="verb GET">GET</span></td><td class="p"><code>/suppliers/:id</code></td><td><code>suppliers#show</code></td></tr>
+  </tbody>
+
+  <tbody class="story">
+    <tr><td class="n">11</td><td class="st">Write a review</td><td class="v"><span class="verb POST">POST</span></td><td class="p"><code>/suppliers/:supplier_id/reviews</code></td><td><code>reviews#create</code></td></tr>
+  </tbody>
+
+  <tbody class="story">
+    <tr><td class="n">12</td><td class="st">Send bidder list for approval</td><td class="v"><span class="verb POST">POST</span></td><td class="p"><code>/projects/:project_id/approvals</code></td><td><code>approvals#create</code></td></tr>
+  </tbody>
+
+  <tbody class="story">
+    <tr><td class="n">13</td><td class="st">See lists waiting for approval</td><td class="v"><span class="verb GET">GET</span></td><td class="p"><code>/approvals</code></td><td><code>approvals#index</code></td></tr>
+  </tbody>
+
+  <tbody class="story">
+    <tr><td class="n">14</td><td class="st">Approve or return a list</td><td class="v"><span class="verb PATCH">PATCH</span></td><td class="p"><code>/approvals/:id</code></td><td><code>approvals#update</code></td></tr>
+  </tbody>
+</table>
+<div class="legend"><span class="tag">AI</span> Highlighted rows are the AI flow. Reviewing groups and suggestions happens on <code>projects#show</code>; the AI routes trigger the generation.</div>
+
+<div class="page2">
+<h2>config/routes.rb</h2>
+<pre><span class="c"># config/routes.rb</span>
+Rails.application.routes.draw do
+  devise_for :users
+  root to: "pages#home"                                        <span class="c"># 1, 2</span>
+
+  resources :projects, only: [:index, :new, :create, :show] do <span class="c"># 3</span>
+    resources :items, only: [:create]                          <span class="c"># 4</span>
+    resources :item_groups, only: [] do
+      collection { post :generate }                            <span class="c"># 5  (AI)</span>
+    end
+    resources :approvals, only: [:create]                      <span class="c"># 12</span>
+  end
+
+  resources :items, only: [:update, :destroy]                  <span class="c"># 4, 6</span>
+
+  resources :item_groups, only: [:update] do                   <span class="c"># 6</span>
+    resources :group_suppliers, only: [:create] do             <span class="c"># 9</span>
+      collection { post :suggest }                             <span class="c"># 7  (AI)</span>
+    end
+  end
+
+  resources :group_suppliers, only: [:update]                  <span class="c"># 8</span>
+
+  resources :suppliers, only: [:index, :show] do               <span class="c"># 9, 10</span>
+    resources :reviews, only: [:create]                        <span class="c"># 11</span>
+  end
+
+  resources :approvals, only: [:index, :update]                <span class="c"># 13, 14</span>
+end</pre>
+
+<h2>Notes</h2>
+<ul class="notes">
+  <li><b>Story 8:</b> "remove" a supplier = set <code>selected: false</code> (keeps the AI suggestion for traceability) rather than deleting the row.</li>
+  <li><b>Story 12:</b> creating an approval also sets <code>projects.status</code> to <code>pending_approval</code>.</li>
+  <li><b>Story 14:</b> the approver sets <code>status</code> to <code>approved</code> or <code>returned</code> with a comment; the project status follows.</li>
+  <li><b>Access:</b> only users with <code>role: approver</code> can reach <code>approvals#index</code> and <code>approvals#update</code> (Pundit policy).</li>
+  <li><b>Later:</b> invitations and supplier proposals will add their own routes after the MVP.</li>
+</ul>
+</div>
+</body>
+</html>

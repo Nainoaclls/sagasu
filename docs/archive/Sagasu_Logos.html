@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sagasu — Logo options</title>
+<style>
+  :root {
+    --lavender: #D7DAE5; --sky: #B9CDDA; --aqua: #A6D8D4; --teal: #8EAF9D; --grey: #6B7D7D;
+    --ink: #2E3A3A; --paper: #F7F8FA;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 36px 44px; background: var(--paper); font-family: "Segoe UI", Arial, sans-serif; color: var(--ink); width: 1400px; }
+  h1 { margin: 0; font-size: 30px; font-weight: 600; }
+  .sub { color: var(--grey); margin: 4px 0 20px; font-size: 15px; }
+  .palette { display: flex; gap: 0; border-radius: 10px; overflow: hidden; margin-bottom: 26px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .sw { flex: 1; padding: 14px 12px 10px; font-size: 12px; }
+  .sw b { display: block; font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .card { background: #fff; border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.07); overflow: hidden; }
+  .card.wide { grid-column: span 2; }
+  .head { padding: 14px 20px 0; display: flex; align-items: baseline; gap: 10px; }
+  .letter { font-weight: 700; color: #fff; background: var(--grey); border-radius: 6px; padding: 1px 8px; font-size: 14px; }
+  .head h2 { margin: 0; font-size: 18px; font-weight: 600; }
+  .rec { font-size: 11px; font-weight: 700; color: #2f5d50; background: var(--aqua); border-radius: 4px; padding: 2px 7px; }
+  .show { display: flex; gap: 12px; padding: 14px 20px; }
+  .tile { flex: 1; height: 130px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 14px; }
+  .light { background: #fff; border: 1px solid #eceef2; }
+  .dark { background: var(--ink); }
+  .icons { width: 150px; flex: 0 0 150px; background: var(--lavender); flex-direction: column; gap: 8px; }
+  .icons .row { display: flex; gap: 12px; align-items: center; }
+  .word { font-size: 34px; font-weight: 600; letter-spacing: .5px; line-height: 1; }
+  .word small { display: block; white-space: nowrap; font-size: 10px; font-weight: 500; letter-spacing: 1.8px; margin-top: 5px; opacity: .75; }
+  .light .word { color: var(--ink); }
+  .dark .word { color: #fff; }
+  .why { padding: 0 20px 16px; font-size: 13.5px; line-height: 1.5; color: #3d4a4a; }
+  .why b { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- Reusable symbols -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <!-- A: Lens network -->
+    <symbol id="lens" viewBox="0 0 90 90">
+      <line x1="58" y1="58" x2="78" y2="78" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="40" cy="40" r="27" fill="none" stroke="currentColor" stroke-width="8"/>
+      <line x1="30" y1="34" x2="50" y2="31" stroke="#B9CDDA" stroke-width="3"/>
+      <line x1="30" y1="34" x2="41" y2="51" stroke="#B9CDDA" stroke-width="3"/>
+      <line x1="50" y1="31" x2="41" y2="51" stroke="#B9CDDA" stroke-width="3"/>
+      <circle cx="30" cy="34" r="5" fill="#A6D8D4"/>
+      <circle cx="50" cy="31" r="5" fill="#A6D8D4"/>
+      <circle cx="41" cy="51" r="6.5" fill="#8EAF9D"/>
+    </symbol>
+    <!-- B: Pathfinder S -->
+    <symbol id="path" viewBox="0 0 90 90">
+      <path d="M66 22 C52 10 22 12 24 30 C26 46 64 42 66 60 C68 78 36 82 22 70" fill="none" stroke="#8EAF9D" stroke-width="10" stroke-linecap="round"/>
+      <path d="M66 22 C52 10 22 12 24 30 C26 46 64 42 66 60 C68 78 36 82 22 70" fill="none" stroke="#A6D8D4" stroke-width="2.5" stroke-dasharray="1 9" stroke-linecap="round"/>
+      <circle cx="22" cy="70" r="6" fill="none" stroke="currentColor" stroke-width="3.5"/>
+      <circle cx="66" cy="22" r="9" fill="currentColor"/>
+      <circle cx="66" cy="22" r="3.5" fill="#A6D8D4"/>
+    </symbol>
+    <!-- C: Shortlist -->
+    <symbol id="list" viewBox="0 0 90 90">
+      <rect x="14" y="18" width="62" height="11" rx="5.5" fill="#B9CDDA"/>
+      <rect x="14" y="37" width="44" height="11" rx="5.5" fill="#A6D8D4"/>
+      <rect x="14" y="56" width="26" height="11" rx="5.5" fill="#8EAF9D"/>
+      <circle cx="62" cy="62" r="13" fill="currentColor"/>
+      <path d="M56 62 l4.5 4.5 l8 -9" fill="none" stroke="#A6D8D4" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <!-- D: Enso lens -->
+    <symbol id="enso" viewBox="0 0 90 90">
+      <circle cx="45" cy="45" r="29" fill="none" stroke="#8EAF9D" stroke-width="10" stroke-linecap="round" stroke-dasharray="150 32" transform="rotate(-55 45 45)"/>
+      <circle cx="45" cy="45" r="29" fill="none" stroke="#A6D8D4" stroke-width="3" stroke-linecap="round" stroke-dasharray="60 122" transform="rotate(-20 45 45)" opacity=".9"/>
+      <circle cx="53" cy="38" r="7" fill="currentColor"/>
+    </symbol>
+    <!-- E: Hanko seal -->
+    <symbol id="seal" viewBox="0 0 90 90">
+      <rect x="10" y="10" width="70" height="70" rx="16" fill="#6B7D7D"/>
+      <rect x="16" y="16" width="58" height="58" rx="11" fill="none" stroke="#A6D8D4" stroke-width="2"/>
+      <text x="45" y="59" text-anchor="middle" font-family="Yu Gothic UI, Yu Gothic, Meiryo, sans-serif" font-weight="700" font-size="40" fill="#FFFFFF">探</text>
+    </symbol>
+  </defs>
+</svg>
+
+<h1>Sagasu — Logo options</h1>
+<div class="sub">探す (sagasu) = « chercher, trouver » · 5 pistes construites sur la palette B2B · v1 · 23 novembre 2026</div>
+
+<div class="palette">
+  <div class="sw" style="background:#D7DAE5"><b>Lavender</b>#D7DAE5 · fonds</div>
+  <div class="sw" style="background:#B9CDDA"><b>Pale Sky</b>#B9CDDA · secondaire</div>
+  <div class="sw" style="background:#A6D8D4"><b>Pearl Aqua</b>#A6D8D4 · accent IA</div>
+  <div class="sw" style="background:#8EAF9D"><b>Muted Teal</b>#8EAF9D · primaire</div>
+  <div class="sw" style="background:#6B7D7D;color:#fff"><b>Grey</b>#6B7D7D · texte secondaire</div>
+  <div class="sw" style="background:#2E3A3A;color:#fff"><b>Ink (ajout proposé)</b>#2E3A3A · texte &amp; logo</div>
+</div>
+
+<div class="grid">
+
+  <!-- A -->
+  <div class="card">
+    <div class="head"><span class="letter">A</span><h2>Lens Network</h2><span class="rec">RECOMMANDÉ</span></div>
+    <div class="show">
+      <div class="tile light"><svg width="74" height="74" style="color:#2E3A3A"><use href="#lens"/></svg><div class="word">sagasu<small>SUPPLIER DISCOVERY</small></div></div>
+      <div class="tile dark"><svg width="74" height="74" style="color:#FFFFFF"><use href="#lens"/></svg><div class="word">sagasu</div></div>
+      <div class="tile icons"><div class="row"><svg width="48" height="48" style="color:#2E3A3A"><use href="#lens"/></svg><svg width="24" height="24" style="color:#2E3A3A"><use href="#lens"/></svg></div></div>
+    </div>
+    <div class="why"><b>Idée :</b> une loupe (chercher) qui révèle un réseau de fournisseurs connectés. Le nœud plus foncé = le fournisseur retenu. <b>Pourquoi :</b> compris en une seconde par un acheteur ou un investisseur, sérieux, lisible en favicon.</div>
+  </div>
+
+  <!-- B -->
+  <div class="card">
+    <div class="head"><span class="letter">B</span><h2>Pathfinder S</h2></div>
+    <div class="show">
+      <div class="tile light"><svg width="74" height="74" style="color:#2E3A3A"><use href="#path"/></svg><div class="word">sagasu<small>SUPPLIER DISCOVERY</small></div></div>
+      <div class="tile dark"><svg width="74" height="74" style="color:#FFFFFF"><use href="#path"/></svg><div class="word">sagasu</div></div>
+      <div class="tile icons"><div class="row"><svg width="48" height="48" style="color:#2E3A3A"><use href="#path"/></svg><svg width="24" height="24" style="color:#2E3A3A"><use href="#path"/></svg></div></div>
+    </div>
+    <div class="why"><b>Idée :</b> le « S » de Sagasu dessiné comme un trajet : point de départ (le besoin) → destination (le bon fournisseur). <b>Pourquoi :</b> raconte le parcours de l'app, de la liste de matériaux à la bidder list. Plus dynamique, un peu moins évident en petit.</div>
+  </div>
+
+  <!-- C -->
+  <div class="card">
+    <div class="head"><span class="letter">C</span><h2>Shortlist</h2></div>
+    <div class="show">
+      <div class="tile light"><svg width="74" height="74" style="color:#2E3A3A"><use href="#list"/></svg><div class="word">sagasu<small>SUPPLIER DISCOVERY</small></div></div>
+      <div class="tile dark"><svg width="74" height="74" style="color:#6B7D7D"><use href="#list"/></svg><div class="word">sagasu</div></div>
+      <div class="tile icons"><div class="row"><svg width="48" height="48" style="color:#2E3A3A"><use href="#list"/></svg><svg width="24" height="24" style="color:#2E3A3A"><use href="#list"/></svg></div></div>
+    </div>
+    <div class="why"><b>Idée :</b> beaucoup de fournisseurs → une liste courte validée (✓). <b>Pourquoi :</b> montre le résultat concret du produit — la bidder list approuvée. Très « outil SaaS », mais moins distinctif (proche d'icônes de to-do lists).</div>
+  </div>
+
+  <!-- D -->
+  <div class="card">
+    <div class="head"><span class="letter">D</span><h2>Ensō Lens</h2></div>
+    <div class="show">
+      <div class="tile light"><svg width="74" height="74" style="color:#2E3A3A"><use href="#enso"/></svg><div class="word">sagasu<small>SUPPLIER DISCOVERY</small></div></div>
+      <div class="tile dark"><svg width="74" height="74" style="color:#FFFFFF"><use href="#enso"/></svg><div class="word">sagasu</div></div>
+      <div class="tile icons"><div class="row"><svg width="48" height="48" style="color:#2E3A3A"><use href="#enso"/></svg><svg width="24" height="24" style="color:#2E3A3A"><use href="#enso"/></svg></div></div>
+    </div>
+    <div class="why"><b>Idée :</b> l'ensō (cercle zen tracé d'un seul geste) qui devient une lentille ; le point = ce qu'on a trouvé. <b>Pourquoi :</b> ancrage japonais élégant et calme, très premium. Risque : plus abstrait, le lien « recherche » demande une explication.</div>
+  </div>
+
+  <!-- E -->
+  <div class="card wide">
+    <div class="head"><span class="letter">E</span><h2>Hanko Seal 探</h2></div>
+    <div class="show">
+      <div class="tile light"><svg width="74" height="74"><use href="#seal"/></svg><div class="word">sagasu<small>探す · SUPPLIER DISCOVERY</small></div></div>
+      <div class="tile dark"><svg width="74" height="74"><use href="#seal"/></svg><div class="word">sagasu<small>探す</small></div></div>
+      <div class="tile icons"><div class="row"><svg width="48" height="48"><use href="#seal"/></svg><svg width="24" height="24"><use href="#seal"/></svg></div></div>
+    </div>
+    <div class="why"><b>Idée :</b> le kanji 探 (« chercher », première lettre de 探す) dans un sceau hanko — le tampon utilisé au Japon pour <b>approuver</b> les documents. <b>Pourquoi :</b> relie les deux moitiés du produit, chercher (探) et approuver (hanko), et ancre la startup à Tokyo. Parfait aussi comme badge « Approuvé » dans l'app. Limite : moins parlant pour un public non japonais sans le mot « sagasu » à côté.</div>
+  </div>
+
+</div>
+</body>
+</html>

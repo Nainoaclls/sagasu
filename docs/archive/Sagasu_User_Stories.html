@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sagasu — User Stories</title>
+<style>
+  @page { size: A4; margin: 12mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1f2933; font-size: 10pt; margin: 0; }
+  header { border-bottom: 3px solid #1e3a8a; padding-bottom: 10px; margin-bottom: 16px; }
+  h1 { margin: 0; font-size: 22pt; color: #1e3a8a; letter-spacing: .5px; }
+  .sub { color: #52606d; margin-top: 4px; font-size: 10.5pt; }
+  .meta { color: #7b8794; font-size: 9pt; margin-top: 6px; }
+  h2 { font-size: 12.5pt; color: #1e3a8a; margin: 12px 0 6px; }
+  table { width: 100%; border-collapse: collapse; page-break-inside: auto; }
+  tr { page-break-inside: avoid; }
+  th { background: #1e3a8a; color: #fff; text-align: left; padding: 7px 9px; font-size: 9.5pt; font-weight: 600; }
+  td { padding: 4px 9px; border-bottom: 1px solid #e4e7eb; vertical-align: top; }
+  tbody tr:nth-child(even) td { background: #f5f7fa; }
+  td.p { width: 9%; text-align: center; font-weight: 700; color: #1e3a8a; }
+  td.s { width: 55%; }
+  .ai td { background: #eef4ff !important; }
+  .tag { display: inline-block; font-size: 7.5pt; font-weight: 700; color: #1e40af; background: #dbe6ff; border-radius: 3px; padding: 1px 5px; margin-left: 4px; vertical-align: 1px; }
+  .later td.p { color: #7b8794; }
+  .legend { font-size: 9pt; color: #52606d; margin-top: 10px; }
+  .roles { display: flex; gap: 10px; margin-top: 4px; }
+  .role { flex: 1; border: 1px solid #e4e7eb; border-radius: 6px; padding: 8px 10px; font-size: 9.5pt; }
+  .role b { color: #1e3a8a; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Sagasu — User Stories</h1>
+  <div class="sub">AI-assisted supplier discovery &amp; bidder-list creation · Le Wagon Tokyo final project</div>
+  <div class="meta">Version 1.0 · 23 November 2026</div>
+</header>
+
+<h2>Users</h2>
+<div class="roles">
+  <div class="role"><b>Visitor</b><br>Discovers Sagasu before signing up.</div>
+  <div class="role"><b>Buyer</b><br>Creates RFQ projects, reviews AI suggestions, builds the bidder list.</div>
+  <div class="role"><b>Approver</b><br>Manager who validates or returns bidder lists.</div>
+</div>
+
+<h2>MVP — Demo Day scope</h2>
+<table>
+  <thead><tr><th>Priority</th><th>User Story</th><th>So that</th></tr></thead>
+  <tbody>
+    <tr><td class="p">1</td><td class="s">As a visitor I can visit the home page</td><td>I can discover what Sagasu does</td></tr>
+    <tr><td class="p">2</td><td class="s">As a user I can sign up / log in</td><td>my projects and comments are linked to me</td></tr>
+    <tr><td class="p">3</td><td class="s">As a buyer I can create a Request For Quotation (RFQ) project</td><td>I can organize a new purchase</td></tr>
+    <tr><td class="p">4</td><td class="s">As a buyer I can add my list of materials to a project</td><td>I can tell what I need to buy</td></tr>
+    <tr class="ai"><td class="p">5</td><td class="s">As a buyer I can review the AI proposal for item groups <span class="tag">AI</span></td><td>similar materials are grouped together</td></tr>
+    <tr class="ai"><td class="p">6</td><td class="s">As a buyer I can edit the item groups (rename, move items) <span class="tag">AI</span></td><td>I can fix groups the AI got wrong</td></tr>
+    <tr class="ai"><td class="p">7</td><td class="s">As a buyer I can review the AI supplier suggestions for each group, with the reason <span class="tag">AI</span></td><td>I understand why each supplier is recommended</td></tr>
+    <tr class="ai"><td class="p">8</td><td class="s">As a buyer I can select or remove suggested suppliers <span class="tag">AI</span></td><td>I keep the final decision</td></tr>
+    <tr class="ai"><td class="p">9</td><td class="s">As a buyer I can search suppliers and add one to a group <span class="tag">AI</span></td><td>I can include suppliers the AI missed</td></tr>
+    <tr><td class="p">10</td><td class="s">As a buyer I can see a supplier's profile and colleagues' reviews</td><td>I benefit from my team's experience</td></tr>
+    <tr><td class="p">11</td><td class="s">As a buyer I can write a review on a supplier and choose its visibility</td><td>I share knowledge without exposing sensitive info</td></tr>
+    <tr><td class="p">12</td><td class="s">As a buyer I can send my bidder list for approval</td><td>my manager can validate it</td></tr>
+    <tr><td class="p">13</td><td class="s">As an approver I can see the bidder lists waiting for my approval</td><td>I know what I need to review</td></tr>
+    <tr><td class="p">14</td><td class="s">As an approver I can approve or return a bidder list with a comment</td><td>the decision is validated and traceable</td></tr>
+  </tbody>
+</table>
+<div class="legend"><span class="tag">AI</span> Highlighted rows are the core AI experience: grouping and supplier recommendation, always under the buyer's control.</div>
+
+<h2>Roadmap — after MVP</h2>
+<table>
+  <thead><tr><th>Priority</th><th>User Story</th><th>So that</th></tr></thead>
+  <tbody>
+    <tr class="later"><td class="p">Later</td><td class="s">As a buyer I can invite a colleague to a project</td><td>we can work on it together</td></tr>
+    <tr class="later"><td class="p">Later</td><td class="s">As a buyer I can receive supplier proposals</td><td>I can compare quotes</td></tr>
+  </tbody>
+</table>
+</body>
+</html>
