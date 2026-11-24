@@ -6,6 +6,8 @@ class GroupSupplier < ApplicationRecord
     "Lead time too long",
     "Known quality issues"
   ].freeze
+  # Stored when the buyer declines without picking a reason, so the decline is still recorded
+  NO_REASON = "No reason given".freeze
 
   belongs_to :item_group
   belongs_to :supplier

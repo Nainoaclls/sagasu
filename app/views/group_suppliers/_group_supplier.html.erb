@@ -72,8 +72,10 @@
     <%# Story 8: declining an AI suggestion asks why. The reason improves the next suggestions. %>
     <dialog class="sg-dialog" data-dialog-target="dialog" data-action="click->dialog#backdrop close->dialog#restoreFocus"
             aria-labelledby="<%= dom_id(link, :dialog_title) %>">
-      <%= form_with model: link, method: :patch do |f| %>
+      <%= form_with model: link, method: :patch, data: { action: "submit->dialog#release" } do |f| %>
         <%= f.hidden_field :selected, value: false %>
+        <%# Sent when no reason is picked; a checked radio below comes later in the form and wins %>
+        <%= f.hidden_field :feedback_reason, value: GroupSupplier::NO_REASON, id: nil %>
         <div class="sg-dialog-body">
           <h2 id="<%= dom_id(link, :dialog_title) %>">Why not <%= supplier.name %>?</h2>
           <p class="text-muted mb-0">Optional. Your reason helps Sagasu suggest better suppliers. It is a hint, never a blacklist.</p>

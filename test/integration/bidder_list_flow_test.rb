@@ -67,6 +67,17 @@ class BidderListFlowTest < ActionDispatch::IntegrationTest
     assert link.reload.rejected_suggestion?
   end
 
+  test "declining without a reason is still recorded" do
+    sign_in_as @buyer
+    project = create_project(user: @buyer, materials: "Bricks; 100; pcs")
+    link = project.item_groups.create!(title: "Masonry").group_suppliers.create!(supplier: @supplier, ai_suggested: true, source: :ai)
+
+    patch group_supplier_path(link), params: { group_supplier: { selected: false, feedback_reason: GroupSupplier::NO_REASON } }
+    assert link.reload.rejected_suggestion?
+    follow_redirect!
+    assert_select ".sg-toast", /Kanto Bricks declined\./
+  end
+
   test "a buyer cannot open or change another buyer's project" do
     other = create_project(user: create_user(name: "Other Buyer"))
     sign_in_as @buyer

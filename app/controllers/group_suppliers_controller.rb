@@ -49,12 +49,11 @@ class GroupSuppliersController < ApplicationController
 
   def update_notice
     name = @group_supplier.supplier.name
-    if @group_supplier.selected?
-      "#{name} added to the bidder list."
-    elsif @group_supplier.feedback_reason.present?
-      "#{name} removed. Thanks, your reason helps future suggestions."
-    else
-      "#{name} removed from the bidder list."
-    end
+    return "#{name} added to the bidder list." if @group_supplier.selected?
+
+    action = @group_supplier.saved_change_to_selected? ? "removed from the bidder list" : "declined"
+    reason = @group_supplier.feedback_reason
+    given = reason.present? && reason != GroupSupplier::NO_REASON
+    "#{name} #{action}.#{' Thanks, your reason helps future suggestions.' if given}"
   end
 end
