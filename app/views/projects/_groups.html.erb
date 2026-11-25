@@ -42,10 +42,10 @@
   <% if can_edit && project.items.any? %>
     <details class="sg-add-group mt-3">
       <summary><%= icon("fa-plus") %> Add a group by hand</summary>
-      <%= form_with model: [project, ItemGroup.new], class: "d-flex flex-wrap gap-2 mt-3" do |f| %>
-        <%= f.label :title, "Group name", class: "visually-hidden" %>
-        <%= f.text_field :title, class: "form-control", placeholder: "e.g. Waterproofing", required: true, maxlength: 80, style: "max-width: 320px" %>
-        <%= f.button class: "btn btn-ghost" do %><%= icon("fa-plus") %> Add group<% end %>
+      <%= simple_form_for [project, ItemGroup.new], html: { class: "d-flex flex-wrap align-items-start gap-2 mt-3" } do |f| %>
+        <%= f.input :title, label: "Group name", label_html: { class: "visually-hidden" }, wrapper_html: { class: "mb-0" },
+                    input_html: { placeholder: "e.g. Waterproofing", maxlength: 80, style: "max-width: 320px" } %>
+        <%= f.button :button, class: "btn-ghost" do %><%= icon("fa-plus") %> Add group<% end %>
       <% end %>
     </details>
   <% end %>

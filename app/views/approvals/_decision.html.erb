@@ -14,16 +14,16 @@
     </div>
   </div>
 
-  <%= form_with model: approval, class: "sg-decision-form" do |f| %>
-    <%= f.label :comment, "Comment", class: "form-label" %>
-    <%= f.text_area :comment, rows: 2, class: "form-control", maxlength: 1000, "aria-describedby": "decision-help",
-                    placeholder: "Required when you return the list: what should the buyer change?" %>
-    <p id="decision-help" class="form-text">The buyer sees your comment. Returning the list unlocks it for changes.</p>
+  <%= simple_form_for approval, html: { class: "sg-decision-form" } do |f| %>
+    <%= f.input :comment, as: :text, label: "Comment", required: false,
+                hint: "The buyer sees your comment. Returning the list unlocks it for changes.",
+                input_html: { rows: 2, maxlength: 1000,
+                              placeholder: "Required when you return the list: what should the buyer change?" } %>
     <div class="d-flex flex-wrap gap-2 justify-content-end">
-      <%= f.button name: "approval[status]", value: "returned", class: "btn btn-ghost" do %>
+      <%= f.button :button, name: "approval[status]", value: "returned", class: "btn-ghost" do %>
         <%= icon("fa-rotate-left") %> Return to buyer
       <% end %>
-      <%= f.button name: "approval[status]", value: "approved", class: "btn btn-primary",
+      <%= f.button :button, name: "approval[status]", value: "approved", class: "btn-primary",
                    data: { controller: "ripple", action: "click->ripple#burst" } do %>
         <%= icon("fa-stamp") %> Approve bidder list
       <% end %>
