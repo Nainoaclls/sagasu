@@ -1,31 +1,33 @@
 class GroupSuppliersController < ApplicationController
-  # Story 7: AI supplier suggestions for one group
+  include ProjectWorkspace
+
+  # Story 7: AI supplier suggestions for one group, run in the background by SuggestSuppliersJob
   def suggest
     item_group = ItemGroup.find(params[:item_group_id])
     authorize GroupSupplier.new(item_group: item_group)
+    project = item_group.project
+    if project.suggesting_group_ids.include?(item_group.id)
+      return respond_with_group(item_group, alert: "Sagasu is already searching for this group.")
+    end
 
-    run = Ai::SupplierRecommender.new(item_group: item_group, user: current_user).call
-    count = run.group_suppliers.count
-    message = if count.zero?
-                { alert: "No new supplier matched “#{item_group.title}”. Try the search to add one." }
-              else
-                { notice: "#{count} supplier#{'s' if count > 1} suggested for “#{item_group.title}”#{' (offline matching)' if run.fallback?}." }
-              end
-    redirect_to item_group.project, status: :see_other, **message
+    AiRun.transaction do
+      SuggestSuppliersJob.perform_later(project.ai_runs.create!(user: current_user, kind: :supplier_suggestion,
+                                                                item_group: item_group))
+    end
+    respond_with_group(item_group, notice: "Sagasu is looking for suppliers for “#{item_group.title}”.")
   end
 
   # Story 9: add a supplier found by search; it goes straight to the bidder list
   def create
     item_group = ItemGroup.find(params[:item_group_id])
-    @group_supplier = item_group.group_suppliers.new(supplier_id: params.dig(:group_supplier, :supplier_id),
-                                                     source: :search, selected: true)
-    authorize @group_supplier
+    group_supplier = item_group.group_suppliers.new(supplier_id: params.dig(:group_supplier, :supplier_id),
+                                                    source: :search, selected: true)
+    authorize group_supplier
 
-    if @group_supplier.save
-      redirect_to item_group.project, notice: "#{@group_supplier.supplier.name} added to “#{item_group.title}”.",
-                                      status: :see_other
+    if group_supplier.save
+      respond_with_group(item_group, notice: "#{group_supplier.supplier.name} added to “#{item_group.title}”.")
     else
-      redirect_to item_group.project, alert: @group_supplier.errors.full_messages.to_sentence, status: :see_other
+      respond_with_group(item_group, alert: group_supplier.errors.full_messages.to_sentence)
     end
   end
 
@@ -35,13 +37,17 @@ class GroupSuppliersController < ApplicationController
     authorize @group_supplier
 
     if @group_supplier.update(group_supplier_params)
-      redirect_to @group_supplier.project, notice: update_notice, status: :see_other
+      respond_with_group(@group_supplier.item_group, notice: update_notice)
     else
-      redirect_to @group_supplier.project, alert: @group_supplier.errors.full_messages.to_sentence, status: :see_other
+      respond_with_group(@group_supplier.item_group, alert: @group_supplier.errors.full_messages.to_sentence)
     end
   end
 
   private
+
+  def respond_with_group(item_group, **messages)
+    respond_with_workspace(item_group.project, stream: "projects/group", group: item_group, **messages)
+  end
 
   def group_supplier_params
     params.require(:group_supplier).permit(:selected, :feedback_reason)

@@ -38,10 +38,14 @@ OPENAI_API_KEY=sk-...
 Without a key, or if the API fails or times out, Sagasu falls back to its own local matching, so a demo never breaks.
 `SAGASU_AI_DISABLED=1` forces the local mode (tests and seeds use it). `SAGASU_AI_MODEL` overrides the model (default `gpt-4.1`).
 
+AI calls run in **background jobs** (`GroupItemsJob`, `SuggestSuppliersJob`): the page shows "Sagasu is searching…" and updates
+itself through Action Cable when the job is done. In development jobs run inside `bin/rails server` (async adapter).
+In production (Heroku) run them inside Puma with Solid Queue: set `SOLID_QUEUE_IN_PUMA=true`.
+
 ## Tests and checks
 
 ```bash
-bin/rails test     # models, AI services (local mode), full user journey and access rules
+bin/rails test     # models, AI services and jobs (local mode), Turbo Stream responses, full user journey, access rules
 bin/rubocop
 bin/brakeman
 ```
@@ -58,9 +62,11 @@ bin/brakeman
 | Plain Ruby models | `MaterialListParser`, `MaterialCategory`, `Prefecture`, `DashboardStats` | Parsing pasted lists, material taxonomy, dashboard counters |
 | Policies | `app/policies` (Pundit) | Who can see or change what. Every action is authorized, every index is scoped |
 | Services | `app/services/ai` | `ItemGrouper`, `SupplierRecommender`, `LocalSupplierMatcher`, `SupplierContext`, versioned `Prompts` |
-| Controllers | `app/controllers` | Thin: find, authorize, delegate, redirect. Routes follow `docs/Sagasu_Routes.pdf` |
-| Views | `app/views` | ERB partials, Turbo morph refresh after each action (no page flash, scroll kept), Turbo Frames for live search |
-| Front end | `app/javascript/controllers` | Stimulus: reveal, countup, tilt, demo, ripple, toast, dialog, AI busy overlay, autosubmit, filter |
+| Jobs | `app/jobs` | `GroupItemsJob`, `SuggestSuppliersJob` (ActiveJob): run the AI, then `broadcast_append_to` a toast and `broadcast_refresh_to` the project |
+| Controllers | `app/controllers` | Thin: find, authorize, delegate, respond. Turbo Stream when possible, redirect as fallback (`ProjectWorkspace` concern). Routes follow `docs/Sagasu_Routes.pdf` |
+| Views | `app/views` | ERB partials + Simple Form. `*.turbo_stream.erb` replace only what changed; Turbo Frames for live search and renaming a group in place |
+| UI | Bootstrap 5.3 | Brand colors in `$theme-colors` (Tangerine = `accent`): cards, badges, nav-pills, progress, tables, pagination, Modal, Toast |
+| Front end | `app/javascript` (importmap) | Stimulus controllers (reveal, countup, tilt, demo, typed, ripple, toast, modal, tom-select, autosubmit, filter, materials, visibility), SweetAlert2 for confirmations, Tom Select, Typed.js |
 
 ### Product rules built in
 
@@ -73,5 +79,5 @@ bin/brakeman
 ### Accessibility
 
 Skip link, landmarks, one visible focus style, 44 px touch targets, labelled form fields, statuses always with text (never color alone),
-native `<dialog>` for modals, live regions for toasts and search results, WCAG AA contrast (ratios documented in `config/_colors.scss`),
+Bootstrap modals (focus trap, Escape), live regions for toasts and search results, WCAG AA contrast (ratios documented in `config/_colors.scss`),
 `prefers-reduced-motion` respected by every animation, pages usable without JavaScript where possible.

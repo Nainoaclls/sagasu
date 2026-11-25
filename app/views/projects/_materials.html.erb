@@ -1,11 +1,11 @@
-<section id="materials" class="sg-card mb-4" aria-labelledby="materials-title">
+<section id="materials" class="card card-body mb-4" aria-labelledby="materials-title">
   <div class="sg-section-title">
-    <h2 id="materials-title"><%= icon("fa-cubes-stacked") %> Materials <span class="sg-badge sg-badge-info"><%= project.items.size %></span></h2>
+    <h2 id="materials-title"><%= icon("fa-cubes-stacked") %> Materials <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis"><%= project.items.size %></span></h2>
   </div>
 
   <% if project.items.any? %>
-    <div class="sg-table-wrap">
-      <table class="sg-table">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle sg-table">
         <caption class="visually-hidden">Materials of this RFQ and their group</caption>
         <thead>
           <tr>
@@ -25,12 +25,13 @@
               <td class="sg-number text-nowrap"><%= item.quantity_label %></td>
               <td>
                 <% if can_edit && project.item_groups.any? %>
-                  <%= form_with model: item, data: { controller: "autosubmit" } do |f| %>
-                    <%= f.label :item_group_id, "Group for #{item.description}", class: "visually-hidden", for: "item_group_#{item.id}" %>
-                    <%= f.select :item_group_id, project.item_groups.map { |group| [group.title, group.id] },
-                                 { include_blank: "Not grouped" },
-                                 { class: "form-select form-select-sm", id: "item_group_#{item.id}", data: { action: "change->autosubmit#now" } } %>
-                    <noscript><%= f.submit "Move", class: "btn btn-sm btn-ghost mt-1" %></noscript>
+                  <%= simple_form_for item, data: { controller: "autosubmit" } do |f| %>
+                    <%= f.input :item_group_id, collection: project.item_groups, label_method: :title, value_method: :id,
+                                include_blank: "Not grouped", label: "Group for #{item.description}",
+                                label_html: { class: "visually-hidden" }, wrapper_html: { class: "mb-0" },
+                                input_html: { class: "form-select-sm", id: "item_group_#{item.id}",
+                                              data: { action: "change->autosubmit#now" } } %>
+                    <noscript><%= f.button :submit, "Move", class: "btn-sm btn-outline-primary mt-1" %></noscript>
                   <% end %>
                 <% elsif item.item_group %>
                   <span class="sg-chip"><%= item.item_group.title %></span>
@@ -59,15 +60,15 @@
   <% if can_edit %>
     <details class="sg-add-materials" <%= "open" if project.items.empty? %>>
       <summary><%= icon("fa-plus") %> Add materials</summary>
-      <%= form_with url: project_items_path(project), scope: :items, class: "mt-3", data: { controller: "materials" } do |f| %>
-        <%= f.label :materials_text, "Paste one material per line", class: "form-label" %>
-        <%= f.text_area :materials_text, rows: 5, class: "form-control sg-paste", required: true,
-                        placeholder: "Facing bricks, red; 50000; pcs\nMortar mix M4; 300; bag",
-                        "aria-describedby": "add-materials-count",
-                        data: { materials_target: "input", action: "input->materials#update" } %>
+      <%= simple_form_for :items, url: project_items_path(project), html: { class: "mt-3", data: { controller: "materials" } } do |f| %>
+        <%= f.input :materials_text, as: :text, label: "Paste one material per line", required: true,
+                    wrapper_html: { class: "mb-0" },
+                    input_html: { rows: 5, class: "sg-paste", "aria-describedby": "add-materials-count",
+                                  placeholder: "Facing bricks, red; 50000; pcs\nMortar mix M4; 300; bag",
+                                  data: { materials_target: "input", action: "input->materials#update" } } %>
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-2">
           <span id="add-materials-count" class="sg-hint-count" data-materials-target="count" aria-live="polite">One material per line</span>
-          <%= f.button class: "btn btn-primary", data: { controller: "ripple", action: "click->ripple#burst" } do %>
+          <%= f.button :button, class: "btn-primary", data: { controller: "ripple", action: "click->ripple#burst" } do %>
             <%= icon("fa-plus") %> Add to project
           <% end %>
         </div>

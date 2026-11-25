@@ -12,10 +12,10 @@
             <span class="sg-caption d-block"><%= supplier.location %> · <%= supplier.category_label %></span>
           </div>
           <% if linked_ids.include?(supplier.id) %>
-            <span class="sg-badge sg-badge-outline">Already in group</span>
+            <span class="badge rounded-pill border text-body-secondary">Already in group</span>
           <% else %>
             <%= button_to item_group_group_suppliers_path(item_group), params: { group_supplier: { supplier_id: supplier.id } },
-                  class: "btn btn-ghost btn-sm", form: { data: { turbo_frame: "_top" } },
+                  class: "btn btn-outline-primary btn-sm", form: { data: { turbo_frame: "_top" } },
                   "aria-label": "Add #{supplier.name} to #{item_group.title}" do %>
               <%= icon("fa-plus") %> Add
             <% end %>

@@ -1,7 +1,4 @@
-// ---------- New project ----------
-.sg-new-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1.5rem; align-items: start;
-  @media (max-width: 991.98px) { grid-template-columns: minmax(0, 1fr); } }
-.sg-new-aside { position: sticky; top: 92px; }
+// ---------- New project (layout: Bootstrap row / col-lg-8 + col-lg-4) ----------
 .sg-new-mascot { width: 120px; height: auto; display: block; margin: -.5rem auto .5rem; }
 .sg-next-steps { padding-left: 1.25rem; margin: 0; font-size: .9375rem; color: $muted; li { margin-bottom: .75rem; } strong { color: $ink; } }
 
@@ -24,11 +21,6 @@
   > i { position: absolute; left: 1.1rem; top: 1.15rem; color: $tangerine; }
   p { margin: 0; }
 }
-
-.sg-workspace-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 1.5rem; align-items: start;
-  @media (max-width: 1099.98px) { grid-template-columns: minmax(0, 1fr); } }
-.sg-workspace-aside { position: sticky; top: 92px;
-  @media (max-width: 1099.98px) { position: static; } }
 
 .sg-banner {
   display: flex; gap: 1rem; align-items: flex-start; border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;

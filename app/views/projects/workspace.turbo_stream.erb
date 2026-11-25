@@ -1,0 +1,7 @@
+<%# After a change to materials or groups: replace each part of the workspace that depends on them %>
+<% can_edit = policy(@project).edit_content? %>
+<%= turbo_stream.replace "project_stepper", partial: "projects/stepper", locals: { project: @project } %>
+<%= turbo_stream.replace "materials", partial: "projects/materials", locals: { project: @project, can_edit: can_edit } %>
+<%= turbo_stream.replace "groups", partial: "projects/groups", locals: { project: @project, can_edit: can_edit } %>
+<%= turbo_stream.replace "bidder_list", partial: "projects/bidder_list", locals: { project: @project, approvers: @approvers } %>
+<%= render "shared/stream_toasts" %>

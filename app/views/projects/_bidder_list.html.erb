@@ -1,7 +1,8 @@
-<div class="sg-card sg-bidder-card">
+<div id="bidder_list">
+<div class="card card-body sg-bidder-card">
   <div class="sg-section-title mb-2">
     <h2><%= icon("fa-list-check") %> Bidder list</h2>
-    <span class="sg-count" aria-label="<%= project.selected_suppliers_size %> suppliers selected"><%= project.selected_suppliers_size %></span>
+    <span class="badge rounded-pill text-bg-accent" aria-label="<%= project.selected_suppliers_size %> suppliers selected"><%= project.selected_suppliers_size %></span>
   </div>
 
   <% if project.item_groups.empty? %>
@@ -25,18 +26,15 @@
   <% if policy(project).submit? %>
     <hr class="sg-divider">
     <% if project.ready_for_approval? %>
-      <%= form_with model: [project, Approval.new], class: "sg-submit-form" do |f| %>
+      <%# :approval scope (no object): buyer_comment belongs to the project, not to the approval %>
+      <%= simple_form_for :approval, url: project_approvals_path(project), html: { class: "sg-submit-form" } do |f| %>
         <h3 class="h6"><%= icon("fa-paper-plane") %> Send for approval</h3>
-        <div class="mb-3">
-          <%= f.label :approver_id, "Approver", class: "form-label" %>
-          <%= f.collection_select :approver_id, approvers, :id, :name, { prompt: "Choose an approver" }, class: "form-select", required: true %>
-        </div>
-        <div class="mb-3">
-          <%= label_tag "approval_buyer_comment", "Comment for the approver", class: "form-label" %>
-          <%= text_area_tag "approval[buyer_comment]", project.buyer_comment, id: "approval_buyer_comment", rows: 3,
-                            class: "form-control", maxlength: 1000, placeholder: "Why these bidders, anything to watch…" %>
-        </div>
-        <%= f.button class: "btn btn-primary w-100", data: { controller: "ripple", action: "click->ripple#burst" } do %>
+        <%= f.input :approver_id, label: "Approver", collection: approvers, label_method: :name, value_method: :id,
+                    prompt: "Choose an approver", required: true %>
+        <%= f.input :buyer_comment, as: :text, label: "Comment for the approver", required: false,
+                    input_html: { rows: 3, maxlength: 1000, value: project.buyer_comment,
+                                  placeholder: "Why these bidders, anything to watch…" } %>
+        <%= f.button :button, class: "btn-primary w-100", data: { controller: "ripple", action: "click->ripple#burst" } do %>
           <%= icon("fa-paper-plane") %> Send for approval
         <% end %>
       <% end %>
@@ -54,7 +52,7 @@
 </div>
 
 <% if project.approvals.any? %>
-  <section class="sg-card mt-3" aria-labelledby="history-title">
+  <section class="card card-body mt-3" aria-labelledby="history-title">
     <h2 id="history-title" class="h6 mb-3"><%= icon("fa-clock-rotate-left") %> Approval history</h2>
     <ol class="sg-timeline">
       <% project.approvals.reverse_each do |approval| %>
@@ -82,3 +80,4 @@
     </ol>
   </section>
 <% end %>
+</div>

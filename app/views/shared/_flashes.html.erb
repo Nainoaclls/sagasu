@@ -1,15 +1,11 @@
-<%# Toasts: announced politely by screen readers, auto-close, pause on hover/focus %>
-<div class="sg-toasts" aria-live="polite" aria-atomic="false">
-  <% flash_toasts.each do |type, (css, icon_name, label)| %>
-    <% next if flash[type].blank? %>
-    <div class="sg-toast <%= css %>" role="status" data-controller="toast"
-         data-action="mouseenter->toast#pause mouseleave->toast#resume focusin->toast#pause focusout->toast#resume">
-      <%= icon(icon_name) %>
-      <div class="sg-toast-body">
-        <span class="visually-hidden"><%= label %>:</span>
-        <%= flash[type] %>
-      </div>
-      <button type="button" class="btn-close" aria-label="Dismiss message" data-action="toast#close"></button>
-    </div>
-  <% end %>
+<%# Bootstrap toast container, announced politely by screen readers.
+    #flashes: messages of this page load (flash). #toasts: Turbo Stream / broadcast target, kept across
+    page refreshes (data-turbo-permanent) so a broadcast toast is not wiped by the morph that follows. %>
+<div class="toast-container position-fixed bottom-0 end-0 p-3" aria-live="polite" aria-atomic="false">
+  <div id="flashes" class="d-flex flex-column gap-2">
+    <% flash_toasts.each_key do |type| %>
+      <%= render "shared/toast", type: type, message: flash[type] if flash[type].present? %>
+    <% end %>
+  </div>
+  <div id="toasts" class="d-flex flex-column gap-2" data-turbo-permanent></div>
 </div>

@@ -1,0 +1,13 @@
+<%# One Bootstrap toast. Rendered from flash (layout), Turbo Stream responses and job broadcasts.
+    toast_controller.js shows it; Bootstrap pauses the timer on hover and focus. %>
+<% css, icon_name, label = flash_toasts.fetch(type.to_sym) %>
+<div class="toast text-bg-dark border-0 sg-toast <%= css %>" role="status" aria-atomic="true"
+     data-controller="toast" data-bs-delay="6000">
+  <div class="d-flex align-items-start">
+    <div class="toast-body d-flex gap-2">
+      <%= icon(icon_name, class: "mt-1") %>
+      <span><span class="visually-hidden"><%= label %>:</span> <%= message %></span>
+    </div>
+    <button type="button" class="btn-close btn-close-white me-2 mt-2 ms-auto" data-bs-dismiss="toast" aria-label="Dismiss message"></button>
+  </div>
+</div>

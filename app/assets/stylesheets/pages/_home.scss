@@ -12,8 +12,7 @@
   }
 }
 
-.sg-hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 3.5rem; align-items: center; position: relative; z-index: 1; }
-@media (max-width: 991.98px) { .sg-hero-grid { grid-template-columns: 1fr; } }
+.sg-hero .row { position: relative; z-index: 1; } // above the wave ornament
 
 .sg-hero-copy h1 { margin: 1rem 0 1.25rem; max-width: 16ch; }
 .sg-highlight {
@@ -72,26 +71,18 @@
 // ---------- Pain / stats ----------
 .sg-pain { padding: 5rem 0; background: $canvas; }
 .sg-pain-head { max-width: 720px; margin-bottom: 2.5rem; h2 { margin: .5rem 0 1rem; } }
-.sg-stats {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin: 0;
-  @media (max-width: 720px) { grid-template-columns: 1fr; }
-}
+// Grid: Bootstrap .row / .col-md-4
 .sg-stat {
-  background: $white; border-radius: 18px; padding: 1.75rem; border: 1px solid $border-color;
-  display: flex; flex-direction: column-reverse;
-  dd { font-size: 3rem; font-weight: 700; color: $blue-slate; margin: 0; line-height: 1; font-variant-numeric: tabular-nums; }
-  dt { color: $muted; font-weight: 400; margin-top: .5rem; }
-  &.is-accent { background: $blue-slate; border-color: $blue-slate; dd { color: $tangerine; } dt { color: $light-pacific; } }
+  height: 100%; background: $white; border-radius: 18px; padding: 1.75rem; border: 1px solid $border-color;
+  display: flex; flex-direction: column;
+  strong { font-size: 3rem; font-weight: 700; color: $blue-slate; line-height: 1; font-variant-numeric: tabular-nums; }
+  span { color: $muted; margin-top: .5rem; }
+  &.is-accent { background: $blue-slate; border-color: $blue-slate; strong { color: $tangerine; } span { color: $light-pacific; } }
 }
 
-// ---------- Steps ----------
+// ---------- Steps (grid: Bootstrap .row / .col-sm-6 .col-lg-3) ----------
 .sg-steps-section { padding: 5rem 0; background: $white; h2 { margin: .5rem 0 2.5rem; } }
-.sg-steps {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; list-style: none; padding: 0; margin: 0;
-  counter-reset: steps;
-  @media (max-width: 991.98px) { grid-template-columns: repeat(2, 1fr); }
-  @media (max-width: 560px) { grid-template-columns: 1fr; }
-}
+.sg-steps { counter-reset: steps; }
 .sg-step {
   counter-increment: steps; position: relative;
   background: $canvas; border-radius: 18px; padding: 1.5rem; border: 1px solid transparent;
@@ -112,12 +103,10 @@
 
 // ---------- Trust ----------
 .sg-trust { padding: 5rem 0; background: linear-gradient(180deg, $canvas, $white); }
-.sg-trust-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 3rem; align-items: center; @media (max-width: 991.98px) { grid-template-columns: 1fr; } }
 .sg-trust-art img { width: 100%; max-width: 380px; height: auto; display: block; margin: 0 auto; animation: sg-bob 5s ease-in-out infinite; }
 .sg-trust h2 { margin: .5rem 0 2rem; }
-.sg-principles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; @media (max-width: 720px) { grid-template-columns: 1fr; } }
-.sg-principle {
-  display: flex; gap: 1rem; background: $white; border-radius: 16px; padding: 1.25rem; border: 1px solid $border-color;
+.sg-principle { // inside a Bootstrap .card
+  padding: 1.25rem;
   > i { font-size: 1.25rem; color: $blue-slate; margin-top: .2rem; }
   h3 { font-size: 1rem; margin-bottom: .25rem; }
   p { margin: 0; color: $muted; font-size: .9375rem; }

@@ -1,15 +1,15 @@
 module ProjectsHelper
   STATUS_BADGES = {
-    "draft" => ["sg-badge-draft", "fa-pen", "Draft"],
-    "pending_approval" => ["sg-badge-pending", "fa-hourglass-half", "Waiting for approval"],
-    "approved" => ["sg-badge-approved", "fa-circle-check", "Approved"],
-    "returned" => ["sg-badge-returned", "fa-rotate-left", "Returned"]
+    "draft" => [:neutral, "fa-pen", "Draft"],
+    "pending_approval" => [:warning, "fa-hourglass-half", "Waiting for approval"],
+    "approved" => [:success, "fa-circle-check", "Approved"],
+    "returned" => [:danger, "fa-rotate-left", "Returned"]
   }.freeze
 
   APPROVAL_BADGES = {
-    "pending" => ["sg-badge-pending", "fa-hourglass-half", "Pending"],
-    "approved" => ["sg-badge-approved", "fa-circle-check", "Approved"],
-    "returned" => ["sg-badge-returned", "fa-rotate-left", "Returned"]
+    "pending" => [:warning, "fa-hourglass-half", "Pending"],
+    "approved" => [:success, "fa-circle-check", "Approved"],
+    "returned" => [:danger, "fa-rotate-left", "Returned"]
   }.freeze
 
   STEPS = [
@@ -20,13 +20,11 @@ module ProjectsHelper
   ].freeze
 
   def project_status_badge(project)
-    css, icon_name, label = STATUS_BADGES.fetch(project.status)
-    tag.span(class: "sg-badge #{css}") { safe_join([icon(icon_name), label]) }
+    badge(*STATUS_BADGES.fetch(project.status))
   end
 
   def approval_status_badge(approval)
-    css, icon_name, label = APPROVAL_BADGES.fetch(approval.status)
-    tag.span(class: "sg-badge #{css}") { safe_join([icon(icon_name), label]) }
+    badge(*APPROVAL_BADGES.fetch(approval.status))
   end
 
   # :done, :current or :todo for one step of the journey

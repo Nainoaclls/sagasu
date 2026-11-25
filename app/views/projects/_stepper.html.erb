@@ -1,0 +1,10 @@
+<ol id="project_stepper" class="sg-stepper mb-4" aria-label="Bidder list progress">
+  <% ProjectsHelper::STEPS.each_with_index do |(key, label), index| %>
+    <% state = step_state(project, key) %>
+    <li class="is-<%= state %>" <%= "aria-current=step" if state == :current %>>
+      <span class="sg-step-dot"><%= state == :done ? icon("fa-check") : index + 1 %></span>
+      <%= label %>
+      <span class="visually-hidden">(<%= { done: "done", current: "current step", todo: "to do" }[state] %>)</span>
+    </li>
+  <% end %>
+</ol>

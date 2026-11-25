@@ -1,8 +1,9 @@
 <% content_for :title, "Find the right suppliers" %>
 
 <section class="sg-hero" aria-labelledby="hero-title">
-  <div class="sg-container sg-hero-grid">
-    <div class="sg-hero-copy" data-controller="reveal">
+  <div class="sg-container">
+   <div class="row g-5 align-items-center">
+    <div class="col-lg-6 sg-hero-copy" data-controller="reveal">
       <p class="sg-eyebrow sg-reveal"><%= icon("fa-helmet-safety") %> AI supplier discovery for construction buyers</p>
       <h1 id="hero-title" class="sg-reveal">Find the right suppliers, <span class="sg-highlight">not just search results.</span></h1>
       <p class="lead sg-reveal">
@@ -18,7 +19,7 @@
           <%= link_to new_user_registration_path, class: "btn btn-primary btn-lg", data: { controller: "ripple", action: "click->ripple#burst" } do %>
             Start a project <%= icon("fa-arrow-right") %>
           <% end %>
-          <%= link_to "Log in", new_user_session_path, class: "btn btn-ghost btn-lg" %>
+          <%= link_to "Log in", new_user_session_path, class: "btn btn-outline-primary btn-lg" %>
         <% end %>
       </div>
       <ul class="sg-hero-proof sg-reveal">
@@ -28,7 +29,7 @@
       </ul>
     </div>
 
-    <div class="sg-hero-stage" data-controller="tilt" data-action="mousemove->tilt#move mouseleave->tilt#reset">
+    <div class="col-lg-6 sg-hero-stage" data-controller="tilt" data-action="mousemove->tilt#move mouseleave->tilt#reset">
       <figure class="sg-demo" data-controller="demo" aria-label="Example: from a buyer's need to an approved bidder list">
         <div class="sg-demo-head">
           <span class="sg-demo-dots" aria-hidden="true"><span></span><span></span><span></span></span>
@@ -37,7 +38,7 @@
 
         <div class="sg-demo-step" data-demo-target="step">
           <p class="sg-demo-label">The need</p>
-          <p class="sg-demo-bubble">“Facing bricks delivered in Tokyo, 50,000 per month, plus mortar.”</p>
+          <p class="sg-demo-bubble" data-controller="typed">“Facing bricks delivered in Tokyo, 50,000 per month, plus mortar.”</p>
         </div>
 
         <div class="sg-demo-step" data-demo-target="step">
@@ -52,17 +53,17 @@
           <p class="sg-demo-label">Suggested suppliers</p>
           <div class="sg-demo-supplier">
             <div>
-              <strong>Kanto Clayworks</strong> <span class="sg-badge sg-badge-ai"><%= icon("fa-wand-magic-sparkles") %> AI</span>
+              <strong>Kanto Clayworks</strong> <span class="badge rounded-pill text-bg-accent"><%= icon("fa-wand-magic-sparkles") %> AI</span>
               <p><%= icon("fa-check") %> Delivers to Tokyo · <%= icon("fa-check") %> 60,000 bricks / month</p>
             </div>
-            <span class="sg-badge sg-badge-approved"><%= icon("fa-check") %> Selected</span>
+            <span class="badge rounded-pill bg-success-subtle text-success-emphasis"><%= icon("fa-check") %> Selected</span>
           </div>
           <div class="sg-demo-supplier">
             <div>
-              <strong>Musashi Brick Co.</strong> <span class="sg-badge sg-badge-ai"><%= icon("fa-wand-magic-sparkles") %> AI</span>
+              <strong>Musashi Brick Co.</strong> <span class="badge rounded-pill text-bg-accent"><%= icon("fa-wand-magic-sparkles") %> AI</span>
               <p><%= icon("fa-check") %> JIS certified · <span class="sg-to-confirm"><%= icon("fa-circle-question") %> Capacity to confirm</span></p>
             </div>
-            <span class="sg-badge sg-badge-outline">Review</span>
+            <span class="badge rounded-pill border text-body-secondary">Review</span>
           </div>
         </div>
 
@@ -75,6 +76,7 @@
         </div>
       </figure>
     </div>
+   </div>
   </div>
 </section>
 
@@ -85,20 +87,26 @@
       <h2 id="pain-title">“A needle in a haystack.”</h2>
       <p class="lead">Supplier knowledge is scattered across websites, ERP records and colleagues' memory. Buyers repeat the same research for every tender.</p>
     </div>
-    <dl class="sg-stats">
-      <div class="sg-stat sg-reveal">
-        <dt>bricks needed this month</dt>
-        <dd data-controller="countup" data-countup-end-value="50000">50,000</dd>
-      </div>
-      <div class="sg-stat sg-reveal">
-        <dt>suppliers in the database</dt>
-        <dd data-controller="countup" data-countup-end-value="2000">2,000</dd>
-      </div>
-      <div class="sg-stat sg-reveal is-accent">
-        <dt>on the shortlist, until Sagasu</dt>
-        <dd>0</dd>
-      </div>
-    </dl>
+    <ul class="row g-3 list-unstyled m-0">
+      <li class="col-md-4">
+        <div class="sg-stat sg-reveal">
+          <strong data-controller="countup" data-countup-end-value="50000">50,000</strong>
+          <span>bricks needed this month</span>
+        </div>
+      </li>
+      <li class="col-md-4">
+        <div class="sg-stat sg-reveal">
+          <strong data-controller="countup" data-countup-end-value="2000">2,000</strong>
+          <span>suppliers in the database</span>
+        </div>
+      </li>
+      <li class="col-md-4">
+        <div class="sg-stat sg-reveal is-accent">
+          <strong>0</strong>
+          <span>on the shortlist, until Sagasu</span>
+        </div>
+      </li>
+    </ul>
   </div>
 </section>
 
@@ -106,55 +114,44 @@
   <div class="sg-container">
     <p class="sg-eyebrow sg-reveal">How it works</p>
     <h2 id="how-title" class="sg-reveal">From material list to approved bidder list</h2>
-    <ol class="sg-steps">
-      <li class="sg-step sg-reveal">
-        <span class="sg-step-icon"><%= icon("fa-clipboard-list") %></span>
-        <h3>Describe the need</h3>
-        <p>Create an RFQ project and paste your materials straight from Excel or your ERP.</p>
-      </li>
-      <li class="sg-step sg-reveal">
-        <span class="sg-step-icon"><%= icon("fa-layer-group") %></span>
-        <h3>Group with AI</h3>
-        <p>Sagasu groups materials by supplier type and explains why. Rename or move anything.</p>
-      </li>
-      <li class="sg-step sg-reveal">
-        <span class="sg-step-icon is-accent"><%= icon("fa-wand-magic-sparkles") %></span>
-        <h3>Review suggestions</h3>
-        <p>Each supplier comes with evidence and what to confirm. Keep, decline or add your own.</p>
-      </li>
-      <li class="sg-step sg-reveal">
-        <span class="sg-step-icon"><%= icon("fa-stamp") %></span>
-        <h3>Get it approved</h3>
-        <p>Your manager approves or returns the list with a comment. Every version is kept.</p>
-      </li>
+    <ol class="row g-3 list-unstyled m-0 sg-steps">
+      <% [["fa-clipboard-list", "Describe the need", "Create an RFQ project and paste your materials straight from Excel or your ERP.", false],
+          ["fa-layer-group", "Group with AI", "Sagasu groups materials by supplier type and explains why. Rename or move anything.", false],
+          ["fa-wand-magic-sparkles", "Review suggestions", "Each supplier comes with evidence and what to confirm. Keep, decline or add your own.", true],
+          ["fa-stamp", "Get it approved", "Your manager approves or returns the list with a comment. Every version is kept.", false]].each do |icon_name, title, text, accent| %>
+        <li class="col-sm-6 col-lg-3">
+          <div class="sg-step h-100 sg-reveal">
+            <span class="sg-step-icon <%= 'is-accent' if accent %>"><%= icon(icon_name) %></span>
+            <h3><%= title %></h3>
+            <p><%= text %></p>
+          </div>
+        </li>
+      <% end %>
     </ol>
   </div>
 </section>
 
 <section id="trust" class="sg-trust" aria-labelledby="trust-title" data-controller="reveal">
-  <div class="sg-container sg-trust-grid">
-    <div class="sg-trust-art sg-reveal">
-      <%= image_tag "mascot/welcome.webp", alt: "Sagasu's assistant robot, presenting with an open hand", width: 640, height: 708, loading: "lazy" %>
-    </div>
-    <div>
-      <p class="sg-eyebrow sg-reveal">Built for trust</p>
-      <h2 id="trust-title" class="sg-reveal">An assistant that shows its work</h2>
-      <div class="sg-principles">
-        <div class="sg-principle sg-reveal">
-          <%= icon("fa-magnifying-glass-chart") %>
-          <div><h3>Evidence before confidence</h3><p>Every suggestion lists the facts behind it and flags missing capacity or delivery details.</p></div>
-        </div>
-        <div class="sg-principle sg-reveal">
-          <%= icon("fa-user-check") %>
-          <div><h3>People decide</h3><p>The AI recommends. Buyers select, managers approve. Nothing is sent automatically.</p></div>
-        </div>
-        <div class="sg-principle sg-reveal">
-          <%= icon("fa-scale-balanced") %>
-          <div><h3>No silent blacklists</h3><p>A single negative comment stays an unverified observation until it is confirmed.</p></div>
-        </div>
-        <div class="sg-principle sg-reveal">
-          <%= icon("fa-clock-rotate-left") %>
-          <div><h3>Every decision traceable</h3><p>Each approval keeps a frozen copy of the list, and every AI call is logged.</p></div>
+  <div class="sg-container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-5 sg-trust-art sg-reveal">
+        <%= image_tag "mascot/welcome.webp", alt: "Sagasu's assistant robot, presenting with an open hand", width: 640, height: 708, loading: "lazy" %>
+      </div>
+      <div class="col-lg-7">
+        <p class="sg-eyebrow sg-reveal">Built for trust</p>
+        <h2 id="trust-title" class="sg-reveal">An assistant that shows its work</h2>
+        <div class="row g-3">
+          <% [["fa-magnifying-glass-chart", "Evidence before confidence", "Every suggestion lists the facts behind it and flags missing capacity or delivery details."],
+              ["fa-user-check", "People decide", "The AI recommends. Buyers select, managers approve. Nothing is sent automatically."],
+              ["fa-scale-balanced", "No silent blacklists", "A single negative comment stays an unverified observation until it is confirmed."],
+              ["fa-clock-rotate-left", "Every decision traceable", "Each approval keeps a frozen copy of the list, and every AI call is logged."]].each do |icon_name, title, text| %>
+            <div class="col-md-6">
+              <div class="card card-body h-100 flex-row gap-3 sg-principle sg-reveal">
+                <%= icon(icon_name) %>
+                <div><h3><%= title %></h3><p><%= text %></p></div>
+              </div>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>

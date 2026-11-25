@@ -1,20 +1,19 @@
 module SuppliersHelper
   REVIEW_STATUS = {
-    "unverified" => ["sg-badge-outline", "fa-circle-question", "Unverified observation"],
-    "verified" => ["sg-badge-approved", "fa-circle-check", "Verified"],
-    "disputed" => ["sg-badge-returned", "fa-scale-balanced", "Disputed"]
+    "unverified" => [:outline, "fa-circle-question", "Unverified observation"],
+    "verified" => [:success, "fa-circle-check", "Verified"],
+    "disputed" => [:danger, "fa-scale-balanced", "Disputed"]
   }.freeze
 
   def review_status_badge(review)
-    css, icon_name, label = REVIEW_STATUS.fetch(review.status)
-    tag.span(class: "sg-badge #{css}") { safe_join([icon(icon_name), label]) }
+    badge(*REVIEW_STATUS.fetch(review.status))
   end
 
   def review_visibility_badge(review)
     if review.visible_to_project?
-      tag.span(class: "sg-badge sg-badge-info") { safe_join([icon("fa-lock"), "Project: #{review.project&.title}"]) }
+      badge(:info, "fa-lock", "Project: #{review.project&.title}")
     else
-      tag.span(class: "sg-badge sg-badge-outline") { safe_join([icon("fa-building"), "Organization"]) }
+      badge(:outline, "fa-building", "Organization")
     end
   end
 

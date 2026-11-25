@@ -1,10 +1,8 @@
-<%= form_with model: [supplier, review], data: { controller: "visibility" } do |f| %>
-  <% if review.errors.any? %>
-    <div class="alert alert-danger small" role="alert">
-      <p class="fw-bold mb-1">Please fix:</p>
-      <ul class="mb-0"><% review.errors.full_messages.each do |message| %><li><%= message %></li><% end %></ul>
-    </div>
-  <% end %>
+<%# Turbo Stream target "review_form": replaced by a blank form after a review is shared, or with errors.
+    Simple Form shows each error under its field; the star rating and visibility cards stay custom HTML
+    (real radio buttons) because they are more accessible than the generic versions. %>
+<%= simple_form_for [supplier, review], html: { id: "review_form", data: { controller: "visibility" } } do |f| %>
+  <%= f.error_notification message: "Please fix the fields below." %>
 
   <fieldset class="mb-3">
     <legend class="form-label">Rating</legend>
@@ -14,13 +12,11 @@
         <label for="review_rating_<%= value %>"><span aria-hidden="true">★</span><span class="visually-hidden"><%= pluralize(value, "star") %></span></label>
       <% end %>
     </div>
+    <%= f.error :rating, class: "invalid-feedback d-block" %>
   </fieldset>
 
-  <div class="mb-3">
-    <%= f.label :comment, "What happened?", class: "form-label" %>
-    <%= f.text_area :comment, rows: 4, class: "form-control", required: true, maxlength: 2000,
-                    placeholder: "Facts help most: delivery on time, quality checks, responsiveness…" %>
-  </div>
+  <%= f.input :comment, as: :text, label: "What happened?",
+              input_html: { rows: 4, maxlength: 2000, placeholder: "Facts help most: delivery on time, quality checks, responsiveness…" } %>
 
   <fieldset class="mb-3">
     <legend class="form-label">Who can see it</legend>
@@ -36,22 +32,17 @@
         <span><strong>One project only</strong><span>Only people on that bidder list.</span></span>
       </label>
     </div>
+    <%= f.error :visibility, class: "invalid-feedback d-block" %>
   </fieldset>
 
-  <div class="mb-3" data-visibility-target="project">
-    <%= f.label :project_id, "Project", class: "form-label" %>
-    <%= f.collection_select :project_id, projects, :id, :title, { include_blank: "Choose a project" },
-                            class: "form-select", data: { visibility_target: "select" } %>
-  </div>
+  <%= f.association :project, collection: projects, label_method: :title, include_blank: "Choose a project", required: false,
+                    wrapper_html: { data: { visibility_target: "project" } },
+                    input_html: { data: { visibility_target: "select" } } %>
 
-  <div class="form-check mb-3">
-    <%= f.check_box :ai_usable, class: "form-check-input" %>
-    <%= f.label :ai_usable, class: "form-check-label small" do %>
-      Sagasu AI may use this when suggesting suppliers, without showing my name or quoting it.
-    <% end %>
-  </div>
+  <%= f.input :ai_usable, as: :boolean, label_html: { class: "small" },
+              label: "Sagasu AI may use this when suggesting suppliers, without showing my name or quoting it." %>
 
-  <%= f.button class: "btn btn-primary w-100", data: { controller: "ripple", action: "click->ripple#burst" } do %>
+  <%= f.button :button, class: "btn-primary w-100", data: { controller: "ripple", action: "click->ripple#burst" } do %>
     <%= icon("fa-paper-plane") %> Share review
   <% end %>
 <% end %>

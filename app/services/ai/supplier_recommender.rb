@@ -2,14 +2,16 @@ module Ai
   # Story 7: suggests up to 5 suppliers for one material group, from Sagasu's supplier records only.
   # Each suggestion explains the fit, lists the evidence and what the buyer still has to confirm.
   # Returns the AiRun that records the call.
+  # run: an AiRun created when the job was queued (status "running"); a new one is built when omitted (seeds, tests).
   class SupplierRecommender
     MAX_CANDIDATES = 25
 
-    def initialize(item_group:, user:)
+    def initialize(item_group:, user:, run: nil)
       @group = item_group
       @project = item_group.project
       @user = user
       @area = @project.client_area
+      @run = run || @project.ai_runs.new(user: user, kind: :supplier_suggestion, item_group: item_group)
     end
 
     def call
@@ -122,9 +124,10 @@ module Ai
     end
 
     def record_run(status, model, payload, output)
-      @project.ai_runs.create!(user: @user, kind: :supplier_suggestion, model: model, status: status,
-                               prompt: "#{Prompts::SUPPLIERS}\n#{payload.to_json}".first(20_000),
-                               output: output.to_json.first(20_000))
+      @run.update!(item_group: @group, model: model, status: status,
+                   prompt: "#{Prompts::SUPPLIERS}\n#{payload.to_json}".first(20_000),
+                   output: output.to_json.first(20_000))
+      @run
     end
   end
 end

@@ -1,0 +1,6 @@
+<%# Messages of a Turbo Stream response (flash.now) become toasts in the permanent #toasts container %>
+<% flash_toasts.each_key do |type| %>
+  <% if flash[type].present? %>
+    <%= turbo_stream.append "toasts", partial: "shared/toast", locals: { type: type, message: flash[type] } %>
+  <% end %>
+<% end %>

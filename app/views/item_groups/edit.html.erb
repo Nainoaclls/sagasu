@@ -1,0 +1,10 @@
+<%# Le Wagon edit-in-place pattern: this frame replaces the title frame of the group card.
+    Saving answers with a Turbo Stream that re-renders the workspace; Cancel reloads the frame from the project page. %>
+<%= turbo_frame_tag dom_id(@item_group, :title_frame) do %>
+  <%= simple_form_for @item_group, html: { class: "d-flex flex-wrap align-items-start gap-2" } do |f| %>
+    <%= f.input :title, label: "Group name", label_html: { class: "visually-hidden" }, wrapper_html: { class: "mb-0 flex-grow-1" },
+                input_html: { maxlength: 80, autofocus: true, id: dom_id(@item_group, :title_input) } %>
+    <%= f.button :button, "Save", class: "btn-primary btn-sm" %>
+    <%= link_to "Cancel", project_path(@item_group.project), class: "btn btn-quiet btn-sm" %>
+  <% end %>
+<% end %>

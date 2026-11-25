@@ -21,6 +21,23 @@ $link-color:      $blue-slate;
 $link-hover-color: $slate-dark;
 $border-color:    #DDE1E3;
 
+// Brand palette as Bootstrap theme colors: Bootstrap generates .btn-accent, .text-bg-accent, etc.
+// Text on each color is picked by color-contrast(): Ink on Tangerine and Pacific Blue, white on Slate.
+$theme-colors: (
+  "primary":   $blue-slate,
+  "secondary": $muted,
+  "success":   $green,
+  "info":      $pacific-blue,
+  "warning":   $yellow,
+  "danger":    $red,
+  "light":     $platinum,
+  "dark":      $ink,
+  "accent":    $tangerine
+);
+$color-contrast-dark:  $ink;
+$color-contrast-light: $white;
+$min-contrast-ratio:   4.5;
+
 // Shape (design kit: 6 / 12 / 20)
 $border-radius-sm:  .375rem;
 $border-radius:     .5rem;
@@ -41,5 +58,42 @@ $btn-font-weight:     700;
 $form-label-font-weight: 700;
 $form-label-font-size:   .875rem;
 
+$btn-padding-y-sm:    .375rem;
+$btn-padding-x-sm:    .875rem;
+$btn-padding-y-lg:    .75rem;
+$btn-padding-x-lg:    1.75rem;
+
+// Components (Bootstrap cards, badges, nav pills, progress, tables, toasts, modals)
+$card-border-radius:      14px;
+$card-border-color:       $border-color;
+$card-spacer-y:           1.5rem;
+$card-spacer-x:           1.5rem;
+$badge-font-weight:       700;
+$badge-padding-y:         .4em;
+$badge-padding-x:         .75em;
+$nav-pills-border-radius: 9px;
+$nav-pills-link-active-bg: $blue-slate;
+$nav-link-color:          $muted;
+$nav-link-hover-color:    $blue-slate;
+$nav-link-font-weight:    700;
+$progress-height:         6px;
+$progress-border-radius:  999px;
+$progress-bg:             $platinum;
+$progress-bar-bg:         $blue-slate;
+$table-cell-padding-y:    .75rem;
+$table-cell-padding-x:    .75rem;
+$table-hover-bg-factor:   .03;
+$toast-max-width:         420px;
+$toast-border-radius:     14px;
+$toast-padding-x:         1rem;
+$toast-padding-y:         .875rem;
+$toast-font-size:         .9375rem;
+$modal-content-border-radius: 18px;
+$modal-content-border-width:  0;
+$modal-backdrop-opacity:  .45;
+$modal-header-border-width: 0;
+$modal-footer-bg:         $canvas;
+
 $enable-shadows: false;
 $enable-smooth-scroll: true;
+$enable-reduced-motion: true;

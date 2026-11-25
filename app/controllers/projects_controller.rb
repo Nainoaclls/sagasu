@@ -1,4 +1,6 @@
 class ProjectsController < ApplicationController
+  include ProjectWorkspace
+
   # Story 3 (dashboard)
   def index
     @projects = policy_scope(Project).includes(:user, :items, :approvals, item_groups: :group_suppliers).recent_first
@@ -7,12 +9,8 @@ class ProjectsController < ApplicationController
 
   # Stories 4 to 14 happen on this page: the bidder list workspace
   def show
-    @project = Project.includes(:user, :items, approvals: :approver,
-                                               item_groups: [:items, { group_suppliers: :supplier }])
-                      .find(params[:id])
+    load_workspace(params[:id])
     authorize @project
-    @approvers = User.approver.order(:name) if policy(@project).submit?
-    @pending_approval = @project.pending_approval_record
   end
 
   def new

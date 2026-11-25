@@ -20,6 +20,8 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
+    <%# Tom Select theme: plain CSS, kept out of Sass (sassc cannot compile its modern CSS functions) %>
+    <%= stylesheet_link_tag "tom-select.bootstrap5", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
@@ -34,6 +36,5 @@
 
     <%= render "shared/footer" %>
     <%= render "shared/flashes" %>
-    <%= render "shared/ai_overlay" if user_signed_in? %>
   </body>
 </html>

@@ -13,8 +13,9 @@
     </div>
   </header>
 
-  <div class="sg-new-grid">
-    <%= simple_form_for @project, html: { class: "sg-card", novalidate: false } do |f| %>
+  <div class="row g-4 align-items-start">
+    <div class="col-lg-8">
+    <%= simple_form_for @project, html: { class: "card card-body", novalidate: false } do |f| %>
       <%= f.error_notification message: "Please check the fields below." %>
 
       <fieldset class="sg-fieldset">
@@ -33,7 +34,8 @@
           <div class="col-md-6"><%= f.input :client_name, label: "Client", placeholder: "Aoyama Development" %></div>
           <div class="col-md-6">
             <%= f.input :client_area, label: "Delivery area", collection: Prefecture::ALL, prompt: "Choose a prefecture",
-                        hint: "Used to check which suppliers deliver there." %>
+                        hint: "Used to check which suppliers deliver there. Type to search.",
+                        input_html: { data: { controller: "tom-select", tom_select_placeholder_value: "Type a prefecture…" } } %>
           </div>
           <div class="col-md-4"><%= f.input :erp_rfq, label: "ERP RFQ number", placeholder: "RFQ-2026-118", required: false %></div>
           <div class="col-md-5"><%= f.input :budget_amount, label: "Budget", input_html: { min: 0, step: 1000, inputmode: "decimal" } %></div>
@@ -66,9 +68,10 @@
         <% end %>
       </div>
     <% end %>
+    </div>
 
-    <aside class="sg-new-aside" aria-label="What happens next">
-      <div class="sg-card">
+    <aside class="col-lg-4 sg-sticky-lg" aria-label="What happens next">
+      <div class="card card-body">
         <%= image_tag "mascot/welcome.webp", alt: "", width: 160, height: 177, class: "sg-new-mascot" %>
         <h2 class="h4">What happens next</h2>
         <ol class="sg-next-steps">
