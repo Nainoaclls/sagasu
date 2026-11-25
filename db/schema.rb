@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_23_100009) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_25_100001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,6 +24,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_23_100009) do
     t.string "status", default: "succeeded", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "item_group_id"
+    t.index ["item_group_id"], name: "index_ai_runs_on_item_group_id"
     t.index ["kind"], name: "index_ai_runs_on_kind"
     t.index ["project_id"], name: "index_ai_runs_on_project_id"
     t.index ["user_id"], name: "index_ai_runs_on_user_id"
@@ -158,6 +160,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_23_100009) do
     t.index ["role"], name: "index_users_on_role"
   end
 
+  add_foreign_key "ai_runs", "item_groups", on_delete: :nullify
   add_foreign_key "ai_runs", "projects"
   add_foreign_key "ai_runs", "users"
   add_foreign_key "approvals", "projects"

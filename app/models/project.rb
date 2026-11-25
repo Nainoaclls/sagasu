@@ -53,6 +53,15 @@ class Project < ApplicationRecord
     item_groups.sum { |group| group.group_suppliers.count(&:selected?) }
   end
 
+  # Background AI work in progress (see GroupItemsJob, SuggestSuppliersJob)
+  def grouping_in_progress?
+    ai_runs.grouping.in_progress.exists?
+  end
+
+  def suggesting_group_ids
+    @suggesting_group_ids ||= ai_runs.supplier_suggestion.in_progress.pluck(:item_group_id)
+  end
+
   def latest_approval
     approvals.last
   end

@@ -1,0 +1,11 @@
+<%# One toast. Rendered from flash (layout), Turbo Stream responses and job broadcasts. %>
+<% css, icon_name, label = flash_toasts.fetch(type.to_sym) %>
+<div class="sg-toast <%= css %>" role="status" data-controller="toast"
+     data-action="mouseenter->toast#pause mouseleave->toast#resume focusin->toast#pause focusout->toast#resume">
+  <%= icon(icon_name) %>
+  <div class="sg-toast-body">
+    <span class="visually-hidden"><%= label %>:</span>
+    <%= message %>
+  </div>
+  <button type="button" class="btn-close" aria-label="Dismiss message" data-action="toast#close"></button>
+</div>

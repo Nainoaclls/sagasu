@@ -1,11 +1,13 @@
 module Ai
   # Story 5: groups a project's materials so that each group can go to one type of supplier.
   # Replaces the existing groups. Returns the AiRun that records the call.
+  # run: an AiRun created when the job was queued (status "running"); a new one is built when omitted (seeds, tests).
   class ItemGrouper
-    def initialize(project:, user:)
+    def initialize(project:, user:, run: nil)
       @project = project
       @user = user
       @items = project.items.to_a
+      @run = run || project.ai_runs.new(user: user, kind: :grouping)
     end
 
     def call
@@ -14,9 +16,10 @@ module Ai
 
       run = ActiveRecord::Base.transaction do
         replace_groups(groups)
-        @project.ai_runs.create!(user: @user, kind: :grouping, model: model, status: status,
-                                 prompt: "#{Prompts::GROUPING}\n#{payload.to_json}".first(20_000),
-                                 output: output.to_json.first(20_000))
+        @run.update!(model: model, status: status,
+                     prompt: "#{Prompts::GROUPING}\n#{payload.to_json}".first(20_000),
+                     output: output.to_json.first(20_000))
+        @run
       end
       # update_all bypasses loaded records: make the project read the new grouping
       @project.items.reset

@@ -1,17 +1,18 @@
 class GroupSuppliersController < ApplicationController
-  # Story 7: AI supplier suggestions for one group
+  # Story 7: AI supplier suggestions for one group, run in the background by SuggestSuppliersJob
   def suggest
     item_group = ItemGroup.find(params[:item_group_id])
     authorize GroupSupplier.new(item_group: item_group)
+    project = item_group.project
+    if project.suggesting_group_ids.include?(item_group.id)
+      return redirect_to(project, alert: "Sagasu is already searching for this group.", status: :see_other)
+    end
 
-    run = Ai::SupplierRecommender.new(item_group: item_group, user: current_user).call
-    count = run.group_suppliers.count
-    message = if count.zero?
-                { alert: "No new supplier matched “#{item_group.title}”. Try the search to add one." }
-              else
-                { notice: "#{count} supplier#{'s' if count > 1} suggested for “#{item_group.title}”#{' (offline matching)' if run.fallback?}." }
-              end
-    redirect_to item_group.project, status: :see_other, **message
+    AiRun.transaction do
+      SuggestSuppliersJob.perform_later(project.ai_runs.create!(user: current_user, kind: :supplier_suggestion,
+                                                                item_group: item_group))
+    end
+    redirect_to project, notice: "Sagasu is looking for suppliers for “#{item_group.title}”.", status: :see_other
   end
 
   # Story 9: add a supplier found by search; it goes straight to the bidder list

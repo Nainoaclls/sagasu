@@ -1,17 +1,21 @@
 class ItemGroupsController < ApplicationController
   before_action :set_project, only: %i[generate create]
 
-  # Story 5: AI grouping (replaces the current groups)
+  # Story 5: AI grouping (replaces the current groups), run in the background by GroupItemsJob
   def generate
     authorize ItemGroup.new(project: @project)
     if @project.items.empty?
       return redirect_to(@project, alert: "Add materials before grouping them.",
                                    status: :see_other)
     end
+    if @project.grouping_in_progress?
+      return redirect_to(@project, alert: "Sagasu is already grouping these materials.",
+                                   status: :see_other)
+    end
 
-    run = Ai::ItemGrouper.new(project: @project, user: current_user).call
-    redirect_to @project,
-                notice: "#{@project.item_groups.count} groups proposed#{fallback_note(run)}. Review and adjust them.", status: :see_other
+    # Same transaction: if the job can't be queued, no "running" run is left behind
+    AiRun.transaction { GroupItemsJob.perform_later(@project.ai_runs.create!(user: current_user, kind: :grouping)) }
+    redirect_to @project, notice: "Sagasu is grouping your materials.", status: :see_other
   end
 
   # Story 6: add a group by hand
@@ -46,9 +50,5 @@ class ItemGroupsController < ApplicationController
 
   def item_group_params
     params.require(:item_group).permit(:title, :description)
-  end
-
-  def fallback_note(run)
-    run.fallback? ? " with Sagasu's offline matching" : " by Sagasu AI"
   end
 end

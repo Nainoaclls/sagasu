@@ -28,11 +28,16 @@ class BidderListFlowTest < ActionDispatch::IntegrationTest
     post project_items_path(project), params: { items: { materials_text: "Mortar mix; 300; bag" } }
     assert_equal 2, project.items.count
 
-    post generate_project_item_groups_path(project)
+    # AI work runs in background jobs; the page shows an "in progress" state until they finish
+    assert_enqueued_with(job: GroupItemsJob) { post generate_project_item_groups_path(project) }
+    assert project.grouping_in_progress?
+    perform_enqueued_jobs
     group = project.item_groups.first
     assert_not_nil group
+    assert_not project.grouping_in_progress?
 
-    post suggest_item_group_group_suppliers_path(group)
+    assert_enqueued_with(job: SuggestSuppliersJob) { post suggest_item_group_group_suppliers_path(group) }
+    perform_enqueued_jobs
     link = group.group_suppliers.find_by!(supplier: @supplier)
     assert link.ai_suggested?
 

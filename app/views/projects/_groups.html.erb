@@ -1,20 +1,19 @@
 <section id="groups" aria-labelledby="groups-title">
   <div class="sg-section-title">
     <h2 id="groups-title"><%= icon("fa-layer-group") %> Groups &amp; suppliers</h2>
-    <% if can_edit && project.items.any? %>
-      <%= form_with url: generate_project_item_groups_path(project), method: :post,
-            data: { controller: "ai-busy", ai_busy_message_value: ai_overlay_message(:grouping),
-                    action: "turbo:submit-start->ai-busy#start turbo:submit-end->ai-busy#stop",
-                    turbo_confirm: (project.item_groups.any? ? "Regroup all materials? Current groups and their suppliers will be replaced." : nil) } do %>
-        <button type="submit" class="btn <%= project.item_groups.any? ? 'btn-ghost' : 'btn-accent' %>"
-                data-controller="ripple" data-action="click->ripple#burst">
-          <%= icon("fa-wand-magic-sparkles") %> <%= project.item_groups.any? ? "Regroup with AI" : "Group with AI" %>
-        </button>
+    <% if can_edit && project.items.any? && !project.grouping_in_progress? %>
+      <%= button_to generate_project_item_groups_path(project),
+            class: "btn #{project.item_groups.any? ? 'btn-ghost' : 'btn-accent'}",
+            data: { controller: "ripple", action: "click->ripple#burst", turbo_submits_with: "Starting…" },
+            form: { data: { turbo_confirm: (project.item_groups.any? ? "Regroup all materials? Current groups and their suppliers will be replaced." : nil) } } do %>
+        <%= icon("fa-wand-magic-sparkles") %> <%= project.item_groups.any? ? "Regroup with AI" : "Group with AI" %>
       <% end %>
     <% end %>
   </div>
 
-  <% if project.item_groups.empty? %>
+  <% if project.grouping_in_progress? %>
+    <%= render "shared/ai_working", message: ai_overlay_message(:grouping) %>
+  <% elsif project.item_groups.empty? %>
     <div class="sg-empty">
       <%= image_tag "mascot/welcome.webp", alt: "", width: 120, height: 133 %>
       <div>
