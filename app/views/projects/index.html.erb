@@ -14,20 +14,24 @@
     <% end %>
   </header>
 
-  <section class="sg-kpis" aria-label="Summary">
+  <section class="row g-3 mb-5" aria-label="Summary">
     <% [[@stats.active_count, "Active projects", "fa-folder-open"],
         [@stats.shortlisted_count, "Suppliers on bidder lists", "fa-list-check"],
         [@stats.pending_count, "Waiting for approval", "fa-hourglass-half"]].each do |value, label, icon_name| %>
-      <div class="sg-kpi sg-reveal">
-        <div class="sg-kpi-icon"><%= icon(icon_name) %></div>
-        <div class="sg-kpi-value" data-controller="countup" data-countup-end-value="<%= value %>"><%= value %></div>
-        <div class="sg-kpi-label"><%= label %></div>
+      <div class="col-6 col-lg-3">
+        <div class="card card-body h-100 sg-kpi sg-reveal">
+          <div class="sg-kpi-icon"><%= icon(icon_name) %></div>
+          <div class="sg-kpi-value" data-controller="countup" data-countup-end-value="<%= value %>"><%= value %></div>
+          <div class="sg-kpi-label"><%= label %></div>
+        </div>
       </div>
     <% end %>
-    <div class="sg-kpi sg-reveal">
-      <div class="sg-kpi-icon is-accent"><%= icon("fa-wand-magic-sparkles") %></div>
-      <div class="sg-kpi-value"><%= @stats.ai_kept_rate ? "#{@stats.ai_kept_rate}%" : "–" %></div>
-      <div class="sg-kpi-label">AI suggestions kept by buyers</div>
+    <div class="col-6 col-lg-3">
+      <div class="card card-body h-100 sg-kpi sg-reveal">
+        <div class="sg-kpi-icon is-accent"><%= icon("fa-wand-magic-sparkles") %></div>
+        <div class="sg-kpi-value"><%= @stats.ai_kept_rate ? "#{@stats.ai_kept_rate}%" : "–" %></div>
+        <div class="sg-kpi-label">AI suggestions kept by buyers</div>
+      </div>
     </div>
   </section>
 
@@ -46,18 +50,19 @@
     <section data-controller="filter" aria-labelledby="projects-title">
       <div class="sg-section-title">
         <h2 id="projects-title"><%= icon("fa-folder-open") %> Projects</h2>
-        <div class="sg-tabs" role="group" aria-label="Filter projects by status">
+        <%# Bootstrap nav-pills; filter_controller.js toggles .active and aria-pressed %>
+        <div class="nav nav-pills card flex-row flex-wrap p-1 gap-1" role="group" aria-label="Filter projects by status">
           <% [["all", "All"], ["draft", "Draft"], ["pending_approval", "Waiting"], ["returned", "Returned"], ["approved", "Approved"]].each do |status, label| %>
-            <button type="button" class="sg-tab" data-filter-target="tab" data-status="<%= status %>"
-                    data-action="filter#select" aria-pressed="<%= status == 'all' %>">
-              <%= label %> <span class="sg-tab-count"><%= @stats.count_for(status) %></span>
+            <button type="button" class="nav-link <%= 'active' if status == 'all' %>" data-filter-target="tab"
+                    data-status="<%= status %>" data-action="filter#select" aria-pressed="<%= status == 'all' %>">
+              <%= label %> <span class="badge rounded-pill text-bg-light ms-1"><%= @stats.count_for(status) %></span>
             </button>
           <% end %>
         </div>
       </div>
       <p class="visually-hidden" aria-live="polite" data-filter-target="status"></p>
 
-      <div class="sg-project-grid">
+      <div class="row g-4">
         <%= render partial: "projects/card", collection: @projects, as: :project %>
       </div>
       <p class="sg-empty-compact mt-3" data-filter-target="empty" hidden>No project with this status.</p>

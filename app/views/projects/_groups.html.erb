@@ -3,7 +3,7 @@
     <h2 id="groups-title"><%= icon("fa-layer-group") %> Groups &amp; suppliers</h2>
     <% if can_edit && project.items.any? && !project.grouping_in_progress? %>
       <%= button_to generate_project_item_groups_path(project),
-            class: "btn #{project.item_groups.any? ? 'btn-ghost' : 'btn-accent'}",
+            class: "btn #{project.item_groups.any? ? 'btn-outline-primary' : 'btn-accent'}",
             data: { controller: "ripple", action: "click->ripple#burst", turbo_submits_with: "Starting…" },
             form: { data: { turbo_confirm: (project.item_groups.any? ? "Regroup all materials? Current groups and their suppliers will be replaced." : nil) } } do %>
         <%= icon("fa-wand-magic-sparkles") %> <%= project.item_groups.any? ? "Regroup with AI" : "Group with AI" %>
@@ -45,7 +45,7 @@
       <%= simple_form_for [project, ItemGroup.new], html: { class: "d-flex flex-wrap align-items-start gap-2 mt-3" } do |f| %>
         <%= f.input :title, label: "Group name", label_html: { class: "visually-hidden" }, wrapper_html: { class: "mb-0" },
                     input_html: { placeholder: "e.g. Waterproofing", maxlength: 80, style: "max-width: 320px" } %>
-        <%= f.button :button, class: "btn-ghost" do %><%= icon("fa-plus") %> Add group<% end %>
+        <%= f.button :button, class: "btn-outline-primary" do %><%= icon("fa-plus") %> Add group<% end %>
       <% end %>
     </details>
   <% end %>

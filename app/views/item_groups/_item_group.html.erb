@@ -1,6 +1,6 @@
 <% links = item_group.ordered_group_suppliers %>
 <% suggesting = item_group.project.suggesting_group_ids.include?(item_group.id) %>
-<article class="sg-card sg-group sg-appear" id="<%= dom_id(item_group) %>" aria-labelledby="<%= dom_id(item_group, :title) %>">
+<article class="card card-body sg-group sg-appear" id="<%= dom_id(item_group) %>" aria-labelledby="<%= dom_id(item_group, :title) %>">
   <header class="sg-group-head">
     <span class="sg-group-icon" aria-hidden="true"><%= icon(MaterialCategory.icon(item_group.category)) %></span>
     <div class="flex-grow-1">

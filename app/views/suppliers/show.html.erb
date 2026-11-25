@@ -6,7 +6,7 @@
     <%= link_to suppliers_path, class: "small" do %><%= icon("fa-arrow-left") %> All suppliers<% end %>
   </nav>
 
-  <header class="sg-supplier-head sg-card">
+  <header class="card card-body flex-md-row sg-supplier-head">
     <span class="sg-supplier-avatar" aria-hidden="true"><%= icon(MaterialCategory.icon(@supplier.category)) %></span>
     <div class="flex-grow-1">
       <p class="sg-eyebrow mb-1"><%= @supplier.category_label %></p>
@@ -24,14 +24,14 @@
         <%= stars(verified.sum(&:rating) / verified.size.to_f) %>
         <p class="sg-caption mb-0"><%= pluralize(verified.size, "verified review") %></p>
       <% else %>
-        <span class="sg-badge sg-badge-outline">No verified review yet</span>
+        <span class="badge rounded-pill border text-body-secondary">No verified review yet</span>
       <% end %>
     </div>
   </header>
 
-  <div class="sg-supplier-layout">
-    <div>
-      <section class="sg-card mb-4" aria-labelledby="facts-title">
+  <div class="row g-4 align-items-start">
+    <div class="col-lg-8">
+      <section class="card card-body mb-4" aria-labelledby="facts-title">
         <h2 id="facts-title" class="h5 mb-3"><%= icon("fa-clipboard-check") %> Supplier record</h2>
         <% if @supplier.description.present? %><p><%= @supplier.description %></p><% end %>
         <dl class="sg-facts">
@@ -49,8 +49,8 @@
       <%= render "reviews/list", reviews: @reviews %>
     </div>
 
-    <aside aria-labelledby="review-form-title">
-      <div class="sg-card sg-review-form">
+    <aside class="col-lg-4 sg-sticky-lg" aria-labelledby="review-form-title">
+      <div class="card card-body sg-review-form">
         <h2 id="review-form-title" class="h5"><%= icon("fa-pen-to-square") %> Share an observation</h2>
         <%= render "reviews/form", supplier: @supplier, review: @review, projects: @review_projects %>
       </div>

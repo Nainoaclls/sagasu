@@ -33,13 +33,13 @@
 
   <%= render "projects/approval_banner", project: @project, pending_approval: @pending_approval %>
 
-  <div class="sg-workspace-grid">
-    <div class="sg-workspace-main">
+  <div class="row g-4 align-items-start">
+    <div class="col-lg-8">
       <%= render "projects/materials", project: @project, can_edit: can_edit %>
       <%= render "projects/groups", project: @project, can_edit: can_edit %>
     </div>
 
-    <aside class="sg-workspace-aside" aria-label="Bidder list">
+    <aside class="col-lg-4 sg-sticky-lg" aria-label="Bidder list">
       <%= render "projects/bidder_list", project: @project, approvers: @approvers %>
     </aside>
   </div>

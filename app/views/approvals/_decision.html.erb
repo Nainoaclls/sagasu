@@ -20,7 +20,7 @@
                 input_html: { rows: 2, maxlength: 1000,
                               placeholder: "Required when you return the list: what should the buyer change?" } %>
     <div class="d-flex flex-wrap gap-2 justify-content-end">
-      <%= f.button :button, name: "approval[status]", value: "returned", class: "btn-ghost" do %>
+      <%= f.button :button, name: "approval[status]", value: "returned", class: "btn-outline-primary" do %>
         <%= icon("fa-rotate-left") %> Return to buyer
       <% end %>
       <%= f.button :button, name: "approval[status]", value: "approved", class: "btn-primary",

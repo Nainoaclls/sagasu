@@ -49,7 +49,8 @@ a { text-underline-offset: 3px; }
   &:focus { top: 1rem; color: $white; }
 }
 
-.sg-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.25rem; }
+// 1.5rem side padding: room for Bootstrap's largest gutter (.g-5 rows pull 1.5rem outward)
+.sg-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
 .sg-container-narrow { max-width: 760px; }
 .sg-page { padding-top: 2.5rem; padding-bottom: 4rem; }
 
@@ -77,3 +78,8 @@ a { text-underline-offset: 3px; }
 }
 
 .sg-visually-hidden { @extend .visually-hidden; }
+
+// Sticky side column on large screens (Bootstrap grid + position-sticky under the navbar)
+@include media-breakpoint-up(lg) {
+  .sg-sticky-lg { position: sticky; top: 92px; }
+}

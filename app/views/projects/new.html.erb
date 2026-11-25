@@ -13,8 +13,9 @@
     </div>
   </header>
 
-  <div class="sg-new-grid">
-    <%= simple_form_for @project, html: { class: "sg-card", novalidate: false } do |f| %>
+  <div class="row g-4 align-items-start">
+    <div class="col-lg-8">
+    <%= simple_form_for @project, html: { class: "card card-body", novalidate: false } do |f| %>
       <%= f.error_notification message: "Please check the fields below." %>
 
       <fieldset class="sg-fieldset">
@@ -66,9 +67,10 @@
         <% end %>
       </div>
     <% end %>
+    </div>
 
-    <aside class="sg-new-aside" aria-label="What happens next">
-      <div class="sg-card">
+    <aside class="col-lg-4 sg-sticky-lg" aria-label="What happens next">
+      <div class="card card-body">
         <%= image_tag "mascot/welcome.webp", alt: "", width: 160, height: 177, class: "sg-new-mascot" %>
         <h2 class="h4">What happens next</h2>
         <ol class="sg-next-steps">

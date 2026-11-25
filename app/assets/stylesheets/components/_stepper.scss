@@ -28,12 +28,5 @@
   .sg-stepper { grid-template-columns: repeat(2, 1fr); }
 }
 
-// Progress bar on dashboard cards
-.sg-progress {
-  height: 6px; border-radius: 999px; background: $platinum; overflow: hidden;
-  span {
-    display: block; height: 100%; width: calc(var(--progress, 0) * 1%);
-    background: linear-gradient(90deg, $pacific-blue, $blue-slate); border-radius: inherit;
-    transition: width 900ms $ease-out;
-  }
-}
+// Dashboard progress uses Bootstrap .progress; keep the brand gradient
+.progress-bar { background: linear-gradient(90deg, $pacific-blue, $blue-slate); }

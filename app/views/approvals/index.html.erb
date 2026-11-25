@@ -10,13 +10,13 @@
 
   <section aria-labelledby="pending-title" class="mb-5">
     <div class="sg-section-title">
-      <h2 id="pending-title"><%= icon("fa-hourglass-half") %> Waiting for you <span class="sg-count"><%= @pending.size %></span></h2>
+      <h2 id="pending-title"><%= icon("fa-hourglass-half") %> Waiting for you <span class="badge rounded-pill text-bg-accent"><%= @pending.size %></span></h2>
     </div>
 
     <% if @pending.any? %>
       <div class="sg-approval-list">
         <% @pending.each do |approval| %>
-          <article class="sg-card sg-card-interactive sg-approval sg-reveal">
+          <article class="card card-body sg-card-interactive sg-approval sg-reveal">
             <div class="sg-approval-main">
               <p class="sg-caption mb-1"><%= approval.project.erp_rfq.presence || "RFQ project" %> · sent <%= time_ago_in_words(approval.created_at) %> ago</p>
               <h3 class="h5 mb-1"><%= link_to approval.project.title, project_path(approval.project), class: "sg-stretched text-decoration-none" %></h3>
@@ -53,9 +53,9 @@
       <h2 id="decided-title"><%= icon("fa-clock-rotate-left") %> Decided</h2>
     </div>
     <% if @decided.any? %>
-      <div class="sg-card sg-card-flush">
-        <div class="sg-table-wrap">
-          <table class="sg-table">
+      <div class="card overflow-hidden">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle sg-table">
             <caption class="visually-hidden">Bidder lists you already decided</caption>
             <thead>
               <tr>

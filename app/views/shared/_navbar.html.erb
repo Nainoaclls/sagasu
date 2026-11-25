@@ -22,7 +22,7 @@
                 <span>Approvals</span>
                 <% count = current_user.pending_approvals_count %>
                 <% if count.positive? %>
-                  <span class="sg-count"><%= count %><span class="visually-hidden"> waiting</span></span>
+                  <span class="badge rounded-pill text-bg-accent"><%= count %><span class="visually-hidden"> waiting</span></span>
                 <% end %>
               <% end %>
             </li>

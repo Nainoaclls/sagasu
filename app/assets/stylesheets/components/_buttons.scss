@@ -1,53 +1,28 @@
+// Bootstrap generates .btn-primary, .btn-accent, .btn-outline-primary from $theme-colors.
+// Only Sagasu-specific touches stay here.
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
-  min-height: 44px;
+  min-height: 44px; // touch target
   position: relative; overflow: hidden; // ripple container
   transition: background-color $motion, border-color $motion, color $motion, transform $motion-fast $ease-out, box-shadow $motion;
   &:active:not(:disabled) { transform: translateY(1px) scale(.99); }
   i { font-size: .95em; }
 }
+.btn-sm { min-height: 36px; }
+.btn-lg { min-height: 52px; }
 
-.btn-sm { min-height: 36px; padding: .375rem .875rem; font-size: .875rem; }
-.btn-lg { min-height: 52px; padding: .75rem 1.75rem; font-size: 1.0625rem; }
+.btn-primary { box-shadow: 0 6px 16px rgba(50, 98, 115, .22); }
+.btn-accent { box-shadow: 0 6px 16px rgba(227, 151, 116, .35); } // AI actions only
 
-.btn-primary {
-  --bs-btn-bg: #{$blue-slate}; --bs-btn-border-color: #{$blue-slate};
-  --bs-btn-hover-bg: #{$slate-dark}; --bs-btn-hover-border-color: #{$slate-dark};
-  --bs-btn-active-bg: #{$slate-dark}; --bs-btn-active-border-color: #{$slate-dark};
-  --bs-btn-disabled-bg: #{$blue-slate}; --bs-btn-disabled-border-color: #{$blue-slate};
-  box-shadow: 0 6px 16px rgba(50, 98, 115, .22);
-  &:hover { box-shadow: 0 10px 24px rgba(50, 98, 115, .28); }
-}
-
-// Tangerine: reserved for AI actions. Ink text keeps 5.9:1 contrast.
-.btn-accent {
-  --bs-btn-color: #{$ink}; --bs-btn-bg: #{$tangerine}; --bs-btn-border-color: #{$tangerine};
-  --bs-btn-hover-color: #{$ink}; --bs-btn-hover-bg: #{darken($tangerine, 6%)}; --bs-btn-hover-border-color: #{darken($tangerine, 6%)};
-  --bs-btn-active-color: #{$ink}; --bs-btn-active-bg: #{darken($tangerine, 10%)}; --bs-btn-active-border-color: #{darken($tangerine, 10%)};
-  --bs-btn-disabled-color: #{$ink}; --bs-btn-disabled-bg: #{$tangerine}; --bs-btn-disabled-border-color: #{$tangerine};
-  box-shadow: 0 6px 16px rgba(227, 151, 116, .35);
-}
-
-.btn-ghost {
-  --bs-btn-color: #{$blue-slate}; --bs-btn-bg: #{$white}; --bs-btn-border-color: #{$blue-slate};
-  --bs-btn-hover-color: #{$slate-dark}; --bs-btn-hover-bg: #{$pacific-soft}; --bs-btn-hover-border-color: #{$slate-dark};
-  --bs-btn-active-color: #{$slate-dark}; --bs-btn-active-bg: #{$pacific-soft}; --bs-btn-active-border-color: #{$slate-dark};
-}
-
+// Discreet text buttons (Bootstrap has no equivalent without underline)
 .btn-quiet {
   --bs-btn-color: #{$blue-slate}; --bs-btn-bg: transparent; --bs-btn-border-color: transparent;
   --bs-btn-hover-color: #{$slate-dark}; --bs-btn-hover-bg: #{$pacific-soft}; --bs-btn-hover-border-color: transparent;
   --bs-btn-active-bg: #{$pacific-soft};
 }
-
 .btn-danger-quiet {
   --bs-btn-color: #{$red}; --bs-btn-bg: transparent; --bs-btn-border-color: transparent;
   --bs-btn-hover-color: #{$red}; --bs-btn-hover-bg: #{$red-soft}; --bs-btn-hover-border-color: transparent;
-}
-
-.btn-on-dark {
-  --bs-btn-color: #{$white}; --bs-btn-bg: transparent; --bs-btn-border-color: rgba(255, 255, 255, .7);
-  --bs-btn-hover-color: #{$blue-slate}; --bs-btn-hover-bg: #{$white}; --bs-btn-hover-border-color: #{$white};
 }
 
 .btn-icon { width: 44px; padding: 0; }

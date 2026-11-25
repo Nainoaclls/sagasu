@@ -1,8 +1,8 @@
 <div id="bidder_list">
-<div class="sg-card sg-bidder-card">
+<div class="card card-body sg-bidder-card">
   <div class="sg-section-title mb-2">
     <h2><%= icon("fa-list-check") %> Bidder list</h2>
-    <span class="sg-count" aria-label="<%= project.selected_suppliers_size %> suppliers selected"><%= project.selected_suppliers_size %></span>
+    <span class="badge rounded-pill text-bg-accent" aria-label="<%= project.selected_suppliers_size %> suppliers selected"><%= project.selected_suppliers_size %></span>
   </div>
 
   <% if project.item_groups.empty? %>
@@ -52,7 +52,7 @@
 </div>
 
 <% if project.approvals.any? %>
-  <section class="sg-card mt-3" aria-labelledby="history-title">
+  <section class="card card-body mt-3" aria-labelledby="history-title">
     <h2 id="history-title" class="h6 mb-3"><%= icon("fa-clock-rotate-left") %> Approval history</h2>
     <ol class="sg-timeline">
       <% project.approvals.reverse_each do |approval| %>

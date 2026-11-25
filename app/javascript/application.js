@@ -3,9 +3,14 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "@popperjs/core"
 import "bootstrap"
+import { cleanUpModalBackdrop } from "controllers/modal_controller"
 
-// Safety net: close any open modal <dialog> before Turbo renders or refreshes the page.
-// A modal whose "open" attribute is removed by a morph refresh leaves the page inert (frozen).
-const closeOpenDialogs = () => document.querySelectorAll("dialog[open]").forEach((dialog) => dialog.close())
-document.addEventListener("turbo:before-render", closeOpenDialogs)
-document.addEventListener("turbo:before-cache", closeOpenDialogs)
+// Safety net: close any open Bootstrap modal before Turbo renders or caches a page,
+// so a page refresh never leaves a grey backdrop or a locked scroll behind.
+const closeOpenModals = () => {
+  document.querySelectorAll(".modal.show").forEach((element) => window.bootstrap?.Modal.getInstance(element)?.dispose())
+  document.querySelectorAll(".modal.show").forEach((element) => element.classList.remove("show"))
+  cleanUpModalBackdrop()
+}
+document.addEventListener("turbo:before-render", closeOpenModals)
+document.addEventListener("turbo:before-cache", closeOpenModals)

@@ -1,11 +1,11 @@
-<section id="materials" class="sg-card mb-4" aria-labelledby="materials-title">
+<section id="materials" class="card card-body mb-4" aria-labelledby="materials-title">
   <div class="sg-section-title">
-    <h2 id="materials-title"><%= icon("fa-cubes-stacked") %> Materials <span class="sg-badge sg-badge-info"><%= project.items.size %></span></h2>
+    <h2 id="materials-title"><%= icon("fa-cubes-stacked") %> Materials <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis"><%= project.items.size %></span></h2>
   </div>
 
   <% if project.items.any? %>
-    <div class="sg-table-wrap">
-      <table class="sg-table">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle sg-table">
         <caption class="visually-hidden">Materials of this RFQ and their group</caption>
         <thead>
           <tr>
@@ -31,7 +31,7 @@
                                 label_html: { class: "visually-hidden" }, wrapper_html: { class: "mb-0" },
                                 input_html: { class: "form-select-sm", id: "item_group_#{item.id}",
                                               data: { action: "change->autosubmit#now" } } %>
-                    <noscript><%= f.button :submit, "Move", class: "btn-sm btn-ghost mt-1" %></noscript>
+                    <noscript><%= f.button :submit, "Move", class: "btn-sm btn-outline-primary mt-1" %></noscript>
                   <% end %>
                 <% elsif item.item_group %>
                   <span class="sg-chip"><%= item.item_group.title %></span>

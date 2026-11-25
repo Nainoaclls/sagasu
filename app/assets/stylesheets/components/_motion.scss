@@ -6,8 +6,10 @@
   &.is-visible { opacity: 1; transform: none; }
 }
 
-// New elements inserted after an action (morph refresh) gently appear
-.sg-appear { animation: sg-appear $motion-slow $ease-out both; }
+// New elements inserted after an action (Turbo Stream, refresh) gently appear.
+// "backwards", not "both": once finished the animation no longer applies a transform, otherwise the card
+// would become the containing block of the Bootstrap modal inside it (modal trapped under its backdrop).
+.sg-appear { animation: sg-appear $motion-slow $ease-out backwards; }
 @keyframes sg-appear { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 // Respect the OS setting: no movement, instant state changes
