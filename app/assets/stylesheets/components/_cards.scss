@@ -45,6 +45,9 @@
   .is-missing dd { color: $yellow; font-weight: 400; font-style: normal; }
 }
 
+// Horizontal scroll only (Bootstrap .table-responsive can show a stray vertical scrollbar)
+.table-responsive { overflow-y: hidden; }
+
 // Bootstrap .table: only the small uppercase header style is ours
 .sg-table {
   font-size: .9375rem; margin-bottom: 0;

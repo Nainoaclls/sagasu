@@ -39,6 +39,16 @@ class TurboStreamsTest < ActionDispatch::IntegrationTest
     assert_enqueued_jobs 1, only: SuggestSuppliersJob
   end
 
+  test "renaming a group in place: the form comes in its Turbo Frame, saving re-renders the groups" do
+    frame = "title_frame_item_group_#{@group.id}" # dom_id(group, :title_frame)
+    get edit_item_group_path(@group), headers: { "Turbo-Frame" => frame }
+    assert_response :success
+    assert_select "turbo-frame##{frame} form input[name='item_group[title]']"
+
+    patch item_group_path(@group), params: { item_group: { title: "Bricks & blocks" } }, as: :turbo_stream
+    assert_turbo_stream(action: :replace, target: "groups") { assert_select "h3", "Bricks & blocks" }
+  end
+
   test "a review appears in the list and the form resets" do
     post supplier_reviews_path(@supplier), params: { review: { rating: 5, comment: "On time", visibility: "organization" } },
                                            as: :turbo_stream

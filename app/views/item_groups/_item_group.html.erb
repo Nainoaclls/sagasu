@@ -4,15 +4,17 @@
   <header class="sg-group-head">
     <span class="sg-group-icon" aria-hidden="true"><%= icon(MaterialCategory.icon(item_group.category)) %></span>
     <div class="flex-grow-1">
-      <% if can_edit %>
-        <%= form_with model: item_group, class: "sg-inline-edit", data: { controller: "dirty" } do |f| %>
-          <%= f.label :title, "Group name", class: "visually-hidden", for: dom_id(item_group, :title) %>
-          <%= f.text_field :title, id: dom_id(item_group, :title), maxlength: 80, required: true,
-                           data: { dirty_target: "input", action: "input->dirty#check keydown->dirty#cancel" } %>
-          <%= f.button "Save", class: "btn btn-primary btn-sm" %>
-        <% end %>
-      <% else %>
-        <h3 id="<%= dom_id(item_group, :title) %>" class="sg-group-title"><%= item_group.title %></h3>
+      <%# Turbo Frame: the pencil loads item_groups#edit (rename form) right here %>
+      <%= turbo_frame_tag dom_id(item_group, :title_frame) do %>
+        <div class="d-flex align-items-center gap-1">
+          <h3 id="<%= dom_id(item_group, :title) %>" class="sg-group-title m-0"><%= item_group.title %></h3>
+          <% if can_edit %>
+            <%= link_to edit_item_group_path(item_group), class: "btn btn-quiet btn-sm btn-icon",
+                        "aria-label": "Rename group #{item_group.title}" do %>
+              <%= icon("fa-pen") %>
+            <% end %>
+          <% end %>
+        </div>
       <% end %>
       <p class="sg-caption mb-0">
         <%= pluralize(item_group.items.size, "material") %> ·

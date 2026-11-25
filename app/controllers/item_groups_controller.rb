@@ -29,6 +29,12 @@ class ItemGroupsController < ApplicationController
     end
   end
 
+  # Story 6: rename form, loaded into the group's title Turbo Frame (edit in place)
+  def edit
+    @item_group = ItemGroup.find(params[:id])
+    authorize @item_group
+  end
+
   # Story 6: rename or describe a group
   def update
     item_group = ItemGroup.find(params[:id])
