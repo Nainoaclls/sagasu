@@ -1,4 +1,5 @@
-<%= form_with model: [supplier, review], data: { controller: "visibility" } do |f| %>
+<%# Turbo Stream target "review_form": replaced by a blank form after a review is shared, or with errors %>
+<%= form_with model: [supplier, review], id: "review_form", data: { controller: "visibility" } do |f| %>
   <% if review.errors.any? %>
     <div class="alert alert-danger small" role="alert">
       <p class="fw-bold mb-1">Please fix:</p>

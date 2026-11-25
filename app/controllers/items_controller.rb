@@ -1,35 +1,37 @@
 class ItemsController < ApplicationController
+  include ProjectWorkspace
+
   before_action :set_item, only: %i[update destroy]
 
   # Story 4: paste one material per line
   def create
-    @project = Project.find(params[:project_id])
-    # Item.new(project:) is not added to @project.items, so the save below only sees real materials
-    authorize Item.new(project: @project)
+    project = Project.find(params[:project_id])
+    # Item.new(project:) is not added to project.items, so the save below only sees real materials
+    authorize Item.new(project: project)
 
     added = MaterialListParser.parse(params.dig(:items, :materials_text)).map do |attributes|
-      @project.items.build(attributes)
+      project.items.build(attributes)
     end
-    if added.any? && @project.save
-      redirect_to @project, notice: "#{added.size} material#{'s' if added.size > 1} added.", status: :see_other
+    if added.any? && project.save
+      respond_with_workspace(project, notice: "#{added.size} material#{'s' if added.size > 1} added.")
     else
-      redirect_to @project,
-                  alert: "No material found. Write one material per line, e.g. “Red clay bricks; 50000; pcs”.", status: :see_other
+      respond_with_workspace(project,
+                             alert: "No material found. Write one material per line, e.g. “Red clay bricks; 50000; pcs”.")
     end
   end
 
   # Story 6: move an item to another group, or fix its details
   def update
     if @item.update(item_params)
-      redirect_to @item.project, notice: update_notice, status: :see_other
+      respond_with_workspace(@item.project, notice: update_notice)
     else
-      redirect_to @item.project, alert: @item.errors.full_messages.to_sentence, status: :see_other
+      respond_with_workspace(@item.project, alert: @item.errors.full_messages.to_sentence)
     end
   end
 
   def destroy
     @item.destroy
-    redirect_to @item.project, notice: "“#{@item.description}” removed.", status: :see_other
+    respond_with_workspace(@item.project, notice: "“#{@item.description}” removed.")
   end
 
   private

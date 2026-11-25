@@ -1,0 +1,6 @@
+<%# After a change inside one group (supplier selected, declined, added, AI started): replace that card only %>
+<%= turbo_stream.replace dom_id(@item_group), partial: "item_groups/item_group",
+                         locals: { item_group: @item_group, can_edit: policy(@project).edit_content? } %>
+<%= turbo_stream.replace "project_stepper", partial: "projects/stepper", locals: { project: @project } %>
+<%= turbo_stream.replace "bidder_list", partial: "projects/bidder_list", locals: { project: @project, approvers: @approvers } %>
+<%= render "shared/stream_toasts" %>

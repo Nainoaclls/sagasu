@@ -46,35 +46,7 @@
         <% end %>
       </section>
 
-      <section aria-labelledby="reviews-title">
-        <div class="sg-section-title">
-          <h2 id="reviews-title"><%= icon("fa-comments") %> Team reviews <span class="sg-badge sg-badge-info"><%= @reviews.size %></span></h2>
-        </div>
-        <p class="sg-caption">Unverified observations are shown for context. Sagasu never excludes a supplier on one of them alone.</p>
-
-        <% if @reviews.any? %>
-          <ol class="sg-reviews">
-            <% @reviews.each do |review| %>
-              <li class="sg-card sg-review">
-                <div class="d-flex flex-wrap justify-content-between gap-2 mb-2">
-                  <div class="d-flex align-items-center gap-2">
-                    <%= stars(review.rating) %>
-                    <span class="small fw-bold"><%= review_author(review) %></span>
-                    <span class="sg-caption">· <%= time_ago_in_words(review.created_at) %> ago</span>
-                  </div>
-                  <div class="d-flex flex-wrap gap-1">
-                    <%= review_status_badge(review) %>
-                    <%= review_visibility_badge(review) %>
-                  </div>
-                </div>
-                <p class="mb-0"><%= review.comment %></p>
-              </li>
-            <% end %>
-          </ol>
-        <% else %>
-          <p class="sg-empty-compact">No review yet. Share what you know about this supplier.</p>
-        <% end %>
-      </section>
+      <%= render "reviews/list", reviews: @reviews %>
     </div>
 
     <aside aria-labelledby="review-form-title">

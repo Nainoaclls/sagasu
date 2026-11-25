@@ -1,0 +1,5 @@
+<%# Story 11, Le Wagon pattern: the new review appears in the list and the form resets, without a page load %>
+<%= turbo_stream.replace "reviews", partial: "reviews/list", locals: { reviews: @reviews } %>
+<%= turbo_stream.replace "review_form", partial: "reviews/form",
+                         locals: { supplier: @supplier, review: @review, projects: @review_projects } %>
+<%= render "shared/stream_toasts" %>

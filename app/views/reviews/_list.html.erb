@@ -1,0 +1,15 @@
+<%# Turbo Stream target "reviews": replaced when a review is added %>
+<section id="reviews" aria-labelledby="reviews-title">
+  <div class="sg-section-title">
+    <h2 id="reviews-title"><%= icon("fa-comments") %> Team reviews <span class="sg-badge sg-badge-info"><%= reviews.size %></span></h2>
+  </div>
+  <p class="sg-caption">Unverified observations are shown for context. Sagasu never excludes a supplier on one of them alone.</p>
+
+  <% if reviews.any? %>
+    <ol class="sg-reviews">
+      <%= render partial: "reviews/review", collection: reviews %>
+    </ol>
+  <% else %>
+    <p class="sg-empty-compact">No review yet. Share what you know about this supplier.</p>
+  <% end %>
+</section>

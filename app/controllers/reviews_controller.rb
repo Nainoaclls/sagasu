@@ -9,14 +9,37 @@ class ReviewsController < ApplicationController
     authorize @review
 
     if @review.save
-      redirect_to @supplier, notice: "Thanks! Your review is shared #{audience}.", status: :see_other
+      shared
     else
       load_supplier_reviews(@supplier)
-      render "suppliers/show", status: :unprocessable_entity
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("review_form", partial: "reviews/form", locals: form_locals),
+                 status: :unprocessable_entity
+        end
+        format.html { render "suppliers/show", status: :unprocessable_entity }
+      end
     end
   end
 
   private
+
+  # Turbo Stream: list refreshed + blank form (create.turbo_stream.erb). Without JS: redirect.
+  def shared
+    notice = "Thanks! Your review is shared #{audience}."
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[:notice] = notice
+        load_supplier_reviews(@supplier)
+        @review = Review.new(rating: 4, visibility: "organization", ai_usable: true)
+      end
+      format.html { redirect_to @supplier, notice: notice, status: :see_other }
+    end
+  end
+
+  def form_locals
+    { supplier: @supplier, review: @review, projects: @review_projects }
+  end
 
   def review_params
     params.require(:review).permit(:rating, :comment, :visibility, :project_id, :ai_usable)
