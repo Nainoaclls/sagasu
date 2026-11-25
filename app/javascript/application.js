@@ -3,6 +3,7 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "@popperjs/core"
 import "bootstrap"
+import "sweet_confirm"
 import { cleanUpModalBackdrop } from "controllers/modal_controller"
 
 // Safety net: close any open Bootstrap modal before Turbo renders or caches a page,

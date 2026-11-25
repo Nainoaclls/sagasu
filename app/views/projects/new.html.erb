@@ -34,7 +34,8 @@
           <div class="col-md-6"><%= f.input :client_name, label: "Client", placeholder: "Aoyama Development" %></div>
           <div class="col-md-6">
             <%= f.input :client_area, label: "Delivery area", collection: Prefecture::ALL, prompt: "Choose a prefecture",
-                        hint: "Used to check which suppliers deliver there." %>
+                        hint: "Used to check which suppliers deliver there. Type to search.",
+                        input_html: { data: { controller: "tom-select", tom_select_placeholder_value: "Type a prefecture…" } } %>
           </div>
           <div class="col-md-4"><%= f.input :erp_rfq, label: "ERP RFQ number", placeholder: "RFQ-2026-118", required: false %></div>
           <div class="col-md-5"><%= f.input :budget_amount, label: "Budget", input_html: { min: 0, step: 1000, inputmode: "decimal" } %></div>
