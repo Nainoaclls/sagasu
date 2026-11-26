@@ -15,6 +15,13 @@ class Supplier < ApplicationRecord
             numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
   # Full-string match: only http(s) links, no "javascript:" or spaces (they are rendered as hrefs)
   validates :website, :source_url, format: { with: %r{\Ahttps?://[^\s<>"]+\z}i }, allow_blank: true
+  validates :erp_vendor_code, uniqueness: true, allow_nil: true
+  validates :prefecture, inclusion: { in: Prefecture::ALL }, allow_blank: true
+  validate :known_delivery_areas
+
+  # A blank vendor code is "no code": the unique index only covers real codes.
+  normalizes :erp_vendor_code, with: ->(code) { code.to_s.strip.presence }
+  before_validation { self.delivery_areas = delivery_areas.compact_blank.uniq }
 
   pg_search_scope :search_text,
                   against: { name: "A", category: "B", city: "B", prefecture: "B", description: "C" },
@@ -38,6 +45,15 @@ class Supplier < ApplicationRecord
 
   def category_label
     MaterialCategory.label(category)
+  end
+
+  # The form edits certifications as one comma-separated line.
+  def certifications_text
+    certifications.join(", ")
+  end
+
+  def certifications_text=(text)
+    self.certifications = text.to_s.split(/[,;\n]/).map(&:strip).compact_blank.uniq
   end
 
   def location
@@ -72,6 +88,11 @@ class Supplier < ApplicationRecord
   end
 
   private
+
+  def known_delivery_areas
+    unknown = delivery_areas - Prefecture::ALL - [NATIONWIDE]
+    errors.add(:delivery_areas, :inclusion) if unknown.any?
+  end
 
   # Geocode when the address moves. Rows created with coordinates (seeds, imports) are
   # trusted as-is; a blank address never triggers a lookup.

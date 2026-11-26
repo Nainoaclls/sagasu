@@ -25,7 +25,46 @@ class SuppliersController < ApplicationController
     @map_suppliers = @supplier.latitude.present? && @supplier.longitude.present? ? [@supplier] : []
   end
 
+  def new
+    @supplier = Supplier.new(category: MaterialCategory::OTHER)
+    authorize @supplier
+  end
+
+  def create
+    @supplier = Supplier.new(supplier_params)
+    authorize @supplier
+
+    if @supplier.save
+      redirect_to @supplier, notice: t("supplier_management.flashes.created", name: @supplier.name),
+                             status: :see_other
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @supplier = Supplier.find(params[:id])
+    authorize @supplier
+  end
+
+  def update
+    @supplier = Supplier.find(params[:id])
+    authorize @supplier
+
+    if @supplier.update(supplier_params)
+      redirect_to @supplier, notice: t("supplier_management.flashes.updated"), status: :see_other
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
+
+  def supplier_params
+    params.require(:supplier).permit(:name, :category, :description, :website, :erp_vendor_code, :city, :prefecture,
+                                     :monthly_capacity, :capacity_unit, :lead_time_days, :certifications_text,
+                                     delivery_areas: [])
+  end
 
   # Compact results inside a project group, to add a supplier found by search
   def render_picker

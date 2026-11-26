@@ -2,8 +2,11 @@
 <% verified = @reviews.select(&:verified?) %>
 
 <div class="sg-container sg-page">
-  <nav aria-label="Breadcrumb" class="mb-3">
+  <nav aria-label="Breadcrumb" class="mb-3 d-flex justify-content-between flex-wrap gap-2">
     <%= link_to suppliers_path, class: "small" do %><%= icon("fa-arrow-left") %> <%= t("suppliers.show.all_suppliers") %><% end %>
+    <% if policy(@supplier).update? %>
+      <%= link_to edit_supplier_path(@supplier), class: "small" do %><%= icon("fa-pen") %> <%= t("supplier_management.edit_link") %><% end %>
+    <% end %>
   </nav>
 
   <header class="card card-body flex-md-row sg-supplier-head">

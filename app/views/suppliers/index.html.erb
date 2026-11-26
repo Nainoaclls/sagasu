@@ -6,6 +6,9 @@
       <h1><%= t("suppliers.index.title") %></h1>
       <p><%= t("suppliers.index.lead") %></p>
     </div>
+    <% if policy(Supplier).create? %>
+      <%= link_to new_supplier_path, class: "btn btn-primary" do %><%= icon("fa-plus") %> <%= t("supplier_management.new_link") %><% end %>
+    <% end %>
   </header>
 
   <%# Le Wagon search pattern: GET form_with, results in a Turbo Frame %>
