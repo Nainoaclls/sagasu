@@ -1,0 +1,21 @@
+<%# Quick jump between the groups, with what each one still needs. Opens the group it jumps to. %>
+<nav class="sg-group-nav" aria-label="<%= t("project_layout.nav_label") %>">
+  <ul>
+    <% project.item_groups.each_with_index do |group, index| %>
+      <li>
+        <a href="#<%= dom_id(group) %>" data-action="click->group-nav#open" data-group-nav-id-param="<%= dom_id(group) %>">
+          <span class="sg-group-number" aria-hidden="true"><%= index + 1 %></span>
+          <%= group.title %>
+          <% if group.suggestion_links.any? %>
+            <span class="badge rounded-pill text-bg-accent"><%= group.suggestion_links.size %></span>
+            <span class="visually-hidden"><%= t("project_layout.to_review", count: group.suggestion_links.size) %></span>
+          <% end %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+  <div class="sg-group-nav-actions">
+    <button type="button" class="btn btn-quiet btn-sm" data-action="group-nav#expandAll"><%= icon("fa-angles-down") %> <%= t("project_layout.expand_all") %></button>
+    <button type="button" class="btn btn-quiet btn-sm" data-action="group-nav#collapseAll"><%= icon("fa-angles-up") %> <%= t("project_layout.collapse_all") %></button>
+  </div>
+</nav>

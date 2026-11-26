@@ -1,9 +1,24 @@
-<% links = item_group.ordered_group_suppliers %>
-<% suggesting = item_group.project.suggesting_group_ids.include?(item_group.id) %>
-<article class="card card-body sg-group sg-appear" id="<%= dom_id(item_group) %>" aria-labelledby="<%= dom_id(item_group, :title) %>">
-  <header class="sg-group-head">
+<%# One group of the bidder list. The card folds: the header (number, title, counts, names of the suppliers
+    kept) always shows, the body opens on demand. group_fold_controller.js remembers the choice across Turbo
+    replacements; the server only sets the default (open: the group to work on next). %>
+<% project = item_group.project %>
+<% selected = item_group.selected_links %>
+<% to_review = item_group.suggestion_links %>
+<% declined = item_group.declined_links %>
+<% suggesting = project.suggesting_group_ids.include?(item_group.id) %>
+<% number = project.item_groups.to_a.index(item_group).to_i + 1 %>
+<% default_open = suggesting || (can_edit ? item_group == project.item_groups.find(&:needs_attention?) : number == 1) %>
+<% body_id = dom_id(item_group, :body) %>
+
+<article class="card card-body sg-group sg-appear <%= 'is-collapsed' unless default_open %>" id="<%= dom_id(item_group) %>"
+         aria-labelledby="<%= dom_id(item_group, :title) %>"
+         data-controller="group-fold" data-group-fold-key-value="<%= dom_id(item_group) %>"
+         data-group-fold-open-value="<%= default_open %>"
+         data-action="submit->group-fold#keep group-fold:open->group-fold#open group-fold:close->group-fold#close">
+  <header class="sg-group-head" data-action="click->group-fold#headerClick">
+    <span class="sg-group-number" aria-hidden="true"><%= number %></span>
     <span class="sg-group-icon" aria-hidden="true"><%= icon(MaterialCategory.icon(item_group.category)) %></span>
-    <div class="flex-grow-1">
+    <div class="flex-grow-1 min-w-0">
       <%# Turbo Frame: the pencil loads item_groups#edit (rename form) right here %>
       <%= turbo_frame_tag dom_id(item_group, :title_frame) do %>
         <div class="d-flex align-items-center gap-1">
@@ -16,64 +31,101 @@
           <% end %>
         </div>
       <% end %>
-      <p class="sg-caption mb-0">
-        <%= t("item_groups.materials_count", count: item_group.items.size) %> ·
-        <%= t("item_groups.on_bidder_list", count: item_group.selected_count) %>
-      </p>
+      <p class="sg-caption mb-0"><%= t("item_groups.materials_count", count: item_group.items.size) %></p>
+      <% if selected.any? %>
+        <p class="sg-group-names mb-0">
+          <%= icon("fa-check", class: "is-ok") %>
+          <%= selected.first(3).map { |link| link.supplier.name }.join(", ") %><% if selected.size > 3 %> <%= t("project_layout.more", count: selected.size - 3) %><% end %>
+        </p>
+      <% end %>
     </div>
+    <div class="sg-group-stats">
+      <% if selected.any? %>
+        <%= badge(:success, "fa-check", t("item_groups.on_bidder_list", count: selected.size)) %>
+      <% end %>
+      <% if to_review.any? %>
+        <%= badge(:accent, "fa-wand-magic-sparkles", t("project_layout.to_review", count: to_review.size)) %>
+      <% end %>
+      <% if item_group.group_suppliers.empty? %>
+        <%= badge(:outline, "fa-circle-question", t("project_layout.no_suppliers")) %>
+      <% end %>
+    </div>
+    <button type="button" class="btn btn-quiet btn-icon sg-group-toggle" aria-expanded="<%= default_open %>" aria-controls="<%= body_id %>"
+            aria-label="<%= t("project_layout.toggle", title: item_group.title) %>"
+            data-group-fold-target="toggle" data-action="click->group-fold#toggle">
+      <%= icon("fa-chevron-down") %>
+    </button>
   </header>
 
-  <% if item_group.ai_reason.present? %>
-    <div class="sg-ai-note mb-3">
-      <%= icon("fa-wand-magic-sparkles") %>
-      <div><strong><%= t("item_groups.ai_note") %></strong><%= item_group.ai_reason %></div>
-    </div>
-  <% end %>
-
-  <ul class="sg-group-items" aria-label="<%= t("item_groups.items_label", title: item_group.title) %>">
-    <% item_group.items.each do |item| %>
-      <li class="sg-chip"><%= item.description %> <span class="sg-caption"><%= item.quantity_label %></span></li>
-    <% end %>
-    <% if item_group.items.empty? %><li class="sg-caption"><%= t("item_groups.no_items") %></li><% end %>
-  </ul>
-
-  <div class="sg-group-suppliers">
-    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
-      <h4 class="h6 m-0"><%= t("item_groups.suppliers_title") %></h4>
-      <% if links.reject(&:rejected_suggestion?).size >= 2 %>
-        <%= link_to item_group_comparison_path(item_group), class: "btn btn-quiet btn-sm" do %><%= icon("fa-table-columns") %> <%= t("supplier_comparison.link") %><% end %>
-      <% end %>
-      <% if can_edit && !suggesting %>
-        <%= button_to suggest_item_group_group_suppliers_path(item_group), class: "btn btn-accent btn-sm",
-              data: { controller: "ripple", action: "click->ripple#burst", turbo_submits_with: t("item_groups.starting") } do %>
-          <%= icon("fa-wand-magic-sparkles") %> <%= links.any?(&:ai_suggested?) ? t("item_groups.suggest_more") : t("item_groups.suggest") %>
-        <% end %>
-      <% end %>
-    </div>
-
-    <%= render "shared/ai_working", message: ai_overlay_message(:suggestion) if suggesting %>
-
-    <% if links.any? %>
-      <div class="sg-supplier-list">
-        <%= render partial: "group_suppliers/group_supplier", collection: links, as: :link, locals: { can_edit: can_edit } %>
-      </div>
-    <% else %>
-      <p class="sg-empty-compact"><%= can_edit ? t("item_groups.empty_editable") : t("item_groups.empty_readonly") %></p>
-    <% end %>
-
-    <% if can_edit %>
-      <div class="sg-picker">
-        <%= form_with url: suppliers_path, method: :get, class: "sg-search mt-3", role: "search",
-              data: { controller: "autosubmit", turbo_frame: dom_id(item_group, :picker) } do |f| %>
-          <%= hidden_field_tag :item_group_id, item_group.id, id: nil %>
-          <%= icon("fa-magnifying-glass") %>
-          <%= f.label :query, t("item_groups.search_label", title: item_group.title), class: "visually-hidden", for: dom_id(item_group, :query) %>
-          <%= f.search_field :query, id: dom_id(item_group, :query), class: "form-control", autocomplete: "off",
-                             placeholder: t("item_groups.search_placeholder"),
-                             data: { action: "input->autosubmit#debounced" } %>
-        <% end %>
-        <%= turbo_frame_tag dom_id(item_group, :picker), class: "sg-picker-results" %>
+  <div class="sg-group-body" id="<%= body_id %>" data-group-fold-target="body">
+    <% if item_group.ai_reason.present? %>
+      <div class="sg-ai-note mb-3">
+        <%= icon("fa-wand-magic-sparkles") %>
+        <div><strong><%= t("item_groups.ai_note") %></strong><%= item_group.ai_reason %></div>
       </div>
     <% end %>
+
+    <ul class="sg-group-items" aria-label="<%= t("item_groups.items_label", title: item_group.title) %>">
+      <% item_group.items.each do |item| %>
+        <li class="sg-chip"><%= item.description %> <span class="sg-caption"><%= item.quantity_label %></span></li>
+      <% end %>
+      <% if item_group.items.empty? %><li class="sg-caption"><%= t("item_groups.no_items") %></li><% end %>
+    </ul>
+
+    <div class="sg-group-suppliers">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
+        <h4 class="h6 m-0"><%= t("item_groups.suppliers_title") %></h4>
+        <div class="d-flex flex-wrap align-items-center gap-2">
+          <% if selected.size + to_review.size >= 2 %>
+            <%= link_to item_group_comparison_path(item_group), class: "btn btn-outline-primary btn-sm" do %><%= icon("fa-table-columns") %> <%= t("supplier_comparison.link") %><% end %>
+          <% end %>
+          <% if can_edit && !suggesting %>
+            <%= button_to suggest_item_group_group_suppliers_path(item_group), class: "btn btn-accent btn-sm",
+                  data: { controller: "ripple", action: "click->ripple#burst", turbo_submits_with: t("item_groups.starting") } do %>
+              <%= icon("fa-wand-magic-sparkles") %> <%= item_group.group_suppliers.any?(&:ai_suggested?) ? t("item_groups.suggest_more") : t("item_groups.suggest") %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <%= render "shared/ai_working", message: ai_overlay_message(:suggestion) if suggesting %>
+
+      <% if item_group.group_suppliers.any? %>
+        <% { selected: selected, to_review: to_review }.each do |block, links| %>
+          <% next if links.empty? %>
+          <section class="sg-supplier-block" aria-labelledby="<%= dom_id(item_group, "#{block}_title") %>">
+            <h5 id="<%= dom_id(item_group, "#{block}_title") %>" class="sg-block-title"><%= t("project_layout.blocks.#{block}") %> <span class="sg-block-count"><%= links.size %></span></h5>
+            <div class="sg-supplier-list">
+              <%= render partial: "group_suppliers/group_supplier", collection: links, as: :link, locals: { can_edit: can_edit } %>
+            </div>
+          </section>
+        <% end %>
+        <% if declined.any? %>
+          <details class="sg-supplier-block sg-declined">
+            <summary class="sg-block-title"><%= t("project_layout.blocks.declined") %> <span class="sg-block-count"><%= declined.size %></span></summary>
+            <div class="sg-supplier-list">
+              <%= render partial: "group_suppliers/group_supplier", collection: declined, as: :link, locals: { can_edit: can_edit } %>
+            </div>
+          </details>
+        <% end %>
+      <% else %>
+        <p class="sg-empty-compact"><%= can_edit ? t("item_groups.empty_editable") : t("item_groups.empty_readonly") %></p>
+      <% end %>
+
+      <% if can_edit %>
+        <div class="sg-picker">
+          <%= form_with url: suppliers_path, method: :get, class: "sg-search mt-3", role: "search",
+                data: { controller: "autosubmit", turbo_frame: dom_id(item_group, :picker) } do |f| %>
+            <%= hidden_field_tag :item_group_id, item_group.id, id: nil %>
+            <%= icon("fa-magnifying-glass") %>
+            <%= f.label :query, t("item_groups.search_label", title: item_group.title), class: "visually-hidden", for: dom_id(item_group, :query) %>
+            <%= f.search_field :query, id: dom_id(item_group, :query), class: "form-control", autocomplete: "off",
+                               placeholder: t("item_groups.search_placeholder"),
+                               data: { action: "input->autosubmit#debounced" } %>
+          <% end %>
+          <%= turbo_frame_tag dom_id(item_group, :picker), class: "sg-picker-results" %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </article>

@@ -26,6 +26,25 @@ class ItemGroup < ApplicationRecord
     end
   end
 
+  # The group's candidates in the three blocks the page shows (same order as ordered_group_suppliers)
+  def selected_links
+    ordered_group_suppliers.select(&:selected?)
+  end
+
+  # Open suggestions and searched-for suppliers the buyer has not decided on yet
+  def suggestion_links
+    ordered_group_suppliers.reject { |link| link.selected? || link.rejected_suggestion? }
+  end
+
+  def declined_links
+    ordered_group_suppliers.select(&:rejected_suggestion?)
+  end
+
+  # Nothing found yet, or suggestions waiting for a decision: the group to work on next
+  def needs_attention?
+    group_suppliers.empty? || suggestion_links.any?
+  end
+
   # Frozen copy used in an approval snapshot (see Project#build_snapshot)
   def to_snapshot
     {

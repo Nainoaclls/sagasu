@@ -1,0 +1,20 @@
+fr:
+  project_layout:
+    toggle: "Afficher ou masquer le groupe « %{title} »"
+    more: "+%{count} autres"
+    no_suppliers: "Aucun fournisseur"
+    nav_label: "Aller à un groupe"
+    expand_all: "Tout déplier"
+    collapse_all: "Tout replier"
+    key_facts: "Faits clés"
+    details: "Détails"
+    to_review:
+      one: "%{count} à examiner"
+      other: "%{count} à examiner"
+    to_confirm_count:
+      one: "%{count} à confirmer"
+      other: "%{count} à confirmer"
+    blocks:
+      selected: "Sur la liste des soumissionnaires"
+      to_review: "Suggestions à examiner"
+      declined: "Suggestions refusées"
