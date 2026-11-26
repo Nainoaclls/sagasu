@@ -8,6 +8,11 @@ class ProjectPolicy < ApplicationPolicy
     owner? || record.approvals.exists?(approver_id: user.id)
   end
 
+  # Same audience as the project itself: its history is no more public than its content.
+  def activity?
+    show?
+  end
+
   def create?
     user.buyer?
   end
