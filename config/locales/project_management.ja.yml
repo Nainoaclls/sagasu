@@ -1,0 +1,16 @@
+ja:
+  project_management:
+    copy_title: "%{title}（コピー）"
+    actions:
+      edit: "詳細を編集"
+      duplicate: "複製"
+      delete: "削除"
+      delete_confirm: "「%{title}」を削除しますか？ 資材とグループも削除され、元に戻せません。"
+    edit:
+      title: "プロジェクトを編集"
+      lead: "ニーズ、顧客、予算を変更できます。資材とグループはプロジェクトのページで編集します。"
+      save: "変更を保存"
+    flashes:
+      updated: "プロジェクトを更新しました。"
+      deleted: "プロジェクト「%{title}」を削除しました。"
+      duplicated: "プロジェクトを複製しました。資材とグループはコピーされました。サプライヤーは選び直してください。"

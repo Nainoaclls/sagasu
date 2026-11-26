@@ -1,0 +1,16 @@
+en:
+  project_management:
+    copy_title: "%{title} (copy)"
+    actions:
+      edit: "Edit details"
+      duplicate: "Duplicate"
+      delete: "Delete"
+      delete_confirm: "Delete “%{title}”? Its materials and groups will be removed. This cannot be undone."
+    edit:
+      title: "Edit project"
+      lead: "Change the need, the client or the budget. Materials and groups are edited on the project page."
+      save: "Save changes"
+    flashes:
+      updated: "Project updated."
+      deleted: "Project “%{title}” deleted."
+      duplicated: "Project duplicated. Materials and groups were copied; choose suppliers again."

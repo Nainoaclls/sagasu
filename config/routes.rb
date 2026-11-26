@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   get "manifest.json" => "rails/pwa#manifest", as: :pwa_manifest, defaults: { format: :json }
   get "service-worker.js" => "rails/pwa#service_worker", as: :pwa_service_worker, defaults: { format: :js }
 
-  resources :projects, only: %i[index new create show] do # 3
+  resources :projects do # 3 (edit, destroy and duplicate: manage a project's details)
+    member { post :duplicate }
     resources :items, only: [:create]                            # 4
     resources :item_groups, only: [:create] do                   # 6 (manual group)
       collection { post :generate }                              # 5 (AI)

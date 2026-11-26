@@ -30,6 +30,37 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def edit
+    @project = Project.find(params[:id])
+    authorize @project
+  end
+
+  def update
+    @project = Project.find(params[:id])
+    authorize @project
+
+    if @project.update(project_params.except(:materials_text))
+      redirect_to @project, notice: t("project_management.flashes.updated"), status: :see_other
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    project = Project.find(params[:id])
+    authorize project
+    project.destroy!
+    redirect_to projects_path, notice: t("project_management.flashes.deleted", title: project.title),
+                               status: :see_other
+  end
+
+  def duplicate
+    project = Project.find(params[:id])
+    authorize project
+    copy = project.duplicate_for(current_user)
+    redirect_to copy, notice: t("project_management.flashes.duplicated"), status: :see_other
+  end
+
   private
 
   def project_params
