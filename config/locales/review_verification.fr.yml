@@ -1,0 +1,11 @@
+fr:
+  review_verification:
+    group_label: "Vérifier cet avis"
+    actions:
+      verified: "Marquer comme vérifié"
+      disputed: "Marquer comme contesté"
+      unverified: "Remettre en non vérifié"
+    flashes:
+      verified: "Avis marqué comme vérifié."
+      disputed: "Avis marqué comme contesté."
+      unverified: "Avis remis en non vérifié."

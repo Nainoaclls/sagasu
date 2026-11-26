@@ -37,5 +37,7 @@ Rails.application.routes.draw do
     resources :reviews, only: [:create] # 11
   end
 
+  resources :reviews, only: [:update] # approvers verify or dispute an observation (status)
+
   resources :approvals, only: %i[index update] # 13, 14
 end

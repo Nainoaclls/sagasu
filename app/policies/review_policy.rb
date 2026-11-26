@@ -7,6 +7,12 @@ class ReviewPolicy < ApplicationPolicy
     record.project.present? && ProjectPolicy.new(user, record.project).show?
   end
 
+  # Approvers decide what is verified or disputed, never on their own review and only on
+  # reviews they may see. Authors cannot vouch for themselves.
+  def update?
+    user.approver? && record.user_id != user.id && Scope.new(user, Review).resolve.exists?(record.id)
+  end
+
   class Scope < ApplicationPolicy::Scope
     def resolve
       scope.visible_to(user)

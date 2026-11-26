@@ -22,6 +22,20 @@ class ReviewsController < ApplicationController
     end
   end
 
+  # Approvers mark an observation verified, disputed, or back to unverified (never a silent blacklist:
+  # the review stays visible and the AI still never excludes a supplier on one observation alone).
+  def update
+    review = Review.find(params[:id])
+    authorize review
+
+    if review.update(params.require(:review).permit(:status))
+      redirect_to supplier_path(review.supplier, anchor: helpers.dom_id(review)),
+                  notice: t("review_verification.flashes.#{review.status}"), status: :see_other
+    else
+      redirect_to supplier_path(review.supplier), alert: review.errors.full_messages.to_sentence, status: :see_other
+    end
+  end
+
   private
 
   # Turbo Stream: list refreshed + blank form (create.turbo_stream.erb). Without JS: redirect.
