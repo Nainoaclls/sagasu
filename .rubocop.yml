@@ -8,6 +8,7 @@ AllCops:
     - 'script/**/*'
     - 'support/**/*'
     - 'tmp/**/*'
+    - 'vendor/**/*' # bundler-cache installs gems in vendor/bundle on CI
     - 'test/**/*'
 
 Style/ConditionalAssignment:
