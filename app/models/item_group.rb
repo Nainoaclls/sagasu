@@ -54,7 +54,8 @@ class ItemGroup < ApplicationRecord
       end,
       "suppliers" => group_suppliers.select(&:selected?).map do |link|
         { "id" => link.supplier_id, "name" => link.supplier.name, "source" => link.source,
-          "ai_suggested" => link.ai_suggested }
+          "ai_suggested" => link.ai_suggested,
+          "evidence" => link.evidence, "missing_info" => link.missing_info }
       end
     }
   end

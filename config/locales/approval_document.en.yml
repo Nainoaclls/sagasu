@@ -1,0 +1,37 @@
+en:
+  approval_document:
+    title: "Bid Approval Form"
+    status:
+      pending: "SUBMITTED FOR APPROVAL"
+      approved: "APPROVED"
+      returned: "RETURNED"
+    labels:
+      project: "Project"
+      buyer: "Buyer"
+      client: "Client"
+      area: "Delivery area"
+      budget: "Budget"
+      submitted_at: "Submitted on"
+      buyer_comment: "Buyer's comment"
+      materials: "Materials"
+      selected_suppliers: "Selected suppliers"
+    columns:
+      description: "Description"
+      quantity: "Qty"
+      unit: "Unit"
+      supplier: "Supplier"
+      origin: "Origin"
+      strengths: "Strengths"
+      to_confirm: "To confirm"
+    origin:
+      ai: "AI suggestion"
+      manual: "Manual"
+    decision:
+      heading: "Decision"
+      pending: "Pending decision by the assigned approver."
+      approved: "Approved"
+      returned: "Returned"
+      seal: "承認"
+    footer:
+      generated_at: "Generated on %{time}"
+    link: "Approval form (PDF)"

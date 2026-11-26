@@ -29,4 +29,15 @@ class ApprovalTest < ActiveSupport::TestCase
     assert_not approval.valid?
     assert_includes approval.errors[:approver], "must have the approver role"
   end
+
+  test "the snapshot freezes evidence and missing info for the approval form" do
+    project = create_ready_project(user: @buyer)
+    link = project.group_suppliers.first
+    link.update!(evidence: ["JIS certified"], missing_info: ["Capacity to confirm"])
+    approval = project.submit_for_approval!(approver: @approver)
+
+    supplier = approval.snapshot["groups"].first["suppliers"].first
+    assert_equal ["JIS certified"], supplier["evidence"]
+    assert_equal ["Capacity to confirm"], supplier["missing_info"]
+  end
 end

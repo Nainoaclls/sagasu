@@ -1,0 +1,37 @@
+ja:
+  approval_document:
+    title: "稟議書 — 入札者リスト"
+    status:
+      pending: "承認申請中"
+      approved: "承認済み"
+      returned: "差し戻し"
+    labels:
+      project: "プロジェクト"
+      buyer: "購買担当"
+      client: "発注者"
+      area: "納入エリア"
+      budget: "予算"
+      submitted_at: "申請日"
+      buyer_comment: "購買担当コメント"
+      materials: "資材"
+      selected_suppliers: "選定サプライヤー"
+    columns:
+      description: "品目"
+      quantity: "数量"
+      unit: "単位"
+      supplier: "サプライヤー"
+      origin: "選定経緯"
+      strengths: "強み"
+      to_confirm: "要確認事項"
+    origin:
+      ai: "AI提案"
+      manual: "手動選定"
+    decision:
+      heading: "決裁"
+      pending: "指定の承認者による決裁待ちです。"
+      approved: "承認"
+      returned: "差し戻し"
+      seal: "承認"
+    footer:
+      generated_at: "出力日時 %{time}"
+    link: "稟議書（PDF）"

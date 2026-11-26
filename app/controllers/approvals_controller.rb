@@ -22,6 +22,16 @@ class ApprovalsController < ApplicationController
     redirect_to @project, alert: e.record.errors.full_messages.to_sentence, status: :see_other
   end
 
+  # The approval form as a PDF, generated on demand from the frozen snapshot (no AI involved)
+  def document
+    @approval = Approval.find(params[:id])
+    authorize @approval
+
+    document = ApprovalDocument.new(@approval, locale: I18n.locale)
+    send_data document.render, filename: document.filename,
+                               type: "application/pdf", disposition: "inline"
+  end
+
   # Story 14: approve, or return with a comment
   def update
     @approval = Approval.find(params[:id])

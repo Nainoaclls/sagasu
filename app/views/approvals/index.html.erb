@@ -32,6 +32,9 @@
               <% if approval.snapshot["buyer_comment"].present? %>
                 <p class="sg-buyer-comment small"><%= icon("fa-comment") %> “<%= approval.snapshot["buyer_comment"] %>”</p>
               <% end %>
+              <%= link_to document_approval_path(approval, format: :pdf), class: "sg-above-hover small d-inline-flex align-items-center gap-1" do %>
+                <%= icon("fa-file-pdf") %> <%= t("approval_document.link") %>
+              <% end %>
             </div>
             <span class="btn btn-primary sg-above-hover" aria-hidden="true"><%= t("approvals.index.review") %> <%= icon("fa-arrow-right") %></span>
           </article>
@@ -63,6 +66,7 @@
                 <th scope="col"><%= t("approvals.index.col_buyer") %></th>
                 <th scope="col"><%= t("approvals.index.col_decision") %></th>
                 <th scope="col"><%= t("approvals.index.col_date") %></th>
+                <th scope="col"><span class="visually-hidden">PDF</span></th>
               </tr>
             </thead>
             <tbody>
@@ -72,6 +76,11 @@
                   <td><%= approval.project.user.name %></td>
                   <td><%= approval_status_badge(approval) %></td>
                   <td class="text-nowrap"><%= l(approval.decided_at, format: :short) %></td>
+                  <td>
+                    <%= link_to document_approval_path(approval, format: :pdf), title: t("approval_document.link"), aria: { label: t("approval_document.link") } do %>
+                      <%= icon("fa-file-pdf") %>
+                    <% end %>
+                  </td>
                 </tr>
               <% end %>
             </tbody>

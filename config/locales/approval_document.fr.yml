@@ -1,0 +1,37 @@
+fr:
+  approval_document:
+    title: "Fiche d'approbation de la liste des soumissionnaires"
+    status:
+      pending: "SOUMISE POUR APPROBATION"
+      approved: "APPROUVÉE"
+      returned: "RENVOYÉE"
+    labels:
+      project: "Projet"
+      buyer: "Acheteur"
+      client: "Client"
+      area: "Zone de livraison"
+      budget: "Budget"
+      submitted_at: "Envoyée le"
+      buyer_comment: "Commentaire de l'acheteur"
+      materials: "Matériaux"
+      selected_suppliers: "Fournisseurs retenus"
+    columns:
+      description: "Description"
+      quantity: "Qté"
+      unit: "Unité"
+      supplier: "Fournisseur"
+      origin: "Origine"
+      strengths: "Points forts"
+      to_confirm: "À confirmer"
+    origin:
+      ai: "Suggestion IA"
+      manual: "Manuel"
+    decision:
+      heading: "Décision"
+      pending: "En attente de décision par l'approbateur désigné."
+      approved: "Approuvée"
+      returned: "Renvoyée"
+      seal: "承認"
+    footer:
+      generated_at: "Générée le %{time}"
+    link: "Fiche d'approbation (PDF)"

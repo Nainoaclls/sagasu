@@ -13,6 +13,11 @@ class ApprovalPolicy < ApplicationPolicy
     record.approver_id == user.id && record.pending?
   end
 
+  # The approval form (PDF) belongs to the buyer who sent it and the assigned approver
+  def document?
+    record.project.user_id == user.id || record.approver_id == user.id
+  end
+
   class Scope < ApplicationPolicy::Scope
     def resolve
       scope.where(approver: user)
