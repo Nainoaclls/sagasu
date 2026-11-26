@@ -34,8 +34,11 @@
       </div>
     <% end %>
 
-    <div class="sg-groups">
-      <%= render partial: "item_groups/item_group", collection: project.item_groups, locals: { can_edit: can_edit } %>
+    <div data-controller="group-nav">
+      <%= render "projects/group_nav", project: project if project.item_groups.size >= 2 %>
+      <div class="sg-groups">
+        <%= render partial: "item_groups/item_group", collection: project.item_groups, locals: { can_edit: can_edit } %>
+      </div>
     </div>
   <% end %>
 

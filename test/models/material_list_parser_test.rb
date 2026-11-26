@@ -23,6 +23,13 @@ class MaterialListParserTest < ActiveSupport::TestCase
     assert_equal 2000, parse("Sand 2k t").first[:quantity]
   end
 
+  test "thousands grouped with a space are one quantity" do
+    assert_equal({ description: "bricks", quantity: 47_000, unit_of_measure: nil }, parse("47 000 bricks").first)
+    assert_equal 12_000, parse("12 000 windows").first[:quantity]
+    assert_equal 100_000, parse("Rebar x 100 000 pcs").first[:quantity]
+    assert_equal 50_000, parse("Red clay bricks; 50 000; pcs").first[:quantity]
+  end
+
   test "a size spec is not read as a quantity" do
     assert_equal({ description: "PVC pipe 100mm" }, parse("PVC pipe 100mm").first)
   end

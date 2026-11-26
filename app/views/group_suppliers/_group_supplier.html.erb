@@ -1,5 +1,8 @@
+<%# One candidate supplier as a compact row: name, badges, key facts and the actions. The AI's reasoning, the
+    evidence and what is still to confirm open under "Details". %>
 <% supplier = link.supplier %>
 <% modal_id = dom_id(link, :decline) %>
+<% has_details = link.ai_reason.present? || link.evidence.any? || link.missing_info.any? %>
 <div class="sg-supplier <%= 'is-selected' if link.selected? %> <%= 'is-declined' if link.rejected_suggestion? %> sg-appear"
      id="<%= dom_id(link) %>">
   <div class="sg-supplier-main">
@@ -11,31 +14,44 @@
         <span class="badge rounded-pill border text-body-secondary"><%= icon("fa-user") %> <%= t("group_suppliers.manual_badge") %></span>
       <% end %>
     </div>
-    <p class="sg-caption mb-2"><%= icon("fa-location-dot") %> <%= supplier.location %> · <%= supplier.category_label %></p>
+    <p class="sg-caption mb-0"><%= icon("fa-location-dot") %> <%= supplier.location %> · <%= supplier.category_label %></p>
+    <ul class="sg-supplier-keyfacts" aria-label="<%= t("project_layout.key_facts") %>">
+      <li><%= icon("fa-gauge-high") %> <%= supplier.capacity_label || t("suppliers.index.capacity_to_confirm") %></li>
+      <li><%= icon("fa-truck-fast") %> <%= supplier.lead_time_days ? t("suppliers.index.lead_time", count: supplier.lead_time_days) : t("suppliers.index.lead_time_to_confirm") %></li>
+    </ul>
 
-    <% if link.ai_reason.present? %>
-      <p class="sg-supplier-reason"><%= link.ai_reason %></p>
-    <% end %>
-
-    <% if link.evidence.any? || link.missing_info.any? %>
-      <div class="sg-evidence">
-        <% if link.evidence.any? %>
-          <div>
-            <p class="sg-evidence-title"><%= t("group_suppliers.evidence") %></p>
-            <ul>
-              <% link.evidence.each do |fact| %><li><%= icon("fa-check", class: "is-ok") %> <%= fact %></li><% end %>
-            </ul>
+    <% if has_details %>
+      <details class="sg-supplier-more">
+        <summary>
+          <%= t("project_layout.details") %>
+          <% if link.missing_info.any? %>
+            <span class="badge rounded-pill bg-warning-subtle text-warning-emphasis"><%= icon("fa-circle-question") %> <%= t("project_layout.to_confirm_count", count: link.missing_info.size) %></span>
+          <% end %>
+        </summary>
+        <% if link.ai_reason.present? %>
+          <p class="sg-supplier-reason"><%= link.ai_reason %></p>
+        <% end %>
+        <% if link.evidence.any? || link.missing_info.any? %>
+          <div class="sg-evidence">
+            <% if link.evidence.any? %>
+              <div>
+                <p class="sg-evidence-title"><%= t("group_suppliers.evidence") %></p>
+                <ul>
+                  <% link.evidence.each do |fact| %><li><%= icon("fa-check", class: "is-ok") %> <%= fact %></li><% end %>
+                </ul>
+              </div>
+            <% end %>
+            <% if link.missing_info.any? %>
+              <div>
+                <p class="sg-evidence-title"><%= t("group_suppliers.to_confirm") %></p>
+                <ul>
+                  <% link.missing_info.each do |gap| %><li><%= icon("fa-circle-question", class: "is-todo") %> <%= gap %></li><% end %>
+                </ul>
+              </div>
+            <% end %>
           </div>
         <% end %>
-        <% if link.missing_info.any? %>
-          <div>
-            <p class="sg-evidence-title"><%= t("group_suppliers.to_confirm") %></p>
-            <ul>
-              <% link.missing_info.each do |gap| %><li><%= icon("fa-circle-question", class: "is-todo") %> <%= gap %></li><% end %>
-            </ul>
-          </div>
-        <% end %>
-      </div>
+      </details>
     <% end %>
 
     <% if link.rejected_suggestion? %>

@@ -1,0 +1,20 @@
+en:
+  project_layout:
+    toggle: "Show or hide the group “%{title}”"
+    more: "+%{count} more"
+    no_suppliers: "No suppliers yet"
+    nav_label: "Jump to a group"
+    expand_all: "Expand all"
+    collapse_all: "Collapse all"
+    key_facts: "Key facts"
+    details: "Details"
+    to_review:
+      one: "%{count} to review"
+      other: "%{count} to review"
+    to_confirm_count:
+      one: "%{count} to confirm"
+      other: "%{count} to confirm"
+    blocks:
+      selected: "On the bidder list"
+      to_review: "Suggestions to review"
+      declined: "Declined suggestions"

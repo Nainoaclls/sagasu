@@ -10,7 +10,8 @@
 class MaterialListParser
   MAX_LINES = 200
   SEPARATOR = /\t|;|\|/
-  NUMBER = /\d[\d,.]*k?/i
+  # "50000", "50,000", "50k", and thousands grouped with a space as written in French or Japanese ("47 000")
+  NUMBER = /\d{1,3}(?:[   ]\d{3})+|\d[\d,.]*k?/i
   # Units that mean "how many". Specs such as "100mm" or "D13" stay in the description.
   UNIT = Regexp.union(
     %w[pcs pc pieces units unit ea bags bag sacks sack t tons ton tonnes tonne kg m m2 m² sqm m3 m³ l
@@ -65,7 +66,7 @@ class MaterialListParser
   def parse_number(value)
     return if value.blank?
 
-    cleaned = value.to_s.downcase.delete(", ")
+    cleaned = value.to_s.downcase.gsub(/[,\s  ]/, "")
     multiplier = cleaned.end_with?("k") ? 1000 : 1
     number = cleaned.delete("k")
     return unless number.match?(/\A\d+(\.\d+)?\z/)
