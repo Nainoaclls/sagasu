@@ -1,0 +1,11 @@
+ja:
+  review_verification:
+    group_label: "このレビューを確認"
+    actions:
+      verified: "確認済みにする"
+      disputed: "異議ありにする"
+      unverified: "未確認に戻す"
+    flashes:
+      verified: "レビューを確認済みにしました。"
+      disputed: "レビューを異議ありにしました。"
+      unverified: "レビューを未確認に戻しました。"

@@ -11,4 +11,13 @@
     </div>
   </div>
   <p class="mb-0"><%= review.comment %></p>
+  <% if policy(review).update? %>
+    <div class="d-flex flex-wrap gap-2 mt-3" role="group" aria-label="<%= t("review_verification.group_label") %>">
+      <% Review.statuses.each_key do |status| %>
+        <% next if status == review.status %>
+        <%= button_to t("review_verification.actions.#{status}"), review_path(review), method: :patch,
+                      params: { review: { status: status } }, class: "btn btn-quiet btn-sm" %>
+      <% end %>
+    </div>
+  <% end %>
 </li>

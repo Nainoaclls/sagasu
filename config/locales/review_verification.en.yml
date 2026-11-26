@@ -1,0 +1,11 @@
+en:
+  review_verification:
+    group_label: "Verify this review"
+    actions:
+      verified: "Mark as verified"
+      disputed: "Mark as disputed"
+      unverified: "Back to unverified"
+    flashes:
+      verified: "Review marked as verified."
+      disputed: "Review marked as disputed."
+      unverified: "Review set back to unverified."
