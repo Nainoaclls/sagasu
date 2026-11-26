@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :items, only: %i[update destroy] # 4, 6
 
   resources :item_groups, only: %i[edit update] do               # 6 (edit in place, Turbo Frame)
+    resource :comparison, only: [:show], controller: "supplier_comparisons" # 7, 8 (compare candidates side by side)
     resources :group_suppliers, only: [:create] do               # 9
       collection { post :suggest }                               # 7 (AI)
     end

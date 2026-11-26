@@ -1,0 +1,126 @@
+<% group = @comparison.item_group %>
+<% content_for :title, t("supplier_comparison.title", group: group.title) %>
+
+<div class="sg-container sg-page">
+  <nav aria-label="Breadcrumb" class="mb-3">
+    <%= link_to project_path(group.project), class: "small" do %><%= icon("fa-arrow-left") %> <%= t("supplier_comparison.back", project: group.project.title) %><% end %>
+  </nav>
+
+  <header class="sg-page-head">
+    <div>
+      <h1><%= t("supplier_comparison.heading", group: group.title) %></h1>
+      <p><%= t("supplier_comparison.lead") %></p>
+    </div>
+  </header>
+
+  <% if @comparison.comparable? %>
+    <div class="card table-responsive">
+      <table class="table align-top mb-0">
+        <caption class="visually-hidden"><%= t("supplier_comparison.caption", group: group.title) %></caption>
+        <thead>
+          <tr>
+            <th scope="col"><span class="visually-hidden"><%= t("supplier_comparison.criterion") %></span></th>
+            <% @comparison.columns.each do |column| %>
+              <th scope="col"><%= link_to column.supplier.name, supplier_path(column.supplier) %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><%= t("supplier_comparison.rows.status") %></th>
+            <% @comparison.columns.each do |column| %>
+              <td>
+                <% if column.link.selected? %>
+                  <%= badge(:success, "fa-check", t("supplier_comparison.status.selected")) %>
+                <% elsif column.link.ai_suggested? %>
+                  <%= badge(:accent, "fa-wand-magic-sparkles", t("supplier_comparison.status.suggested")) %>
+                <% else %>
+                  <%= badge(:outline, "fa-user", t("supplier_comparison.status.manual")) %>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+          <tr>
+            <th scope="row"><%= t("supplier_comparison.rows.location") %></th>
+            <% @comparison.columns.each do |column| %><td><%= compare_value(column.supplier.location) %></td><% end %>
+          </tr>
+          <tr>
+            <th scope="row"><%= t("supplier_comparison.rows.delivery", area: @comparison.area || t("supplier_comparison.no_area")) %></th>
+            <% @comparison.columns.each do |column| %>
+              <td>
+                <% if column.delivers == true %>
+                  <%= icon("fa-check", class: "text-success") %> <%= t("supplier_comparison.delivers.yes") %>
+                <% elsif column.delivers == false %>
+                  <%= icon("fa-xmark", class: "text-danger") %> <%= t("supplier_comparison.delivers.no") %>
+                <% else %>
+                  <%= compare_value(nil) %>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+          <tr>
+            <th scope="row"><%= t("suppliers.show.facts.capacity") %></th>
+            <% @comparison.columns.each do |column| %><td><%= compare_value(column.supplier.capacity_label) %></td><% end %>
+          </tr>
+          <tr>
+            <th scope="row"><%= t("suppliers.show.facts.lead_time") %></th>
+            <% @comparison.columns.each do |column| %>
+              <% days = column.supplier.lead_time_days %>
+              <td><%= compare_value(days && t("suppliers.show.lead_time_days", count: days)) %></td>
+            <% end %>
+          </tr>
+          <tr>
+            <th scope="row"><%= t("suppliers.show.facts.certifications") %></th>
+            <% @comparison.columns.each do |column| %><td><%= compare_value(column.supplier.certifications.join(", ").presence) %></td><% end %>
+          </tr>
+          <tr>
+            <th scope="row"><%= t("supplier_comparison.rows.reviews") %></th>
+            <% @comparison.columns.each do |column| %>
+              <td>
+                <% if column.verified_average %>
+                  <%= stars(column.verified_average) %>
+                  <span class="sg-caption d-block"><%= t("suppliers.show.verified_reviews", count: column.verified_count) %></span>
+                <% else %>
+                  <span class="sg-caption d-block"><%= t("suppliers.show.no_verified") %></span>
+                <% end %>
+                <% if column.unverified_count.positive? %>
+                  <span class="sg-caption d-block"><%= t("supplier_comparison.unverified", count: column.unverified_count) %></span>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+          <tr>
+            <th scope="row"><%= t("group_suppliers.evidence") %></th>
+            <% @comparison.columns.each do |column| %>
+              <td>
+                <% if column.link.evidence.any? %>
+                  <ul class="list-unstyled mb-0">
+                    <% column.link.evidence.each do |fact| %><li><%= icon("fa-check", class: "text-success") %> <%= fact %></li><% end %>
+                  </ul>
+                <% else %>
+                  <%= compare_value(nil) %>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+          <tr>
+            <th scope="row"><%= t("group_suppliers.to_confirm") %></th>
+            <% @comparison.columns.each do |column| %>
+              <td>
+                <% if column.link.missing_info.any? %>
+                  <ul class="list-unstyled mb-0">
+                    <% column.link.missing_info.each do |gap| %><li><%= icon("fa-circle-question") %> <%= gap %></li><% end %>
+                  </ul>
+                <% else %>
+                  <span class="sg-caption">—</span>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p class="sg-empty-compact"><%= t("supplier_comparison.not_enough") %></p>
+  <% end %>
+</div>

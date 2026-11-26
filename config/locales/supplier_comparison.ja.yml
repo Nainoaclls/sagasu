@@ -1,0 +1,25 @@
+ja:
+  supplier_comparison:
+    link: "比較"
+    title: "サプライヤーを比較 · %{group}"
+    heading: "「%{group}」のサプライヤーを比較"
+    lead: "このグループで検討中のサプライヤーを並べて表示します。不足している情報は「要確認」と表示され、評価には確認済みのレビューのみが反映されます。"
+    back: "%{project}に戻る"
+    caption: "%{group}のサプライヤー比較"
+    criterion: "項目"
+    not_enough: "比較するには、このグループにサプライヤーを2社以上追加するか、Sagasuに提案を依頼してください。"
+    no_area: "プロジェクトのエリア"
+    unverified:
+      other: "ほか未確認レビュー%{count}件"
+    rows:
+      status: "リストに追加済み？"
+      location: "所在地"
+      delivery: "%{area}への配送"
+      reviews: "レビュー"
+    status:
+      selected: "入札先リストに追加済み"
+      suggested: "AIが提案"
+      manual: "手動で追加"
+    delivers:
+      "yes": "対応"
+      "no": "記載なし"

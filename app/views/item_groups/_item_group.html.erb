@@ -40,6 +40,9 @@
   <div class="sg-group-suppliers">
     <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
       <h4 class="h6 m-0"><%= t("item_groups.suppliers_title") %></h4>
+      <% if links.reject(&:rejected_suggestion?).size >= 2 %>
+        <%= link_to item_group_comparison_path(item_group), class: "btn btn-quiet btn-sm" do %><%= icon("fa-table-columns") %> <%= t("supplier_comparison.link") %><% end %>
+      <% end %>
       <% if can_edit && !suggesting %>
         <%= button_to suggest_item_group_group_suppliers_path(item_group), class: "btn btn-accent btn-sm",
               data: { controller: "ripple", action: "click->ripple#burst", turbo_submits_with: t("item_groups.starting") } do %>

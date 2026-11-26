@@ -1,0 +1,26 @@
+fr:
+  supplier_comparison:
+    link: "Comparer"
+    title: "Comparer les fournisseurs · %{group}"
+    heading: "Comparer les fournisseurs de « %{group} »"
+    lead: "Les fournisseurs encore en lice pour ce groupe, côte à côte. Ce qui manque est marqué « à confirmer » ; seuls les avis vérifiés comptent dans la note."
+    back: "Retour à %{project}"
+    caption: "Comparaison des fournisseurs de %{group}"
+    criterion: "Critère"
+    not_enough: "Ajoutez au moins deux fournisseurs à ce groupe (ou demandez des suggestions à Sagasu) pour les comparer."
+    no_area: "la zone du projet"
+    unverified:
+      one: "+%{count} avis non vérifié"
+      other: "+%{count} avis non vérifiés"
+    rows:
+      status: "Sur votre liste ?"
+      location: "Localisation"
+      delivery: "Livre en %{area}"
+      reviews: "Avis"
+    status:
+      selected: "Sur la liste des soumissionnaires"
+      suggested: "Suggéré par l'IA"
+      manual: "Ajouté à la main"
+    delivers:
+      "yes": "Oui"
+      "no": "Non indiqué"
