@@ -1,5 +1,8 @@
 class GroupSuppliersController < ApplicationController
   include ProjectWorkspace
+  include AiRateLimit
+
+  limit_ai_requests only: :suggest
 
   # Story 7: AI supplier suggestions for one group, run in the background by SuggestSuppliersJob
   def suggest

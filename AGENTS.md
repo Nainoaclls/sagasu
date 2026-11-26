@@ -170,6 +170,8 @@ bin/ci                          # everything: setup, rubocop, audits, tests, see
   (the `bin/ci` system-test step is commented out).
 - CI definition: `config/ci.rb` (run via `bin/ci`), mirrored by the GitHub Actions workflow
   `.github/workflows/ci.yml` (pull requests and pushes to main); Dependabot keeps gems and actions current.
+- AI actions (`ItemGroupsController#generate`, `GroupSuppliersController#suggest`) are rate limited per user
+  (`AiRateLimit` concern, 10 per minute); the test environment gives `rate_limit` a memory store.
 ## Code style guidelines
 
 - RuboCop config (`.rubocop.yml`) extends **rubocop-rails-omakase** (Rails omakase style); several Style

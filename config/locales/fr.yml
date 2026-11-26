@@ -599,6 +599,7 @@ fr:
     application:
       not_authorized: "Vous n'avez pas accès à cela."
       not_found: "Nous n'avons pas trouvé cette page."
+      rate_limited: "Trop de demandes à l'IA. Patientez une minute et réessayez."
     projects:
       created_with_materials:
         one: "Projet créé avec %{count} matériau."

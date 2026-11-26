@@ -1,5 +1,8 @@
 class ItemGroupsController < ApplicationController
   include ProjectWorkspace
+  include AiRateLimit
+
+  limit_ai_requests only: :generate
 
   before_action :set_project, only: %i[generate create]
 

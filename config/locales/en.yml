@@ -547,6 +547,7 @@ en:
     application:
       not_authorized: "You don't have access to that."
       not_found: "We couldn't find that page."
+      rate_limited: "Too many AI requests. Please wait a minute and try again."
     projects:
       created_with_materials:
         one: "Project created with %{count} material."
