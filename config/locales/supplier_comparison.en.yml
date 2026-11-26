@@ -1,0 +1,26 @@
+en:
+  supplier_comparison:
+    link: "Compare"
+    title: "Compare suppliers · %{group}"
+    heading: "Compare suppliers for “%{group}”"
+    lead: "Suppliers still in play for this group, side by side. Anything missing is marked “to confirm”; only verified reviews count towards the rating."
+    back: "Back to %{project}"
+    caption: "Comparison of the suppliers for %{group}"
+    criterion: "Criterion"
+    not_enough: "Add at least two suppliers to this group (or ask Sagasu for suggestions) to compare them."
+    no_area: "the project area"
+    unverified:
+      one: "+%{count} unverified review"
+      other: "+%{count} unverified reviews"
+    rows:
+      status: "On your list?"
+      location: "Location"
+      delivery: "Delivers to %{area}"
+      reviews: "Reviews"
+    status:
+      selected: "On the bidder list"
+      suggested: "Suggested by AI"
+      manual: "Added by hand"
+    delivers:
+      "yes": "Yes"
+      "no": "Not listed"
