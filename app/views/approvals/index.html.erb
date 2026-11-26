@@ -1,16 +1,16 @@
-<% content_for :title, "Approvals" %>
+<% content_for :title, t("approvals.index.title") %>
 
 <div class="sg-container sg-page" data-controller="reveal">
   <header class="sg-page-head sg-reveal">
     <div>
-      <h1>Approvals</h1>
-      <p>Bidder lists sent to you. Open one to review it, then approve or return it with a comment.</p>
+      <h1><%= t("approvals.index.title") %></h1>
+      <p><%= t("approvals.index.lead") %></p>
     </div>
   </header>
 
   <section aria-labelledby="pending-title" class="mb-5">
     <div class="sg-section-title">
-      <h2 id="pending-title"><%= icon("fa-hourglass-half") %> Waiting for you <span class="badge rounded-pill text-bg-accent"><%= @pending.size %></span></h2>
+      <h2 id="pending-title"><%= icon("fa-hourglass-half") %> <%= t("approvals.index.pending_title") %> <span class="badge rounded-pill text-bg-accent"><%= @pending.size %></span></h2>
     </div>
 
     <% if @pending.any? %>
@@ -18,22 +18,22 @@
         <% @pending.each do |approval| %>
           <article class="card card-body sg-card-interactive sg-approval sg-reveal">
             <div class="sg-approval-main">
-              <p class="sg-caption mb-1"><%= approval.project.erp_rfq.presence || "RFQ project" %> · sent <%= time_ago_in_words(approval.created_at) %> ago</p>
+              <p class="sg-caption mb-1"><%= approval.project.erp_rfq.presence || t("approvals.index.rfq_default") %> · <%= t("approvals.index.sent_ago", time: time_ago_in_words(approval.created_at)) %></p>
               <h3 class="h5 mb-1"><%= link_to approval.project.title, project_path(approval.project), class: "sg-stretched text-decoration-none" %></h3>
               <p class="mb-2 text-muted small">
                 <%= icon("fa-user") %> <%= approval.project.user.name %> ·
-                <%= icon("fa-location-dot") %> <%= approval.project.client_area.presence || "Area not set" %>
+                <%= icon("fa-location-dot") %> <%= approval.project.client_area.presence || t("approvals.index.area_not_set") %>
               </p>
               <ul class="sg-project-counts mb-0">
-                <li><strong><%= approval.snapshot_groups.size %></strong> groups</li>
-                <li><strong><%= approval.snapshot_supplier_count %></strong> suppliers</li>
-                <li><strong><%= approval.project.items.size %></strong> materials</li>
+                <li><%= t("approvals.index.groups_html", count: approval.snapshot_groups.size) %></li>
+                <li><%= t("approvals.index.suppliers_html", count: approval.snapshot_supplier_count) %></li>
+                <li><%= t("approvals.index.materials_html", count: approval.project.items.size) %></li>
               </ul>
               <% if approval.snapshot["buyer_comment"].present? %>
                 <p class="sg-buyer-comment small"><%= icon("fa-comment") %> “<%= approval.snapshot["buyer_comment"] %>”</p>
               <% end %>
             </div>
-            <span class="btn btn-primary sg-above-hover" aria-hidden="true">Review <%= icon("fa-arrow-right") %></span>
+            <span class="btn btn-primary sg-above-hover" aria-hidden="true"><%= t("approvals.index.review") %> <%= icon("fa-arrow-right") %></span>
           </article>
         <% end %>
       </div>
@@ -41,8 +41,8 @@
       <div class="sg-empty sg-reveal">
         <%= image_tag "mascot/success.webp", alt: "", width: 120, height: 106 %>
         <div>
-          <h3>All caught up</h3>
-          <p>No bidder list is waiting for your approval.</p>
+          <h3><%= t("approvals.index.caught_up_title") %></h3>
+          <p><%= t("approvals.index.caught_up_text") %></p>
         </div>
       </div>
     <% end %>
@@ -50,19 +50,19 @@
 
   <section aria-labelledby="decided-title">
     <div class="sg-section-title">
-      <h2 id="decided-title"><%= icon("fa-clock-rotate-left") %> Decided</h2>
+      <h2 id="decided-title"><%= icon("fa-clock-rotate-left") %> <%= t("approvals.index.decided_title") %></h2>
     </div>
     <% if @decided.any? %>
       <div class="card overflow-hidden">
         <div class="table-responsive">
           <table class="table table-hover align-middle sg-table">
-            <caption class="visually-hidden">Bidder lists you already decided</caption>
+            <caption class="visually-hidden"><%= t("approvals.index.decided_caption") %></caption>
             <thead>
               <tr>
-                <th scope="col">Project</th>
-                <th scope="col">Buyer</th>
-                <th scope="col">Decision</th>
-                <th scope="col">Date</th>
+                <th scope="col"><%= t("approvals.index.col_project") %></th>
+                <th scope="col"><%= t("approvals.index.col_buyer") %></th>
+                <th scope="col"><%= t("approvals.index.col_decision") %></th>
+                <th scope="col"><%= t("approvals.index.col_date") %></th>
               </tr>
             </thead>
             <tbody>
@@ -79,7 +79,7 @@
         </div>
       </div>
     <% else %>
-      <p class="sg-empty-compact">Your past decisions will be listed here.</p>
+      <p class="sg-empty-compact"><%= t("approvals.index.decided_empty") %></p>
     <% end %>
   </section>
 </div>

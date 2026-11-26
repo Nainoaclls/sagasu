@@ -1,12 +1,12 @@
 <div id="bidder_list">
 <div class="card card-body sg-bidder-card">
   <div class="sg-section-title mb-2">
-    <h2><%= icon("fa-list-check") %> Bidder list</h2>
-    <span class="badge rounded-pill text-bg-accent" aria-label="<%= project.selected_suppliers_size %> suppliers selected"><%= project.selected_suppliers_size %></span>
+    <h2><%= icon("fa-list-check") %> <%= t("projects.bidder_list.title") %></h2>
+    <span class="badge rounded-pill text-bg-accent" aria-label="<%= t("projects.bidder_list.selected_label", count: project.selected_suppliers_size) %>"><%= project.selected_suppliers_size %></span>
   </div>
 
   <% if project.item_groups.empty? %>
-    <p class="text-muted small mb-0">Your selected suppliers will appear here, group by group.</p>
+    <p class="text-muted small mb-0"><%= t("projects.bidder_list.empty_hint") %></p>
   <% else %>
     <ul class="sg-bidder-groups">
       <% project.item_groups.each do |group| %>
@@ -16,7 +16,7 @@
           <% if selected.any? %>
             <ul><% selected.each do |link| %><li><%= icon("fa-check") %> <%= link.supplier.name %></li><% end %></ul>
           <% else %>
-            <p class="sg-caption mb-0"><%= icon("fa-circle-exclamation") %> No supplier selected yet</p>
+            <p class="sg-caption mb-0"><%= icon("fa-circle-exclamation") %> <%= t("projects.bidder_list.no_supplier_yet") %></p>
           <% end %>
         </li>
       <% end %>
@@ -28,19 +28,19 @@
     <% if project.ready_for_approval? %>
       <%# :approval scope (no object): buyer_comment belongs to the project, not to the approval %>
       <%= simple_form_for :approval, url: project_approvals_path(project), html: { class: "sg-submit-form" } do |f| %>
-        <h3 class="h6"><%= icon("fa-paper-plane") %> Send for approval</h3>
-        <%= f.input :approver_id, label: "Approver", collection: approvers, label_method: :name, value_method: :id,
-                    prompt: "Choose an approver", required: true %>
-        <%= f.input :buyer_comment, as: :text, label: "Comment for the approver", required: false,
+        <h3 class="h6"><%= icon("fa-paper-plane") %> <%= t("projects.bidder_list.send_title") %></h3>
+        <%= f.input :approver_id, label: t("projects.bidder_list.approver_label"), collection: approvers, label_method: :name, value_method: :id,
+                    prompt: t("projects.bidder_list.approver_prompt"), required: true %>
+        <%= f.input :buyer_comment, as: :text, label: t("projects.bidder_list.comment_label"), required: false,
                     input_html: { rows: 3, maxlength: 1000, value: project.buyer_comment,
-                                  placeholder: "Why these bidders, anything to watch…" } %>
+                                  placeholder: t("projects.bidder_list.comment_placeholder") } %>
         <%= f.button :button, class: "btn-primary w-100", data: { controller: "ripple", action: "click->ripple#burst" } do %>
-          <%= icon("fa-paper-plane") %> Send for approval
+          <%= icon("fa-paper-plane") %> <%= t("projects.bidder_list.send") %>
         <% end %>
       <% end %>
     <% else %>
       <div class="sg-checklist" role="status">
-        <p class="fw-bold small mb-2">Before sending for approval</p>
+        <p class="fw-bold small mb-2"><%= t("projects.bidder_list.checklist_title") %></p>
         <ul>
           <% project.submission_blockers.each do |blocker| %>
             <li><%= icon("fa-circle", style: "regular") %> <%= blocker %></li>
@@ -53,7 +53,7 @@
 
 <% if project.approvals.any? %>
   <section class="card card-body mt-3" aria-labelledby="history-title">
-    <h2 id="history-title" class="h6 mb-3"><%= icon("fa-clock-rotate-left") %> Approval history</h2>
+    <h2 id="history-title" class="h6 mb-3"><%= icon("fa-clock-rotate-left") %> <%= t("projects.bidder_list.history_title") %></h2>
     <ol class="sg-timeline">
       <% project.approvals.reverse_each do |approval| %>
         <li>
@@ -62,12 +62,12 @@
             <%= approval_status_badge(approval) %>
           </div>
           <p class="sg-caption mb-1">
-            Sent <%= l(approval.created_at, format: :short) %>
-            <% if approval.decided_at %> · decided <%= l(approval.decided_at, format: :short) %><% end %>
+            <%= t("projects.bidder_list.sent", time: l(approval.created_at, format: :short)) %>
+            <% if approval.decided_at %> · <%= t("projects.bidder_list.decided", time: l(approval.decided_at, format: :short)) %><% end %>
           </p>
           <% if approval.comment.present? %><p class="small mb-1">“<%= approval.comment %>”</p><% end %>
           <details class="sg-snapshot">
-            <summary>Submitted version (<%= pluralize(approval.snapshot_supplier_count, "supplier") %>)</summary>
+            <summary><%= t("projects.bidder_list.snapshot", count: approval.snapshot_supplier_count) %></summary>
             <% approval.snapshot_groups.each do |group| %>
               <p class="fw-bold small mb-1 mt-2"><%= group["title"] %></p>
               <ul class="small mb-0">

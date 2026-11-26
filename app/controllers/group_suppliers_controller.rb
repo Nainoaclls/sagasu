@@ -7,14 +7,14 @@ class GroupSuppliersController < ApplicationController
     authorize GroupSupplier.new(item_group: item_group)
     project = item_group.project
     if project.suggesting_group_ids.include?(item_group.id)
-      return respond_with_group(item_group, alert: "Sagasu is already searching for this group.")
+      return respond_with_group(item_group, alert: t("flashes.group_suppliers.already_searching"))
     end
 
     AiRun.transaction do
       SuggestSuppliersJob.perform_later(project.ai_runs.create!(user: current_user, kind: :supplier_suggestion,
                                                                 item_group: item_group))
     end
-    respond_with_group(item_group, notice: "Sagasu is looking for suppliers for “#{item_group.title}”.")
+    respond_with_group(item_group, notice: t("flashes.group_suppliers.searching", title: item_group.title))
   end
 
   # Story 9: add a supplier found by search; it goes straight to the bidder list
@@ -25,7 +25,7 @@ class GroupSuppliersController < ApplicationController
     authorize group_supplier
 
     if group_supplier.save
-      respond_with_group(item_group, notice: "#{group_supplier.supplier.name} added to “#{item_group.title}”.")
+      respond_with_group(item_group, notice: added_notice(group_supplier))
     else
       respond_with_group(item_group, alert: group_supplier.errors.full_messages.to_sentence)
     end
@@ -53,13 +53,18 @@ class GroupSuppliersController < ApplicationController
     params.require(:group_supplier).permit(:selected, :feedback_reason)
   end
 
+  def added_notice(group_supplier)
+    t("flashes.group_suppliers.added", name: group_supplier.supplier.name,
+                                       title: group_supplier.item_group.title)
+  end
+
   def update_notice
     name = @group_supplier.supplier.name
-    return "#{name} added to the bidder list." if @group_supplier.selected?
+    return t("flashes.group_suppliers.added_to_list", name: name) if @group_supplier.selected?
 
-    action = @group_supplier.saved_change_to_selected? ? "removed from the bidder list" : "declined"
+    key = @group_supplier.saved_change_to_selected? ? "removed" : "declined"
     reason = @group_supplier.feedback_reason
     given = reason.present? && reason != GroupSupplier::NO_REASON
-    "#{name} #{action}.#{' Thanks, your reason helps future suggestions.' if given}"
+    t("flashes.group_suppliers.#{key}", name: name) + (given ? t("flashes.group_suppliers.reason_thanks") : "")
   end
 end

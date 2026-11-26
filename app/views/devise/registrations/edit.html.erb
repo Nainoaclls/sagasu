@@ -1,33 +1,33 @@
-<% content_for :title, "Account" %>
+<% content_for :title, t("devise_views.registrations.edit.title") %>
 <div class="sg-container sg-container-narrow sg-page">
   <header class="sg-page-head">
     <div>
-      <h1>Your account</h1>
-      <p>Signed in as <%= resource.email %> · <span class="sg-role-pill"><%= resource.role %></span></p>
+      <h1><%= t("devise_views.registrations.edit.heading") %></h1>
+      <p><%= t("devise_views.registrations.edit.signed_in_as", email: resource.email) %> · <span class="sg-role-pill"><%= t("users.roles.#{resource.role}") %></span></p>
     </div>
   </header>
 
   <div class="card card-body">
     <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
       <%= f.error_notification %>
-      <%= f.input :name, label: "Full name", required: true, input_html: { autocomplete: "name" } %>
+      <%= f.input :name, label: t("devise_views.registrations.edit.full_name"), required: true, input_html: { autocomplete: "name" } %>
       <%= f.input :email, required: true, input_html: { autocomplete: "email" } %>
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <p class="form-text">Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
+        <p class="form-text"><%= t("devise_views.registrations.edit.waiting_confirmation", email: resource.unconfirmed_email) %></p>
       <% end %>
-      <%= f.input :password, label: "New password", hint: "Leave it blank if you don't want to change it", required: false,
+      <%= f.input :password, label: t("devise_views.registrations.edit.new_password"), hint: t("devise_views.registrations.edit.new_password_hint"), required: false,
                   input_html: { autocomplete: "new-password" } %>
-      <%= f.input :password_confirmation, label: "Confirm new password", required: false, input_html: { autocomplete: "new-password" } %>
-      <%= f.input :current_password, hint: "Needed to confirm your changes", required: true,
+      <%= f.input :password_confirmation, label: t("devise_views.registrations.edit.confirm_password"), required: false, input_html: { autocomplete: "new-password" } %>
+      <%= f.input :current_password, hint: t("devise_views.registrations.edit.current_password_hint"), required: true,
                   input_html: { autocomplete: "current-password" } %>
-      <%= f.button :button, "Save changes", class: "btn btn-primary" %>
+      <%= f.button :button, t("devise_views.registrations.edit.save"), class: "btn btn-primary" %>
     <% end %>
   </div>
 
   <div class="card card-body mt-4">
-    <h2 class="h5">Delete account</h2>
-    <p class="text-muted">This removes your projects and reviews. It cannot be undone.</p>
-    <%= button_to "Delete my account", registration_path(resource_name), method: :delete, class: "btn btn-danger-quiet",
-          form: { data: { turbo_confirm: "Delete your account and all your projects? This cannot be undone." } } %>
+    <h2 class="h5"><%= t("devise_views.registrations.edit.delete_title") %></h2>
+    <p class="text-muted"><%= t("devise_views.registrations.edit.delete_text") %></p>
+    <%= button_to t("devise_views.registrations.edit.delete_button"), registration_path(resource_name), method: :delete, class: "btn btn-danger-quiet",
+          form: { data: { turbo_confirm: t("devise_views.registrations.edit.delete_confirm") } } %>
   </div>
 </div>

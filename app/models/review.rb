@@ -10,7 +10,7 @@ class Review < ApplicationRecord
 
   validates :rating, inclusion: { in: 1..5 }
   validates :comment, presence: true, length: { maximum: 2000 }
-  validates :project, presence: { message: "is required when the review is limited to a project" },
+  validates :project, presence: { message: :required_for_project_visibility },
                       if: :visible_to_project?
 
   scope :recent_first, -> { order(created_at: :desc) }

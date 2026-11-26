@@ -3,10 +3,11 @@
   <div class="sg-decision-head">
     <span class="sg-hanko sg-hanko-sm" aria-hidden="true">確認</span>
     <div>
-      <h2 id="decision-title" class="h4 mb-1">Your decision</h2>
+      <h2 id="decision-title" class="h4 mb-1"><%= t("approvals.decision.title") %></h2>
       <p class="mb-0">
-        <%= approval.project.user.name %> sent this bidder list <%= time_ago_in_words(approval.created_at) %> ago:
-        <%= pluralize(approval.snapshot_supplier_count, "supplier") %> in <%= pluralize(approval.snapshot_groups.size, "group") %>.
+        <%= t("approvals.decision.sent", name: approval.project.user.name, time: time_ago_in_words(approval.created_at),
+              suppliers: t("approvals.decision.suppliers", count: approval.snapshot_supplier_count),
+              groups: t("approvals.decision.groups", count: approval.snapshot_groups.size)) %>
       </p>
       <% if approval.snapshot["buyer_comment"].present? %>
         <p class="sg-buyer-comment"><%= icon("fa-comment") %> “<%= approval.snapshot["buyer_comment"] %>”</p>
@@ -15,17 +16,17 @@
   </div>
 
   <%= simple_form_for approval, html: { class: "sg-decision-form" } do |f| %>
-    <%= f.input :comment, as: :text, label: "Comment", required: false,
-                hint: "The buyer sees your comment. Returning the list unlocks it for changes.",
+    <%= f.input :comment, as: :text, label: t("approvals.decision.comment_label"), required: false,
+                hint: t("approvals.decision.comment_hint"),
                 input_html: { rows: 2, maxlength: 1000,
-                              placeholder: "Required when you return the list: what should the buyer change?" } %>
+                              placeholder: t("approvals.decision.comment_placeholder") } %>
     <div class="d-flex flex-wrap gap-2 justify-content-end">
       <%= f.button :button, name: "approval[status]", value: "returned", class: "btn-outline-primary" do %>
-        <%= icon("fa-rotate-left") %> Return to buyer
+        <%= icon("fa-rotate-left") %> <%= t("approvals.decision.return") %>
       <% end %>
       <%= f.button :button, name: "approval[status]", value: "approved", class: "btn-primary",
                    data: { controller: "ripple", action: "click->ripple#burst" } do %>
-        <%= icon("fa-stamp") %> Approve bidder list
+        <%= icon("fa-stamp") %> <%= t("approvals.decision.approve") %>
       <% end %>
     </div>
   <% end %>

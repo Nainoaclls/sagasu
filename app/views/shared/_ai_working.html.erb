@@ -2,7 +2,7 @@
 <div class="sg-ai-working" role="status">
   <%= image_tag "mascot/research.webp", alt: "", width: 96, height: 64 %>
   <div>
-    <strong>Sagasu is searching<span class="sg-dots" aria-hidden="true"><span></span><span></span><span></span></span></strong>
-    <p class="mb-0"><%= message %>. You can keep working, this updates by itself.</p>
+    <strong><%= t("shared.ai_working.title") %><span class="sg-dots" aria-hidden="true"><span></span><span></span><span></span></span></strong>
+    <p class="mb-0"><%= t("shared.ai_working.body", message: message) %></p>
   </div>
 </div>

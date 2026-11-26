@@ -141,14 +141,42 @@ SUPPLIERS = {
   ]
 }.freeze
 
+# Geocoded once by hand: "City, Prefecture" => [latitude, longitude]. Kept in the seeds so
+# db:seed never calls a geocoding service; the supplier map works out of the box.
+CITY_COORDINATES = {
+  "Kawaguchi, Saitama" => [35.8077, 139.7241], "Tokorozawa, Saitama" => [35.7996, 139.4687],
+  "Hachioji, Tokyo" => [35.6570, 139.3239], "Hiratsuka, Kanagawa" => [35.3356, 139.3422],
+  "Ashikaga, Tochigi" => [36.3402, 139.4497], "Koto, Tokyo" => [35.6667, 139.8167],
+  "Arakawa, Tokyo" => [35.7361, 139.7813], "Ichikawa, Chiba" => [35.7220, 139.9310],
+  "Atsugi, Kanagawa" => [35.4433, 139.3625], "Koshigaya, Saitama" => [35.8911, 139.7909],
+  "Kawasaki, Kanagawa" => [35.5309, 139.7030], "Ota, Tokyo" => [35.5613, 139.7160],
+  "Hitachi, Ibaraki" => [36.5991, 140.6515], "Yokohama, Kanagawa" => [35.4437, 139.6380],
+  "Funabashi, Chiba" => [35.6947, 139.9825], "Saitama, Saitama" => [35.8617, 139.6455],
+  "Ome, Tokyo" => [35.7880, 139.2750], "Kisarazu, Chiba" => [35.3761, 139.9168],
+  "Nikko, Tochigi" => [36.7199, 139.6982], "Kumagaya, Saitama" => [36.1474, 139.3886],
+  "Sagamihara, Kanagawa" => [35.5712, 139.3732], "Edogawa, Tokyo" => [35.7066, 139.8682],
+  "Mito, Ibaraki" => [36.3659, 140.4713], "Machida, Tokyo" => [35.5462, 139.4386],
+  "Chiba, Chiba" => [35.6073, 140.1063], "Takasaki, Gunma" => [36.3228, 139.0032],
+  "Shinagawa, Tokyo" => [35.6092, 139.7302], "Minato, Tokyo" => [35.6580, 139.7516],
+  "Fujisawa, Kanagawa" => [35.3393, 139.4910], "Kawagoe, Saitama" => [35.9251, 139.4858],
+  "Chiyoda, Tokyo" => [35.6940, 139.7538], "Tsukuba, Ibaraki" => [36.0835, 140.0766],
+  "Shibuya, Tokyo" => [35.6580, 139.7016], "Kasukabe, Saitama" => [35.9753, 139.7523],
+  "Ebina, Kanagawa" => [35.4464, 139.3908], "Matsudo, Chiba" => [35.7876, 139.9032],
+  "Ichihara, Chiba" => [35.4980, 140.1156], "Chuo, Tokyo" => [35.6706, 139.7720],
+  "Tachikawa, Tokyo" => [35.7142, 139.4075], "Mashiko, Tochigi" => [36.4671, 140.0964],
+  "Chichibu, Saitama" => [35.9918, 139.0856], "Kimitsu, Chiba" => [35.3304, 139.9025]
+}.freeze
+
 puts "Creating suppliers…"
 code = 1000
 SUPPLIERS.each do |category, rows|
   rows.each do |name, city, prefecture, areas, capacity, unit, lead_time, certifications, description|
     code += 1
     slug = name.downcase.gsub(/[^a-z0-9]+/, "-").delete_suffix("-")
+    latitude, longitude = CITY_COORDINATES.fetch("#{city}, #{prefecture}")
     Supplier.create!(
       name: name, category: category, city: city, prefecture: prefecture, country: "Japan",
+      latitude: latitude, longitude: longitude,
       delivery_areas: areas, monthly_capacity: capacity, capacity_unit: (unit if capacity), lead_time_days: lead_time,
       certifications: certifications, description: description,
       erp_vendor_code: "V-#{code}", tax_id: (format("T%013d", 4_011_001_000_000 + (code * 7919)) if code.odd?),

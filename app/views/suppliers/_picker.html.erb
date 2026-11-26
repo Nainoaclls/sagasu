@@ -2,9 +2,9 @@
 <%= turbo_frame_tag dom_id(item_group, :picker), class: "sg-picker-results" do %>
   <% if params[:query].blank? %>
   <% elsif suppliers.empty? %>
-    <p class="sg-empty-compact mt-2" role="status">No supplier matches “<%= params[:query] %>”.</p>
+    <p class="sg-empty-compact mt-2" role="status"><%= t("suppliers.picker.no_match", query: params[:query]) %></p>
   <% else %>
-    <ul class="sg-picker-list" aria-label="Search results">
+    <ul class="sg-picker-list" aria-label="<%= t("item_groups.results_label") %>">
       <% suppliers.each do |supplier| %>
         <li>
           <div>
@@ -12,12 +12,12 @@
             <span class="sg-caption d-block"><%= supplier.location %> · <%= supplier.category_label %></span>
           </div>
           <% if linked_ids.include?(supplier.id) %>
-            <span class="badge rounded-pill border text-body-secondary">Already in group</span>
+            <span class="badge rounded-pill border text-body-secondary"><%= t("suppliers.picker.already_in_group") %></span>
           <% else %>
             <%= button_to item_group_group_suppliers_path(item_group), params: { group_supplier: { supplier_id: supplier.id } },
                   class: "btn btn-outline-primary btn-sm", form: { data: { turbo_frame: "_top" } },
-                  "aria-label": "Add #{supplier.name} to #{item_group.title}" do %>
-              <%= icon("fa-plus") %> Add
+                  "aria-label": t("suppliers.picker.add_label", name: supplier.name, title: item_group.title) do %>
+              <%= icon("fa-plus") %> <%= t("suppliers.picker.add") %>
             <% end %>
           <% end %>
         </li>

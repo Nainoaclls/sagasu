@@ -1,8 +1,8 @@
 .sg-footer {
-  margin-top: auto; background: $white; border-top: 1px solid $border-color;
-  padding: 2rem 0; font-size: .875rem; color: $muted;
+  margin-top: auto; background: var(--sg-surface); border-top: 1px solid var(--sg-border);
+  padding: 2rem 0; font-size: .875rem; color: var(--sg-muted);
   .sg-footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
-  .sg-brand-small { display: inline-flex; align-items: center; gap: .5rem; font-weight: 700; color: $blue-slate; text-decoration: none; }
+  .sg-brand-small { display: inline-flex; align-items: center; gap: .5rem; font-weight: 700; color: var(--sg-heading); text-decoration: none; }
   img { width: 24px; height: 24px; }
-  a { color: $muted; }
+  a { color: var(--sg-muted); }
 }

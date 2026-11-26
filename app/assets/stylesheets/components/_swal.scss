@@ -1,10 +1,11 @@
-// SweetAlert2 confirmations (sweet_confirm.js): brand font, radius and title color
+// SweetAlert2 confirmations (sweet_confirm.js): brand font, radius and title color.
+// Dark-mode surface overrides live in _theme.scss.
 .sg-swal {
   font-family: $body-font !important;
   border-radius: 18px !important;
   padding: 1.5rem !important;
 }
-.sg-swal-title { color: $blue-slate !important; font-size: 1.25rem !important; }
+.sg-swal-title { color: var(--sg-heading) !important; font-size: 1.25rem !important; }
 
 // Tom Select uses the Bootstrap 5 theme; keep our 44px control height
 .ts-wrapper.form-select .ts-control, .ts-wrapper .ts-control { min-height: 44px; }

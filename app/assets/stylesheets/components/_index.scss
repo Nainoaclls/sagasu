@@ -1,4 +1,5 @@
-// Shared components, in dependency order
+// Shared components, in dependency order (theme first: it defines the CSS variables)
+@import "theme";
 @import "base";
 @import "buttons";
 @import "badges";

@@ -3,7 +3,8 @@ class ProjectsController < ApplicationController
 
   # Story 3 (dashboard)
   def index
-    @projects = policy_scope(Project).includes(:user, :items, :approvals, item_groups: :group_suppliers).recent_first
+    @projects = policy_scope(Project).includes(:user, :items, item_groups: :group_suppliers,
+                                                              approvals: :approver).recent_first
     @stats = DashboardStats.new(@projects)
   end
 
@@ -38,6 +39,6 @@ class ProjectsController < ApplicationController
 
   def created_notice
     count = @project.items.size
-    count.positive? ? "Project created with #{count} material#{'s' if count > 1}." : "Project created. Add your materials to start."
+    count.positive? ? t("flashes.projects.created_with_materials", count: count) : t("flashes.projects.created_empty")
   end
 end

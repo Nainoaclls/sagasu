@@ -82,10 +82,10 @@ class Project < ApplicationRecord
 
   def submission_blockers
     blockers = []
-    blockers << "Add at least one material." if items.empty?
-    blockers << "Group your materials." if item_groups.empty?
-    blockers << "Select at least one supplier for the bidder list." if selected_suppliers_count.zero?
-    blockers << "#{ungrouped_items.size} material(s) are not in a group yet." if ungrouped_items.any?
+    blockers << I18n.t("projects.submission_blockers.no_materials") if items.empty?
+    blockers << I18n.t("projects.submission_blockers.no_groups") if item_groups.empty?
+    blockers << I18n.t("projects.submission_blockers.no_suppliers") if selected_suppliers_count.zero?
+    blockers << I18n.t("projects.submission_blockers.ungrouped", count: ungrouped_items.size) if ungrouped_items.any?
     blockers
   end
 
@@ -99,15 +99,24 @@ class Project < ApplicationRecord
       # Row lock: two clicks cannot create two pending approvals. Fresh associations for the checks.
       lock!
       [items, item_groups, approvals].each(&:reset)
-      unless ready_for_approval?
-        errors.add(:base, submission_blockers.to_sentence.presence || "This bidder list cannot be sent now")
-        raise ActiveRecord::RecordInvalid, self
-      end
+      ensure_ready_for_approval!
 
       update!(status: :pending_approval, buyer_comment: comment.presence || buyer_comment)
       approvals.create!(approver: approver, snapshot: build_snapshot)
     end
   end
+
+  private
+
+  def ensure_ready_for_approval!
+    return if ready_for_approval?
+
+    errors.add(:base,
+               submission_blockers.to_sentence.presence || I18n.t("projects.submission_blockers.cannot_submit"))
+    raise ActiveRecord::RecordInvalid, self
+  end
+
+  public
 
   # What the approver approves: groups, items and selected suppliers at submission time.
   def build_snapshot

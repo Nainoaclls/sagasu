@@ -26,7 +26,7 @@ class ReviewsController < ApplicationController
 
   # Turbo Stream: list refreshed + blank form (create.turbo_stream.erb). Without JS: redirect.
   def shared
-    notice = "Thanks! Your review is shared #{audience}."
+    notice = shared_notice
     respond_to do |format|
       format.turbo_stream do
         flash.now[:notice] = notice
@@ -41,11 +41,13 @@ class ReviewsController < ApplicationController
     { supplier: @supplier, review: @review, projects: @review_projects }
   end
 
-  def review_params
-    params.require(:review).permit(:rating, :comment, :visibility, :project_id, :ai_usable)
+  def shared_notice
+    return t("flashes.reviews.shared_organization") unless @review.visible_to_project?
+
+    t("flashes.reviews.shared_project", title: @review.project.title)
   end
 
-  def audience
-    @review.visible_to_project? ? "with the people on “#{@review.project.title}”" : "with buyers across the organization"
+  def review_params
+    params.require(:review).permit(:rating, :comment, :visibility, :project_id, :ai_usable)
   end
 end

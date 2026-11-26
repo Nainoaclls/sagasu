@@ -1,18 +1,18 @@
 <section id="materials" class="card card-body mb-4" aria-labelledby="materials-title">
   <div class="sg-section-title">
-    <h2 id="materials-title"><%= icon("fa-cubes-stacked") %> Materials <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis"><%= project.items.size %></span></h2>
+    <h2 id="materials-title"><%= icon("fa-cubes-stacked") %> <%= t("projects.materials.title") %> <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis"><%= project.items.size %></span></h2>
   </div>
 
   <% if project.items.any? %>
     <div class="table-responsive">
       <table class="table table-hover align-middle sg-table">
-        <caption class="visually-hidden">Materials of this RFQ and their group</caption>
+        <caption class="visually-hidden"><%= t("projects.materials.caption") %></caption>
         <thead>
           <tr>
-            <th scope="col">Material</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Group</th>
-            <% if can_edit %><th scope="col"><span class="visually-hidden">Actions</span></th><% end %>
+            <th scope="col"><%= t("projects.materials.col_material") %></th>
+            <th scope="col"><%= t("projects.materials.col_quantity") %></th>
+            <th scope="col"><%= t("projects.materials.col_group") %></th>
+            <% if can_edit %><th scope="col"><span class="visually-hidden"><%= t("projects.materials.col_actions") %></span></th><% end %>
           </tr>
         </thead>
         <tbody>
@@ -27,23 +27,23 @@
                 <% if can_edit && project.item_groups.any? %>
                   <%= simple_form_for item, data: { controller: "autosubmit" } do |f| %>
                     <%= f.input :item_group_id, collection: project.item_groups, label_method: :title, value_method: :id,
-                                include_blank: "Not grouped", label: "Group for #{item.description}",
+                                include_blank: t("projects.materials.not_grouped"), label: t("projects.materials.group_for", item: item.description),
                                 label_html: { class: "visually-hidden" }, wrapper_html: { class: "mb-0" },
                                 input_html: { class: "form-select-sm", id: "item_group_#{item.id}",
                                               data: { action: "change->autosubmit#now" } } %>
-                    <noscript><%= f.button :submit, "Move", class: "btn-sm btn-outline-primary mt-1" %></noscript>
+                    <noscript><%= f.button :submit, t("projects.materials.move"), class: "btn-sm btn-outline-primary mt-1" %></noscript>
                   <% end %>
                 <% elsif item.item_group %>
                   <span class="sg-chip"><%= item.item_group.title %></span>
                 <% else %>
-                  <span class="sg-caption">Not grouped</span>
+                  <span class="sg-caption"><%= t("projects.materials.not_grouped") %></span>
                 <% end %>
               </td>
               <% if can_edit %>
                 <td class="text-end">
                   <%= button_to item_path(item), method: :delete, class: "btn btn-danger-quiet btn-icon btn-sm",
-                      form: { data: { turbo_confirm: "Remove “#{item.description}”?" } },
-                      "aria-label": "Remove #{item.description}" do %>
+                      form: { data: { turbo_confirm: t("projects.materials.remove_confirm", item: item.description) } },
+                      "aria-label": t("projects.materials.remove_label", item: item.description) do %>
                     <%= icon("fa-trash-can") %>
                   <% end %>
                 </td>
@@ -54,22 +54,26 @@
       </table>
     </div>
   <% elsif !can_edit %>
-    <p class="sg-empty-compact">No materials yet.</p>
+    <p class="sg-empty-compact"><%= t("projects.materials.empty") %></p>
   <% end %>
 
   <% if can_edit %>
     <details class="sg-add-materials" <%= "open" if project.items.empty? %>>
-      <summary><%= icon("fa-plus") %> Add materials</summary>
-      <%= simple_form_for :items, url: project_items_path(project), html: { class: "mt-3", data: { controller: "materials" } } do |f| %>
-        <%= f.input :materials_text, as: :text, label: "Paste one material per line", required: true,
+      <summary><%= icon("fa-plus") %> <%= t("projects.materials.add") %></summary>
+      <%= simple_form_for :items, url: project_items_path(project),
+            html: { class: "mt-3", data: { controller: "materials",
+                                           materials_empty_text_value: t("js.materials.empty"),
+                                           materials_count_text_one_value: t("js.materials.count", count: 1),
+                                           materials_count_text_other_value: t("js.materials.count", count: 2) } } do |f| %>
+        <%= f.input :materials_text, as: :text, label: t("projects.materials.paste_label"), required: true,
                     wrapper_html: { class: "mb-0" },
                     input_html: { rows: 5, class: "sg-paste", "aria-describedby": "add-materials-count",
-                                  placeholder: "Facing bricks, red; 50000; pcs\nMortar mix M4; 300; bag",
+                                  placeholder: t("projects.materials.paste_placeholder"),
                                   data: { materials_target: "input", action: "input->materials#update" } } %>
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-2">
-          <span id="add-materials-count" class="sg-hint-count" data-materials-target="count" aria-live="polite">One material per line</span>
+          <span id="add-materials-count" class="sg-hint-count" data-materials-target="count" aria-live="polite"><%= t("js.materials.empty") %></span>
           <%= f.button :button, class: "btn-primary", data: { controller: "ripple", action: "click->ripple#burst" } do %>
-            <%= icon("fa-plus") %> Add to project
+            <%= icon("fa-plus") %> <%= t("projects.materials.add_to_project") %>
           <% end %>
         </div>
       <% end %>

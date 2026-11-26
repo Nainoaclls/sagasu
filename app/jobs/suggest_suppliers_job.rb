@@ -15,7 +15,7 @@ class SuggestSuppliersJob < ApplicationJob
     broadcast_result(project, group, ai_run.group_suppliers.count, ai_run)
   rescue StandardError => e
     fail_run(ai_run, e)
-    broadcast_toast(project, :alert, "Supplier suggestions failed. Please try again.") if project
+    broadcast_toast(project, :alert, I18n.t("jobs.suggest_suppliers.failed")) if project
     raise
   ensure
     broadcast_refresh(project)
@@ -25,10 +25,11 @@ class SuggestSuppliersJob < ApplicationJob
 
   def broadcast_result(project, group, count, ai_run)
     if count.zero?
-      broadcast_toast(project, :alert, "No new supplier matched “#{group.title}”. Try the search to add one.")
+      broadcast_toast(project, :alert, I18n.t("jobs.suggest_suppliers.none", group: group.title))
     else
-      note = ai_run.fallback? ? " (offline matching)" : ""
-      broadcast_toast(project, :notice, "#{count} supplier#{'s' if count > 1} suggested for “#{group.title}”#{note}.")
+      note = ai_run.fallback? ? I18n.t("jobs.suggest_suppliers.offline_note") : ""
+      broadcast_toast(project, :notice,
+                      I18n.t("jobs.suggest_suppliers.done", count: count, group: group.title, note: note))
     end
   end
 end

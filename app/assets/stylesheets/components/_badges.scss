@@ -11,11 +11,11 @@
   100% { box-shadow: 0 0 0 10px rgba(227, 151, 116, 0); }
 }
 
-.sg-stars { color: #B7791F; letter-spacing: .05em; white-space: nowrap; }
-.sg-stars .is-empty { color: #C9CFD2; }
+.sg-stars { color: var(--sg-star); letter-spacing: .05em; white-space: nowrap; }
+.sg-stars .is-empty { color: var(--sg-star-empty); }
 
 .sg-chip {
   display: inline-flex; align-items: center; gap: .375rem;
-  padding: .3rem .7rem; border-radius: 999px; border: 1px solid $border-color;
-  background: $white; font-size: .8125rem; color: $ink;
+  padding: .3rem .7rem; border-radius: 999px; border: 1px solid var(--sg-border);
+  background: var(--sg-surface); font-size: .8125rem; color: var(--sg-text);
 }

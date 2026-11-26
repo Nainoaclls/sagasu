@@ -8,7 +8,7 @@ class Item < ApplicationRecord
   validate :group_in_same_project
 
   def quantity_label
-    return "Qty to confirm" if quantity.nil?
+    return I18n.t("items.quantity_to_confirm") if quantity.nil?
 
     number = ActiveSupport::NumberHelper.number_to_delimited(quantity.to_i == quantity ? quantity.to_i : quantity.to_f)
     [number, unit_of_measure].compact_blank.join(" ")
@@ -19,6 +19,6 @@ class Item < ApplicationRecord
   def group_in_same_project
     return if item_group.nil? || item_group.project_id == project_id
 
-    errors.add(:item_group, "must belong to the same project")
+    errors.add(:item_group, :same_project)
   end
 end

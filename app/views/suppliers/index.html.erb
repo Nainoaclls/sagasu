@@ -1,10 +1,10 @@
-<% content_for :title, "Suppliers" %>
+<% content_for :title, t("suppliers.index.title") %>
 
 <div class="sg-container sg-page">
   <header class="sg-page-head">
     <div>
-      <h1>Suppliers</h1>
-      <p>Search your supplier records by name, city or material. Missing details are shown as “to confirm”.</p>
+      <h1><%= t("suppliers.index.title") %></h1>
+      <p><%= t("suppliers.index.lead") %></p>
     </div>
   </header>
 
@@ -14,28 +14,30 @@
     <div class="row g-2">
       <div class="col-md-6 sg-search">
         <%= icon("fa-magnifying-glass") %>
-        <%= f.label :query, "Search suppliers", class: "visually-hidden" %>
+        <%= f.label :query, t("suppliers.index.search_label"), class: "visually-hidden" %>
         <%= f.search_field :query, value: params[:query], class: "form-control", autocomplete: "off",
-                           placeholder: "Bricks, Saitama, insulation…", data: { action: "input->autosubmit#debounced" } %>
+                           placeholder: t("suppliers.index.search_placeholder"), data: { action: "input->autosubmit#debounced" } %>
       </div>
       <div class="col-md-3">
-        <%= f.label :category, "Material", class: "visually-hidden" %>
-        <%= f.select :category, MaterialCategory.options, { include_blank: "All materials", selected: params[:category] },
+        <%= f.label :category, t("suppliers.index.material_label"), class: "visually-hidden" %>
+        <%= f.select :category, MaterialCategory.options, { include_blank: t("suppliers.index.all_materials"), selected: params[:category] },
                      class: "form-select", data: { controller: "tom-select", action: "change->autosubmit#now" } %>
       </div>
       <div class="col-md-3">
-        <%= f.label :area, "Delivers to", class: "visually-hidden" %>
-        <%= f.select :area, Prefecture::ALL, { include_blank: "Any delivery area", selected: params[:area] },
+        <%= f.label :area, t("suppliers.index.area_label"), class: "visually-hidden" %>
+        <%= f.select :area, Prefecture::ALL, { include_blank: t("suppliers.index.any_area"), selected: params[:area] },
                      class: "form-select", data: { controller: "tom-select", action: "change->autosubmit#now" } %>
       </div>
     </div>
-    <noscript><%= f.submit "Search", class: "btn btn-primary mt-2" %></noscript>
+    <noscript><%= f.submit t("suppliers.index.search"), class: "btn btn-primary mt-2" %></noscript>
   <% end %>
+
+  <%= render "suppliers/map", suppliers: @map_suppliers, title: t("suppliers.index.map_title") %>
 
   <%= turbo_frame_tag "supplier_results", data: { turbo_action: "advance" } do %>
     <p class="sg-results-count" role="status">
-      <strong><%= number_with_delimiter(@total) %></strong> <%= "supplier".pluralize(@total) %>
-      <% if params[:query].present? %> for “<%= params[:query] %>”<% end %>
+      <strong><%= number_with_delimiter(@total) %></strong> <%= t("suppliers.index.results", count: @total) %>
+      <% if params[:query].present? %> <%= t("suppliers.index.results_for", query: params[:query]) %><% end %>
     </p>
 
     <% if @suppliers.any? %>
@@ -52,13 +54,13 @@
             </div>
             <ul class="sg-supplier-facts">
               <li><%= icon("fa-location-dot") %> <%= supplier.location %></li>
-              <li><%= icon("fa-gauge-high") %> <%= supplier.capacity_label || "Capacity to confirm" %></li>
-              <li><%= icon("fa-truck-fast") %> <%= supplier.lead_time_days ? "#{supplier.lead_time_days}-day lead time" : "Lead time to confirm" %></li>
+              <li><%= icon("fa-gauge-high") %> <%= supplier.capacity_label || t("suppliers.index.capacity_to_confirm") %></li>
+              <li><%= icon("fa-truck-fast") %> <%= supplier.lead_time_days ? t("suppliers.index.lead_time", count: supplier.lead_time_days) : t("suppliers.index.lead_time_to_confirm") %></li>
             </ul>
             <% if supplier.missing_details.any? %>
-              <span class="badge rounded-pill bg-warning-subtle text-warning-emphasis"><%= icon("fa-circle-question") %> <%= pluralize(supplier.missing_details.size, "detail") %> to confirm</span>
+              <span class="badge rounded-pill bg-warning-subtle text-warning-emphasis"><%= icon("fa-circle-question") %> <%= t("suppliers.index.details_to_confirm", count: supplier.missing_details.size) %></span>
             <% else %>
-              <span class="badge rounded-pill bg-success-subtle text-success-emphasis"><%= icon("fa-circle-check") %> Complete record</span>
+              <span class="badge rounded-pill bg-success-subtle text-success-emphasis"><%= icon("fa-circle-check") %> <%= t("suppliers.index.complete_record") %></span>
             <% end %>
           </article>
           </div>
@@ -66,17 +68,17 @@
       </div>
 
       <% pages = [(@total / SuppliersController::PER_PAGE.to_f).ceil, 1].max %>
-      <nav aria-label="Pages">
+      <nav aria-label="<%= t("suppliers.index.pages_label") %>">
         <ul class="pagination justify-content-center mt-4">
           <li class="page-item <%= 'disabled' if @page == 1 %>">
-            <%= link_to_if @page > 1, safe_join([icon("fa-arrow-left"), " Previous"]),
+            <%= link_to_if @page > 1, safe_join([icon("fa-arrow-left"), " #{t("suppliers.index.previous")}"]),
                   suppliers_path(request.query_parameters.merge(page: @page - 1)), class: "page-link" do |label| %>
               <span class="page-link"><%= label %></span>
             <% end %>
           </li>
-          <li class="page-item active" aria-current="page"><span class="page-link">Page <%= @page %> of <%= pages %></span></li>
+          <li class="page-item active" aria-current="page"><span class="page-link"><%= t("suppliers.index.page_of", page: @page, pages: pages) %></span></li>
           <li class="page-item <%= 'disabled' if @page >= pages %>">
-            <%= link_to_if @page < pages, safe_join(["Next ", icon("fa-arrow-right")]),
+            <%= link_to_if @page < pages, safe_join(["#{t("suppliers.index.next")} ", icon("fa-arrow-right")]),
                   suppliers_path(request.query_parameters.merge(page: @page + 1)), class: "page-link" do |label| %>
               <span class="page-link"><%= label %></span>
             <% end %>
@@ -87,9 +89,9 @@
       <div class="sg-empty">
         <%= image_tag "mascot/research.webp", alt: "", width: 120, height: 80, class: "rounded-3" %>
         <div>
-          <h2 class="h3">No supplier matched</h2>
-          <p>Try a broader word (for example “brick” instead of a product code) or another delivery area.</p>
-          <%= link_to "Clear the search", suppliers_path, class: "btn btn-outline-primary btn-sm", data: { turbo_frame: "_top" } %>
+          <h2 class="h3"><%= t("suppliers.index.empty_title") %></h2>
+          <p><%= t("suppliers.index.empty_text") %></p>
+          <%= link_to t("suppliers.index.clear_search"), suppliers_path, class: "btn btn-outline-primary btn-sm", data: { turbo_frame: "_top" } %>
         </div>
       </div>
     <% end %>

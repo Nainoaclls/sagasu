@@ -1,16 +1,16 @@
 .sg-nav {
   position: sticky; top: 0; z-index: 1030;
-  background: rgba(255, 255, 255, .92);
+  background: var(--sg-nav-bg);
   backdrop-filter: saturate(160%) blur(10px);
-  border-bottom: 1px solid $border-color;
+  border-bottom: 1px solid var(--sg-border);
   transition: box-shadow $motion;
-  &.is-scrolled { box-shadow: $shadow-md; }
+  &.is-scrolled { box-shadow: var(--sg-shadow-md); }
 
   .sg-nav-inner { display: flex; align-items: center; gap: 1.5rem; min-height: 68px; }
 
   .sg-brand {
     display: inline-flex; align-items: center; gap: .5rem; text-decoration: none;
-    font-weight: 700; font-size: 1.4rem; letter-spacing: -.02em; color: $blue-slate;
+    font-weight: 700; font-size: 1.4rem; letter-spacing: -.02em; color: var(--sg-heading);
     img { width: 34px; height: 34px; transition: transform $motion-slow $ease-out; }
     &:hover img { transform: rotate(-12deg) scale(1.06); }
   }
@@ -20,21 +20,21 @@
   .sg-nav-link {
     display: inline-flex; align-items: center; gap: .5rem; min-height: 44px;
     padding: .5rem .875rem; border-radius: 10px; text-decoration: none;
-    color: $muted; font-weight: 700; font-size: .9375rem;
+    color: var(--sg-muted); font-weight: 700; font-size: .9375rem;
     transition: color $motion, background-color $motion;
-    &:hover { color: $blue-slate; background: $pacific-soft; }
-    &[aria-current="page"] { color: $blue-slate; background: $pacific-soft; }
+    &:hover { color: var(--sg-heading); background: var(--sg-info-soft); }
+    &[aria-current="page"] { color: var(--sg-heading); background: var(--sg-info-soft); }
   }
 
   .sg-avatar {
     width: 40px; height: 40px; border-radius: 50%;
     display: inline-grid; place-items: center;
     background: $blue-slate; color: $white; font-weight: 700; font-size: .875rem;
-    border: 2px solid $white; box-shadow: 0 0 0 2px $light-pacific;
+    border: 2px solid var(--sg-surface); box-shadow: 0 0 0 2px $light-pacific;
   }
 
   .dropdown-menu {
-    border: 1px solid $border-color; border-radius: 12px; box-shadow: $shadow-lg; padding: .5rem;
+    border: 1px solid var(--sg-border); border-radius: 12px; box-shadow: var(--sg-shadow-lg); padding: .5rem;
     min-width: 240px;
     .dropdown-item { border-radius: 8px; padding: .5rem .75rem; min-height: 40px; display: flex; align-items: center; gap: .5rem; }
     .dropdown-item:active { background: $blue-slate; }
@@ -45,7 +45,7 @@
 
 .sg-role-pill {
   font-size: .6875rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-  color: $blue-slate; background: $pacific-soft; padding: .125rem .5rem; border-radius: 999px;
+  color: var(--sg-heading); background: var(--sg-info-soft); padding: .125rem .5rem; border-radius: 999px;
 }
 
 @media (max-width: 767.98px) {

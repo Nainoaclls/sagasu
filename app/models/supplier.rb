@@ -6,6 +6,9 @@ class Supplier < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :group_suppliers, dependent: :restrict_with_error
 
+  geocoded_by :geocoding_address
+  after_validation :geocode, if: :should_geocode?
+
   validates :name, presence: true, length: { maximum: 120 }
   validates :category, inclusion: { in: MaterialCategory.keys }
   validates :monthly_capacity, :lead_time_days,
@@ -24,6 +27,8 @@ class Supplier < ApplicationRecord
     where("prefecture = :area OR :area = ANY(delivery_areas) OR :nation = ANY(delivery_areas)",
           area: area, nation: NATIONWIDE)
   }
+  # Suppliers that can appear on the map
+  scope :with_coordinates, -> { where.not(latitude: nil, longitude: nil) }
 
   # Supplier search page: text search ranked by relevance, otherwise alphabetical
   def self.filter_by(query:, category:, area:)
@@ -51,6 +56,11 @@ class Supplier < ApplicationRecord
     "#{ActiveSupport::NumberHelper.number_to_delimited(monthly_capacity)} #{capacity_unit} / month".squish
   end
 
+  # What the geocoder resolves (city and prefecture are enough in Japan)
+  def geocoding_address
+    [city, prefecture, country].compact_blank.join(", ")
+  end
+
   # Evidence the buyer still has to confirm with the supplier before contacting them.
   def missing_details
     [
@@ -59,5 +69,16 @@ class Supplier < ApplicationRecord
       ("Delivery area" if delivery_areas.empty?),
       ("Certifications" if certifications.empty?)
     ].compact
+  end
+
+  private
+
+  # Geocode when the address moves. Rows created with coordinates (seeds, imports) are
+  # trusted as-is; a blank address never triggers a lookup.
+  def should_geocode?
+    return false unless will_save_change_to_city? || will_save_change_to_prefecture? || will_save_change_to_country?
+    return false if geocoding_address.blank?
+
+    latitude.blank? || longitude.blank? || !new_record?
   end
 end

@@ -1,8 +1,8 @@
 .sg-approval-list { display: grid; gap: 1rem; }
 .sg-approval {
   display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
-  border-left: 4px solid $yellow;
-  h3 a { color: $blue-slate; }
+  border-left: 4px solid var(--sg-warning);
+  h3 a { color: var(--sg-link); }
   .sg-above-hover { flex: none; transition: transform $motion $ease-out; }
   &:hover .sg-above-hover { transform: translateX(4px); }
   @media (max-width: 640px) { flex-direction: column; align-items: flex-start; }

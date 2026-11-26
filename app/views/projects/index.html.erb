@@ -1,23 +1,23 @@
-<% content_for :title, "Projects" %>
+<% content_for :title, t("projects.index.title") %>
 
 <div class="sg-container sg-page" data-controller="reveal">
   <header class="sg-page-head sg-reveal">
     <div>
-      <p class="sg-eyebrow mb-1"><%= Time.current.strftime("%A %-d %B") %></p>
-      <h1>Welcome back, <%= current_user.first_name %></h1>
-      <p><%= current_user.buyer? ? "Your RFQ projects and bidder lists." : "Bidder lists you were asked to review." %></p>
+      <p class="sg-eyebrow mb-1"><%= l(Date.current, format: :long) %></p>
+      <h1><%= t("projects.index.welcome", name: current_user.first_name) %></h1>
+      <p><%= current_user.buyer? ? t("projects.index.subtitle_buyer") : t("projects.index.subtitle_approver") %></p>
     </div>
     <% if policy(Project).create? %>
       <%= link_to new_project_path, class: "btn btn-primary btn-lg", data: { controller: "ripple", action: "click->ripple#burst" } do %>
-        <%= icon("fa-plus") %> New RFQ project
+        <%= icon("fa-plus") %> <%= t("projects.index.new_project") %>
       <% end %>
     <% end %>
   </header>
 
-  <section class="row g-3 mb-5" aria-label="Summary">
-    <% [[@stats.active_count, "Active projects", "fa-folder-open"],
-        [@stats.shortlisted_count, "Suppliers on bidder lists", "fa-list-check"],
-        [@stats.pending_count, "Waiting for approval", "fa-hourglass-half"]].each do |value, label, icon_name| %>
+  <section class="row g-3 mb-5" aria-label="<%= t("projects.index.summary_label") %>">
+    <% [[@stats.active_count, t("projects.index.kpi_active"), "fa-folder-open"],
+        [@stats.shortlisted_count, t("projects.index.kpi_shortlisted"), "fa-list-check"],
+        [@stats.pending_count, t("projects.index.kpi_pending"), "fa-hourglass-half"]].each do |value, label, icon_name| %>
       <div class="col-6 col-lg-3">
         <div class="card card-body h-100 sg-kpi sg-reveal">
           <div class="sg-kpi-icon"><%= icon(icon_name) %></div>
@@ -30,7 +30,7 @@
       <div class="card card-body h-100 sg-kpi sg-reveal">
         <div class="sg-kpi-icon is-accent"><%= icon("fa-wand-magic-sparkles") %></div>
         <div class="sg-kpi-value"><%= @stats.ai_kept_rate ? "#{@stats.ai_kept_rate}%" : "–" %></div>
-        <div class="sg-kpi-label">AI suggestions kept by buyers</div>
+        <div class="sg-kpi-label"><%= t("projects.index.kpi_ai_kept") %></div>
       </div>
     </div>
   </section>
@@ -39,23 +39,62 @@
     <div class="sg-empty sg-reveal">
       <%= image_tag "mascot/welcome.webp", alt: "", width: 120, height: 133 %>
       <div>
-        <h2 class="h3">Let's build your first bidder list</h2>
-        <p>Create an RFQ project, paste your materials, and Sagasu will group them and suggest suppliers.</p>
+        <h2 class="h3"><%= t("projects.index.empty_title") %></h2>
+        <p><%= t("projects.index.empty_text") %></p>
         <% if policy(Project).create? %>
-          <%= link_to new_project_path, class: "btn btn-primary" do %><%= icon("fa-plus") %> New RFQ project<% end %>
+          <%= link_to new_project_path, class: "btn btn-primary" do %><%= icon("fa-plus") %> <%= t("projects.index.new_project") %><% end %>
         <% end %>
       </div>
     </div>
   <% else %>
+    <section class="row g-4 mb-5" aria-label="<%= t("projects.index.overview_label") %>">
+      <div class="col-lg-5">
+        <div class="card card-body h-100 sg-reveal">
+          <h2 class="h5 mb-3"><%= icon("fa-chart-pie") %> <%= t("projects.index.donut_title") %></h2>
+          <div class="sg-donut-wrap">
+            <div class="sg-donut" style="<%= donut_gradient(@stats.status_shares) %>" role="img"
+                 aria-label="<%= @stats.status_shares.map { |status, count| "#{count} #{t("projects.statuses.#{status}")}" }.to_sentence %>">
+              <span class="sg-donut-total"><%= t("projects.index.donut_total_html", count: @projects.size) %></span>
+            </div>
+            <ul class="sg-donut-legend">
+              <% @stats.status_shares.each do |status, count| %>
+                <li>
+                  <span class="sg-dot is-<%= status.dasherize %>" aria-hidden="true"></span>
+                  <%= t("projects.statuses.#{status}") %> <strong><%= count %></strong>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="card card-body h-100 sg-reveal">
+          <h2 class="h5 mb-3"><%= icon("fa-clock-rotate-left") %> <%= t("projects.index.activity_title") %></h2>
+          <ul class="sg-activity">
+            <% @stats.recent_events.each do |event| %>
+              <li class="sg-activity-item">
+                <span class="sg-activity-icon is-<%= event.kind %>"><%= icon(activity_icon(event.kind)) %></span>
+                <p>
+                  <%= t("projects.index.activity.#{event.kind}", actor: event.actor_name,
+                        project: link_to(event.project.title, project_path(event.project))) %>
+                  <span class="sg-caption d-block"><%= t("projects.index.time_ago", time: time_ago_in_words(event.at)) %></span>
+                </p>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section data-controller="filter" aria-labelledby="projects-title">
       <div class="sg-section-title">
-        <h2 id="projects-title"><%= icon("fa-folder-open") %> Projects</h2>
+        <h2 id="projects-title"><%= icon("fa-folder-open") %> <%= t("projects.index.title") %></h2>
         <%# Bootstrap nav-pills; filter_controller.js toggles .active and aria-pressed %>
-        <div class="nav nav-pills card flex-row flex-wrap p-1 gap-1" role="group" aria-label="Filter projects by status">
-          <% [["all", "All"], ["draft", "Draft"], ["pending_approval", "Waiting"], ["returned", "Returned"], ["approved", "Approved"]].each do |status, label| %>
+        <div class="nav nav-pills card flex-row flex-wrap p-1 gap-1" role="group" aria-label="<%= t("projects.index.filter_label") %>">
+          <% %w[all draft pending_approval returned approved].each do |status| %>
             <button type="button" class="nav-link <%= 'active' if status == 'all' %>" data-filter-target="tab"
                     data-status="<%= status %>" data-action="filter#select" aria-pressed="<%= status == 'all' %>">
-              <%= label %> <span class="badge rounded-pill text-bg-light ms-1"><%= @stats.count_for(status) %></span>
+              <%= t("projects.index.filters.#{status}") %> <span class="badge rounded-pill text-bg-light ms-1"><%= @stats.count_for(status) %></span>
             </button>
           <% end %>
         </div>
@@ -65,7 +104,7 @@
       <div class="row g-4">
         <%= render partial: "projects/card", collection: @projects, as: :project %>
       </div>
-      <p class="sg-empty-compact mt-3" data-filter-target="empty" hidden>No project with this status.</p>
+      <p class="sg-empty-compact mt-3" data-filter-target="empty" hidden><%= t("projects.index.filter_empty") %></p>
     </section>
   <% end %>
 </div>

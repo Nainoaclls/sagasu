@@ -38,6 +38,55 @@ $color-contrast-dark:  $ink;
 $color-contrast-light: $white;
 $min-contrast-ratio:   4.5;
 
+// Dark color mode ([data-bs-theme="dark"]). Bootstrap components switch on their own via these
+// hooks; Sagasu components read the CSS variables in components/_theme.scss.
+$body-bg-dark:              #121E25;
+$body-color-dark:           #E9EEF0;
+$body-secondary-color-dark: #9FB4BD;
+$body-tertiary-color-dark:  #7E96A1;
+$body-secondary-bg-dark:    #1B2B33;
+$body-tertiary-bg-dark:     #233641;
+$emphasis-color-dark:       #F4F7F8;
+$border-color-dark:         #34474F;
+$headings-color-dark:       $light-pacific;
+$link-color-dark:           $light-pacific;
+$link-hover-color-dark:     #C4DEE4;
+
+// Subtle/emphasis badge tones in dark mode (used by the badge helper in ApplicationHelper)
+$theme-colors-text-dark: (
+  "primary":   $light-pacific,
+  "secondary": #9FB4BD,
+  "success":   #7BC6A4,
+  "info":      #8FBCC8,
+  "warning":   #E2B45C,
+  "danger":    #DE948E,
+  "light":     #EEEEEE,
+  "dark":      #C9D3D8,
+  "accent":    #E8AC8F
+);
+$theme-colors-bg-subtle-dark: (
+  "primary":   #1D343F,
+  "secondary": #233035,
+  "success":   #18342B,
+  "info":      #1B323B,
+  "warning":   #3A2F16,
+  "danger":    #3D211F,
+  "light":     #2A3439,
+  "dark":      #182024,
+  "accent":    #3A2D25
+);
+$theme-colors-border-subtle-dark: (
+  "primary":   #33505C,
+  "secondary": #3A4A52,
+  "success":   #265444,
+  "info":      #2C4C57,
+  "warning":   #5C4A22,
+  "danger":    #63322F,
+  "light":     #4A545A,
+  "dark":      #39444A,
+  "accent":    #5E4636
+);
+
 // Shape (design kit: 6 / 12 / 20)
 $border-radius-sm:  .375rem;
 $border-radius:     .5rem;
@@ -45,13 +94,13 @@ $border-radius-lg:  .75rem;
 $border-radius-xl:  1.25rem;
 $border-radius-xxl: 1.5rem;
 
-// Controls: 44px minimum touch target
-$input-bg:            $white;
-$input-border-color:  #B9C3C8;
+// Controls: 44px minimum touch target. var(--sg-*) keeps them theme-aware (components/_theme.scss)
+$input-bg:            var(--sg-surface);
+$input-border-color:  var(--sg-input-border);
 $input-padding-y:     .625rem;
 $input-padding-x:     .875rem;
-$input-focus-border-color: $blue-slate;
-$input-focus-box-shadow:   0 0 0 .2rem rgba(50, 98, 115, .2);
+$input-focus-border-color: var(--sg-focus);
+$input-focus-box-shadow:   var(--sg-focus-ring);
 $btn-padding-y:       .625rem;
 $btn-padding-x:       1.25rem;
 $btn-font-weight:     700;
@@ -64,8 +113,9 @@ $btn-padding-y-lg:    .75rem;
 $btn-padding-x-lg:    1.75rem;
 
 // Components (Bootstrap cards, badges, nav pills, progress, tables, toasts, modals)
+$card-bg:                 var(--sg-surface);
 $card-border-radius:      14px;
-$card-border-color:       $border-color;
+$card-border-color:       var(--sg-border);
 $card-spacer-y:           1.5rem;
 $card-spacer-x:           1.5rem;
 $badge-font-weight:       700;
@@ -78,7 +128,7 @@ $nav-link-hover-color:    $blue-slate;
 $nav-link-font-weight:    700;
 $progress-height:         6px;
 $progress-border-radius:  999px;
-$progress-bg:             $platinum;
+$progress-bg:             var(--sg-platinum);
 $progress-bar-bg:         $blue-slate;
 $table-cell-padding-y:    .75rem;
 $table-cell-padding-x:    .75rem;
@@ -92,7 +142,7 @@ $modal-content-border-radius: 18px;
 $modal-content-border-width:  0;
 $modal-backdrop-opacity:  .45;
 $modal-header-border-width: 0;
-$modal-footer-bg:         $canvas;
+$modal-footer-bg:         var(--sg-inset);
 
 $enable-shadows: false;
 $enable-smooth-scroll: true;

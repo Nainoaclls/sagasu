@@ -1,0 +1,8 @@
+<%# Light/dark toggle; theme_controller.js swaps the icon and keeps <meta name="theme-color"> in sync.
+    The aria-labels come from the locales so the JS never hardcodes a language. %>
+<button type="button" class="btn btn-quiet btn-icon" data-controller="theme" data-action="theme#toggle"
+        data-theme-to-dark-value="<%= t("shared.theme_toggle.to_dark") %>"
+        data-theme-to-light-value="<%= t("shared.theme_toggle.to_light") %>"
+        aria-pressed="false" aria-label="<%= t("shared.theme_toggle.to_dark") %>">
+  <%= icon("fa-moon", data: { theme_target: "icon" }) %>
+</button>

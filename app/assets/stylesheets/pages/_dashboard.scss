@@ -1,15 +1,53 @@
 // Filters: Bootstrap .nav-pills (active color from $nav-pills-link-active-bg)
 .nav-pills .nav-link {
   min-height: 38px; font-size: .875rem; display: inline-flex; align-items: center;
-  &:not(.active):hover { background: $pacific-soft; }
+  &:not(.active):hover { background: var(--sg-info-soft); }
 }
 
-.sg-project-card h3 a { color: $blue-slate; }
+.sg-project-card h3 a { color: var(--sg-link); }
 .sg-project-meta {
-  display: flex; flex-wrap: wrap; gap: .25rem 1rem; color: $muted; font-size: .875rem; margin-bottom: 1rem;
+  display: flex; flex-wrap: wrap; gap: .25rem 1rem; color: var(--sg-muted); font-size: .875rem; margin-bottom: 1rem;
   i { width: 1em; }
 }
 .sg-project-counts {
-  display: flex; gap: 1.25rem; list-style: none; padding: 0; margin: auto 0 1rem; font-size: .875rem; color: $muted;
-  strong { color: $ink; font-size: 1.125rem; display: block; }
+  display: flex; gap: 1.25rem; list-style: none; padding: 0; margin: auto 0 1rem; font-size: .875rem; color: var(--sg-muted);
+  strong { color: var(--sg-text); font-size: 1.125rem; display: block; }
+}
+
+// Status donut: pure CSS conic-gradient built in ApplicationHelper#donut_gradient
+.sg-donut-wrap { display: flex; align-items: center; gap: 1.75rem; flex-wrap: wrap; }
+.sg-donut {
+  position: relative; flex: none; width: 148px; height: 148px; border-radius: 50%;
+  display: grid; place-items: center;
+  &::after { content: ""; position: absolute; inset: 20%; border-radius: 50%; background: var(--sg-surface); }
+}
+.sg-donut-total {
+  position: relative; z-index: 1; text-align: center; font-size: .75rem; color: var(--sg-muted);
+  strong { display: block; font-size: 1.5rem; color: var(--sg-text); }
+}
+.sg-donut-legend {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem;
+  font-size: .9375rem; color: var(--sg-muted); flex: 1; min-width: 160px;
+  li { display: flex; align-items: center; gap: .5rem; }
+  strong { color: var(--sg-text); margin-left: auto; padding-left: 1rem; }
+}
+.sg-dot { flex: none; width: 10px; height: 10px; border-radius: 3px; }
+.sg-dot.is-draft { background: var(--sg-muted); }
+.sg-dot.is-pending-approval { background: var(--sg-warning); }
+.sg-dot.is-returned { background: var(--sg-danger); }
+.sg-dot.is-approved { background: var(--sg-success); }
+
+// Recent activity card
+.sg-activity { list-style: none; margin: 0; padding: 0; display: grid; gap: .875rem; }
+.sg-activity-item {
+  display: flex; gap: .75rem; align-items: flex-start;
+  p { margin: 0; font-size: .9375rem; }
+  a { font-weight: 700; }
+}
+.sg-activity-icon {
+  flex: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-size: .875rem;
+  background: var(--sg-info-soft); color: var(--sg-heading);
+  &.is-submitted { background: var(--sg-warning-soft); color: var(--sg-warning); }
+  &.is-approved { background: var(--sg-success-soft); color: var(--sg-success); }
+  &.is-returned { background: var(--sg-danger-soft); color: var(--sg-danger); }
 }

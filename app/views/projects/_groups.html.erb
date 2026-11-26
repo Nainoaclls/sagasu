@@ -1,12 +1,12 @@
 <section id="groups" aria-labelledby="groups-title">
   <div class="sg-section-title">
-    <h2 id="groups-title"><%= icon("fa-layer-group") %> Groups &amp; suppliers</h2>
+    <h2 id="groups-title"><%= icon("fa-layer-group") %> <%= t("projects.groups.title") %></h2>
     <% if can_edit && project.items.any? && !project.grouping_in_progress? %>
       <%= button_to generate_project_item_groups_path(project),
             class: "btn #{project.item_groups.any? ? 'btn-outline-primary' : 'btn-accent'}",
-            data: { controller: "ripple", action: "click->ripple#burst", turbo_submits_with: "Starting…" },
-            form: { data: { turbo_confirm: (project.item_groups.any? ? "Regroup all materials? Current groups and their suppliers will be replaced." : nil) } } do %>
-        <%= icon("fa-wand-magic-sparkles") %> <%= project.item_groups.any? ? "Regroup with AI" : "Group with AI" %>
+            data: { controller: "ripple", action: "click->ripple#burst", turbo_submits_with: t("projects.groups.starting") },
+            form: { data: { turbo_confirm: (t("projects.groups.regroup_confirm") if project.item_groups.any?) } } do %>
+        <%= icon("fa-wand-magic-sparkles") %> <%= project.item_groups.any? ? t("projects.groups.regroup") : t("projects.groups.group") %>
       <% end %>
     <% end %>
   </div>
@@ -17,9 +17,9 @@
     <div class="sg-empty">
       <%= image_tag "mascot/welcome.webp", alt: "", width: 120, height: 133 %>
       <div>
-        <h3><%= project.items.any? ? "Ready to group your materials" : "Add materials first" %></h3>
+        <h3><%= project.items.any? ? t("projects.groups.ready_title") : t("projects.groups.need_materials_title") %></h3>
         <p>
-          <%= project.items.any? ? "Sagasu groups materials that one type of supplier can quote together, and explains each group." : "Paste your material list above, then let Sagasu group it." %>
+          <%= project.items.any? ? t("projects.groups.ready_text") : t("projects.groups.need_materials_text") %>
         </p>
       </div>
     </div>
@@ -28,8 +28,8 @@
       <div class="sg-banner is-pending mb-3" role="status">
         <%= icon("fa-triangle-exclamation") %>
         <div>
-          <strong><%= pluralize(project.ungrouped_items.size, "material") %> not in a group</strong>
-          <p>Choose a group in the Materials table before sending for approval.</p>
+          <strong><%= t("projects.groups.ungrouped_title", count: project.ungrouped_items.size) %></strong>
+          <p><%= t("projects.groups.ungrouped_text") %></p>
         </div>
       </div>
     <% end %>
@@ -41,11 +41,11 @@
 
   <% if can_edit && project.items.any? %>
     <details class="sg-add-group mt-3">
-      <summary><%= icon("fa-plus") %> Add a group by hand</summary>
+      <summary><%= icon("fa-plus") %> <%= t("projects.groups.add_by_hand") %></summary>
       <%= simple_form_for [project, ItemGroup.new], html: { class: "d-flex flex-wrap align-items-start gap-2 mt-3" } do |f| %>
-        <%= f.input :title, label: "Group name", label_html: { class: "visually-hidden" }, wrapper_html: { class: "mb-0" },
-                    input_html: { placeholder: "e.g. Waterproofing", maxlength: 80, style: "max-width: 320px" } %>
-        <%= f.button :button, class: "btn-outline-primary" do %><%= icon("fa-plus") %> Add group<% end %>
+        <%= f.input :title, label: t("projects.groups.group_name"), label_html: { class: "visually-hidden" }, wrapper_html: { class: "mb-0" },
+                    input_html: { placeholder: t("projects.groups.group_placeholder"), maxlength: 80, style: "max-width: 320px" } %>
+        <%= f.button :button, class: "btn-outline-primary" do %><%= icon("fa-plus") %> <%= t("projects.groups.add_group") %><% end %>
       <% end %>
     </details>
   <% end %>

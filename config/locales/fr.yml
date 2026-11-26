@@ -1,0 +1,684 @@
+fr:
+  activerecord:
+    models:
+      user: "utilisateur"
+      project: "projet"
+      item: "matériau"
+      item_group: "groupe"
+      group_supplier: "fournisseur du groupe"
+      supplier: "fournisseur"
+      review: "avis"
+      approval: "approbation"
+    attributes:
+      user:
+        name: "Nom"
+        email: "E-mail"
+        password: "Mot de passe"
+        password_confirmation: "Confirmation du mot de passe"
+        current_password: "Mot de passe actuel"
+        remember_me: "Se souvenir de moi"
+        role: "Rôle"
+      project:
+        title: "Titre du projet"
+        scope: "Description du besoin"
+        client_name: "Client"
+        client_area: "Zone de livraison"
+        erp_rfq: "Numéro RFQ ERP"
+        budget_amount: "Budget"
+        budget_currency: "Devise"
+        buyer_comment: "Commentaire pour l'approbateur"
+      item:
+        description: "Description"
+        quantity: "Quantité"
+        unit_of_measure: "Unité"
+        erp_material: "Référence ERP"
+        item_group: "Groupe"
+        item_group_id: "Groupe"
+      item_group:
+        title: "Nom du groupe"
+        description: "Description"
+      group_supplier:
+        supplier_id: "Fournisseur"
+        feedback_reason: "Motif"
+        selected: "Sélectionné"
+      review:
+        rating: "Note"
+        comment: "Commentaire"
+        visibility: "Visibilité"
+        project: "Projet"
+        ai_usable: "Utilisable par l'IA"
+      approval:
+        comment: "Commentaire"
+        approver: "Approbateur"
+        approver_id: "Approbateur"
+        status: "Décision"
+
+  common:
+    cancel: "Annuler"
+    save: "Enregistrer"
+    close: "Fermer"
+
+  layouts:
+    application:
+      tagline: "Trouvez les bons fournisseurs"
+      description: "Sagasu aide les acheteurs du BTP à trouver, comparer et faire approuver les bons fournisseurs, avec une IA qui montre ses preuves."
+      skip_to_content: "Aller au contenu"
+
+  shared:
+    navbar:
+      main_navigation: "Principal"
+      open_menu: "Ouvrir le menu"
+      home_label: "Accueil Sagasu"
+      projects: "Projets"
+      suppliers: "Fournisseurs"
+      approvals: "Approbations"
+      waiting: "en attente"
+      new_project: "Nouveau projet"
+      account_menu: "Menu du compte de %{name}"
+      account: "Compte"
+      log_out: "Se déconnecter"
+      how_it_works: "Comment ça marche"
+      trust: "Confiance et preuves"
+      log_in: "Se connecter"
+      get_started: "Commencer"
+    footer:
+      tagline: "Trouvez les bons fournisseurs, pas juste des résultats de recherche. · Le Wagon Tokyo, 2026"
+      ai_note: "Les suggestions de l'IA sont un point de départ. Ce sont les humains qui décident."
+    locale_switcher:
+      label: "Langue"
+      english: "English"
+      french: "Français"
+      japanese: "日本語"
+    toast:
+      dismiss: "Fermer le message"
+    ai_working:
+      title: "Sagasu recherche"
+      body: "%{message}. Vous pouvez continuer à travailler, la page se mettra à jour toute seule."
+    theme_toggle:
+      to_dark: "Passer en mode sombre"
+      to_light: "Passer en mode clair"
+
+  helpers:
+    stars: "%{rating} étoiles sur %{max}"
+    money_not_set: "Non défini"
+    to_confirm: "À confirmer"
+    toast_labels:
+      success: "Succès"
+      alert: "Attention"
+
+  users:
+    roles:
+      buyer: "acheteur"
+      approver: "approbateur"
+
+  pages:
+    home:
+      title: "Trouvez les bons fournisseurs"
+      eyebrow: "Découverte de fournisseurs par IA pour les acheteurs du BTP"
+      heading_a: "Trouvez les bons fournisseurs,"
+      heading_b: "pas juste des résultats de recherche."
+      lead: "Collez votre liste de matériaux. Sagasu la regroupe, suggère des fournisseurs issus de vos propres données avec les preuves de chaque correspondance, et envoie une liste de soumissionnaires claire à votre manager pour approbation."
+      cta_projects: "Voir mes projets"
+      cta_start: "Démarrer un projet"
+      proof_evidence: "Des suggestions accompagnées de preuves"
+      proof_flagged: "Les informations manquantes sont signalées"
+      proof_human: "Un humain approuve toujours"
+      demo_aria: "Exemple : d'un besoin d'acheteur à une liste de soumissionnaires approuvée"
+      demo_need: "Le besoin"
+      demo_grouped: "Regroupés par type de fournisseur"
+      demo_suppliers: "Fournisseurs suggérés"
+      demo_selected: "Sélectionné"
+      demo_review: "À vérifier"
+      demo_approved: "Liste de soumissionnaires approuvée"
+      demo_approved_detail: "par le responsable des achats, avec la liste figée telle que soumise."
+      pain_eyebrow: "Le problème"
+      pain_title: "« Une aiguille dans une botte de foin. »"
+      pain_lead: "La connaissance des fournisseurs est éparpillée entre sites web, ERP et mémoire des collègues. Les acheteurs refont la même recherche à chaque appel d'offres."
+      stat_bricks: "briques nécessaires ce mois-ci"
+      stat_suppliers: "fournisseurs dans la base"
+      stat_shortlist: "sur la liste, avant Sagasu"
+      how_eyebrow: "Comment ça marche"
+      how_title: "De la liste de matériaux à la liste de soumissionnaires approuvée"
+      steps:
+        - title: "Décrivez le besoin"
+          text: "Créez un projet RFQ et collez vos matériaux directement depuis Excel ou votre ERP."
+        - title: "Regroupez avec l'IA"
+          text: "Sagasu regroupe les matériaux par type de fournisseur et explique pourquoi. Renommez ou déplacez ce que vous voulez."
+        - title: "Examinez les suggestions"
+          text: "Chaque fournisseur vient avec ses preuves et les points à confirmer. Gardez, refusez ou ajoutez les vôtres."
+        - title: "Faites approuver"
+          text: "Votre manager approuve ou renvoie la liste avec un commentaire. Chaque version est conservée."
+      trust_eyebrow: "Conçu pour la confiance"
+      trust_title: "Un assistant qui montre son travail"
+      mascot_alt: "Le robot assistant de Sagasu, qui présente la main ouverte"
+      principles:
+        - title: "Les preuves avant la confiance"
+          text: "Chaque suggestion liste les faits qui la justifient et signale les capacités ou délais manquants."
+        - title: "Les humains décident"
+          text: "L'IA recommande. Les acheteurs sélectionnent, les managers approuvent. Rien n'est envoyé automatiquement."
+        - title: "Pas de listes noires silencieuses"
+          text: "Un seul commentaire négatif reste une observation non vérifiée tant qu'il n'est pas confirmé."
+        - title: "Chaque décision traçable"
+          text: "Chaque approbation conserve une copie figée de la liste, et chaque appel à l'IA est journalisé."
+      cta_title: "Votre prochaine liste de soumissionnaires, en quelques minutes."
+      cta_text_html: "<span class='sg-number'>%{suppliers}</span> fiches fournisseurs réparties dans %{categories} catégories de matériaux sont prêtes à être explorées."
+      cta_open: "Ouvrir Sagasu"
+      cta_create: "Créer un compte gratuit"
+
+  projects:
+    statuses:
+      draft: "Brouillon"
+      pending_approval: "En attente d'approbation"
+      approved: "Approuvé"
+      returned: "Renvoyé"
+    steps:
+      materials: "Matériaux"
+      groups: "Groupes"
+      suppliers: "Fournisseurs"
+      approval: "Approbation"
+    step_states:
+      done: "terminé"
+      current: "étape en cours"
+      todo: "à faire"
+    ai_overlay:
+      grouping: "Lecture de vos matériaux et regroupement par type de fournisseur"
+      suggestion: "Comparaison des fiches fournisseurs, des preuves et des avis de l'équipe"
+    submission_blockers:
+      no_materials: "Ajoutez au moins un matériau."
+      no_groups: "Regroupez vos matériaux."
+      no_suppliers: "Sélectionnez au moins un fournisseur pour la liste de soumissionnaires."
+      ungrouped:
+        one: "%{count} matériau n'est pas encore dans un groupe."
+        other: "%{count} matériaux ne sont pas encore dans un groupe."
+      cannot_submit: "Cette liste de soumissionnaires ne peut pas être envoyée maintenant"
+    index:
+      title: "Projets"
+      welcome: "Bonjour %{name}"
+      subtitle_buyer: "Vos projets RFQ et listes de soumissionnaires."
+      subtitle_approver: "Les listes de soumissionnaires qu'on vous a demandé d'examiner."
+      new_project: "Nouveau projet RFQ"
+      summary_label: "Résumé"
+      kpi_active: "Projets actifs"
+      kpi_shortlisted: "Fournisseurs sur les listes"
+      kpi_pending: "En attente d'approbation"
+      kpi_ai_kept: "Suggestions IA gardées par les acheteurs"
+      empty_title: "Créons votre première liste de soumissionnaires"
+      empty_text: "Créez un projet RFQ, collez vos matériaux, et Sagasu les regroupera et suggérera des fournisseurs."
+      overview_label: "Vue d'ensemble"
+      donut_title: "Pipeline par statut"
+      donut_total_html:
+        one: "<strong>%{count}</strong> projet"
+        other: "<strong>%{count}</strong> projets"
+      activity_title: "Activité récente"
+      activity:
+        created: "%{actor} a créé %{project}"
+        submitted: "%{actor} a envoyé %{project}"
+        approved: "%{actor} a approuvé %{project}"
+        returned: "%{actor} a renvoyé %{project}"
+      time_ago: "il y a %{time}"
+      filter_label: "Filtrer les projets par statut"
+      filters:
+        all: "Tous"
+        draft: "Brouillons"
+        pending_approval: "En attente"
+        returned: "Renvoyés"
+        approved: "Approuvés"
+      filter_empty: "Aucun projet avec ce statut."
+    card:
+      no_erp: "Pas encore de RFQ ERP"
+      client_to_set: "Client à définir"
+      area_to_set: "Zone à définir"
+      materials_html:
+        one: "<strong>%{count}</strong> matériau"
+        other: "<strong>%{count}</strong> matériaux"
+      groups_html:
+        one: "<strong>%{count}</strong> groupe"
+        other: "<strong>%{count}</strong> groupes"
+      suppliers_html:
+        one: "<strong>%{count}</strong> fournisseur sélectionné"
+        other: "<strong>%{count}</strong> fournisseurs sélectionnés"
+      contents_label: "Contenu de la liste de soumissionnaires"
+      progress_label: "Avancement"
+      by: "Par %{name}"
+      updated: "Mis à jour il y a %{time}"
+    new:
+      title: "Nouveau projet RFQ"
+      lead: "Décrivez votre besoin. Vous pourrez ajouter ou corriger les matériaux plus tard."
+      error_notification: "Veuillez vérifier les champs ci-dessous."
+      need_legend: "Le besoin"
+      title_label: "Titre du projet"
+      title_placeholder: "Tour de bureaux Shinjuku, travaux de façade"
+      scope_label: "Décrivez le besoin"
+      scope_hint: "Des mots simples suffisent. Sagasu s'en sert pour expliquer l'adéquation des fournisseurs."
+      scope_placeholder: "Briques de parement livrées à Tokyo, environ 50 000 par mois à partir d'avril, plus du mortier."
+      client_legend: "Client et budget"
+      client_label: "Client"
+      client_placeholder: "Aoyama Development"
+      area_label: "Zone de livraison"
+      area_prompt: "Choisissez une préfecture"
+      area_hint: "Sert à vérifier quels fournisseurs y livrent. Tapez pour rechercher."
+      area_search: "Tapez une préfecture…"
+      erp_label: "Numéro RFQ ERP"
+      budget_label: "Budget"
+      currency_label: "Devise"
+      materials_legend: "Matériaux"
+      optional_now: "(facultatif pour l'instant)"
+      paste_label: "Collez votre liste de matériaux"
+      paste_hint: "Un matériau par ligne : description ; quantité ; unité. Les colonnes copiées depuis Excel ou votre ERP fonctionnent aussi."
+      paste_placeholder: "Briques de parement, rouges ; 50000 ; pcs\nMortier M4 ; 300 ; sac"
+      use_example: "Utiliser une liste d'exemple"
+      create: "Créer le projet"
+      next_label: "Et ensuite"
+      next_title: "Et ensuite"
+      next_steps:
+        - title: "Regroupez avec l'IA."
+          text: "Sagasu regroupe vos matériaux par type de fournisseur et explique pourquoi."
+        - title: "Examinez les fournisseurs."
+          text: "Chaque suggestion montre ses preuves et les points à confirmer."
+        - title: "Envoyez pour approbation."
+          text: "Votre manager approuve ou renvoie la liste."
+    show:
+      all_projects: "Tous les projets"
+      rfq_default: "Projet RFQ"
+      client_to_set: "Client à définir"
+      delivery: "Livraison : %{area}"
+      area_to_set: "à définir"
+      budget: "Budget : %{amount}"
+      buyer: "Acheteur : %{name}"
+      facts_label: "Détails du projet"
+      bidder_list_label: "Liste de soumissionnaires"
+    stepper:
+      label: "Avancement de la liste de soumissionnaires"
+    materials:
+      title: "Matériaux"
+      caption: "Matériaux de cette RFQ et leur groupe"
+      col_material: "Matériau"
+      col_quantity: "Quantité"
+      col_group: "Groupe"
+      col_actions: "Actions"
+      not_grouped: "Non groupé"
+      group_for: "Groupe pour %{item}"
+      move: "Déplacer"
+      remove_confirm: "Retirer « %{item} » ?"
+      remove_label: "Retirer %{item}"
+      empty: "Pas encore de matériaux."
+      add: "Ajouter des matériaux"
+      paste_label: "Collez un matériau par ligne"
+      paste_placeholder: "Briques de parement, rouges ; 50000 ; pcs\nMortier M4 ; 300 ; sac"
+      add_to_project: "Ajouter au projet"
+    groups:
+      title: "Groupes et fournisseurs"
+      regroup: "Regrouper avec l'IA"
+      group: "Grouper avec l'IA"
+      starting: "Démarrage…"
+      regroup_confirm: "Regrouper tous les matériaux ? Les groupes actuels et leurs fournisseurs seront remplacés."
+      ready_title: "Prêt à regrouper vos matériaux"
+      ready_text: "Sagasu regroupe les matériaux qu'un même type de fournisseur peut chiffrer ensemble, et explique chaque groupe."
+      need_materials_title: "Ajoutez d'abord des matériaux"
+      need_materials_text: "Collez votre liste de matériaux ci-dessus, puis laissez Sagasu la regrouper."
+      ungrouped_title:
+        one: "%{count} matériau sans groupe"
+        other: "%{count} matériaux sans groupe"
+      ungrouped_text: "Choisissez un groupe dans le tableau des matériaux avant l'envoi pour approbation."
+      add_by_hand: "Ajouter un groupe à la main"
+      group_name: "Nom du groupe"
+      group_placeholder: "ex. Étanchéité"
+      add_group: "Ajouter le groupe"
+    bidder_list:
+      title: "Liste de soumissionnaires"
+      selected_label: "%{count} fournisseurs sélectionnés"
+      empty_hint: "Vos fournisseurs sélectionnés apparaîtront ici, groupe par groupe."
+      no_supplier_yet: "Aucun fournisseur sélectionné pour l'instant"
+      send_title: "Envoyer pour approbation"
+      approver_label: "Approbateur"
+      approver_prompt: "Choisissez un approbateur"
+      comment_label: "Commentaire pour l'approbateur"
+      comment_placeholder: "Pourquoi ces soumissionnaires, les points à surveiller…"
+      send: "Envoyer pour approbation"
+      checklist_title: "Avant l'envoi pour approbation"
+      history_title: "Historique des approbations"
+      sent: "Envoyé le %{time}"
+      decided: "décidé le %{time}"
+      snapshot:
+        one: "Version soumise (%{count} fournisseur)"
+        other: "Version soumise (%{count} fournisseurs)"
+    approval_banner:
+      waiting: "En attente de %{name}"
+      waiting_text: "Envoyé il y a %{time}. La liste de soumissionnaires est verrouillée jusqu'à la décision."
+      returned: "%{name} a renvoyé la liste"
+      returned_hint: "Ajustez la liste de soumissionnaires, puis renvoyez-la. La version précédente est conservée dans l'historique."
+      approved: "Approuvé par %{name}"
+      approved_default: "La liste de soumissionnaires est définitive. Vous pouvez maintenant contacter les soumissionnaires."
+
+  item_groups:
+    materials_count:
+      one: "%{count} matériau"
+      other: "%{count} matériaux"
+    on_bidder_list: "%{count} sur la liste"
+    rename_label: "Renommer le groupe %{title}"
+    group_name: "Nom du groupe"
+    ai_note: "Pourquoi ce groupe"
+    items_label: "Matériaux dans %{title}"
+    no_items: "Pas encore de matériau : déplacez-en ici depuis le tableau des matériaux."
+    suppliers_title: "Fournisseurs"
+    suggest: "Suggérer des fournisseurs"
+    suggest_more: "Suggérer d'autres"
+    starting: "Démarrage…"
+    empty_editable: "Demandez des suggestions à Sagasu, ou cherchez un fournisseur ci-dessous."
+    empty_readonly: "Aucun fournisseur pour ce groupe."
+    search_label: "Chercher un fournisseur à ajouter à %{title}"
+    search_placeholder: "Chercher un fournisseur à ajouter (nom, ville, matériau)…"
+    results_label: "Résultats de recherche"
+
+  group_suppliers:
+    ai_badge: "Suggestion IA"
+    manual_badge: "Ajouté par l'acheteur"
+    evidence: "Preuves"
+    to_confirm: "À confirmer"
+    declined: "Refusé : %{reason}"
+    on_bidder_list: "Sur la liste"
+    remove: "Retirer"
+    remove_label: "Retirer %{name} de la liste de soumissionnaires"
+    add_label: "Ajouter %{name} à la liste de soumissionnaires"
+    add_to_list: "Ajouter à la liste"
+    decline: "Refuser"
+    decline_title: "Pourquoi pas %{name} ?"
+    decline_text: "Facultatif. Votre motif aide Sagasu à suggérer de meilleurs fournisseurs. C'est un indice, jamais une liste noire."
+    reason_legend: "Motif"
+    remove_from_list: "Retirer de la liste"
+    decline_suggestion: "Refuser la suggestion"
+    feedback_reasons:
+      wrong_category: "Ne fournit pas cette catégorie"
+      low_capacity: "Capacité trop faible"
+      outside_area: "Hors de notre zone de livraison"
+      long_lead_time: "Délai trop long"
+      quality_issues: "Problèmes de qualité connus"
+      no_reason: "Aucun motif donné"
+
+  reviews:
+    list:
+      title: "Avis de l'équipe"
+      caption: "Les observations non vérifiées sont montrées pour contexte. Sagasu n'exclut jamais un fournisseur sur l'une d'elles seule."
+      empty: "Pas encore d'avis. Partagez ce que vous savez sur ce fournisseur."
+    form:
+      error_notification: "Veuillez corriger les champs ci-dessous."
+      rating: "Note"
+      stars:
+        one: "%{count} étoile"
+        other: "%{count} étoiles"
+      comment_label: "Que s'est-il passé ?"
+      comment_placeholder: "Les faits aident le plus : livraison à l'heure, contrôles qualité, réactivité…"
+      visibility: "Qui peut le voir"
+      organization: "Tous les acheteurs"
+      organization_hint: "Partagé dans toute l'organisation."
+      project: "Un seul projet"
+      project_hint: "Seulement les personnes sur cette liste."
+      choose_project: "Choisissez un projet"
+      ai_usable: "L'IA Sagasu peut l'utiliser pour suggérer des fournisseurs, sans montrer mon nom ni le citer."
+      submit: "Partager l'avis"
+    statuses:
+      unverified: "Observation non vérifiée"
+      verified: "Vérifié"
+      disputed: "Contesté"
+    visibility:
+      project: "Projet : %{title}"
+      organization: "Organisation"
+    author:
+      you: "Vous"
+      colleague: "Un collègue"
+    time_ago: "il y a %{time}"
+
+  suppliers:
+    index:
+      title: "Fournisseurs"
+      lead: "Recherchez vos fiches fournisseurs par nom, ville ou matériau. Les informations manquantes sont indiquées « à confirmer »."
+      search_label: "Rechercher des fournisseurs"
+      search_placeholder: "Briques, Saitama, isolation…"
+      material_label: "Matériau"
+      all_materials: "Tous les matériaux"
+      area_label: "Livre à"
+      any_area: "Toute zone de livraison"
+      search: "Rechercher"
+      map_title: "Votre réseau de fournisseurs"
+      results:
+        one: "fournisseur"
+        other: "fournisseurs"
+      results_for: "pour « %{query} »"
+      capacity_to_confirm: "Capacité à confirmer"
+      lead_time: "Délai de %{count} jours"
+      lead_time_to_confirm: "Délai à confirmer"
+      details_to_confirm:
+        one: "%{count} information à confirmer"
+        other: "%{count} informations à confirmer"
+      complete_record: "Fiche complète"
+      pages_label: "Pages"
+      previous: "Précédent"
+      next: "Suivant"
+      page_of: "Page %{page} sur %{pages}"
+      empty_title: "Aucun fournisseur trouvé"
+      empty_text: "Essayez un terme plus large (par exemple « brique » plutôt qu'une référence produit) ou une autre zone de livraison."
+      clear_search: "Effacer la recherche"
+    show:
+      all_suppliers: "Tous les fournisseurs"
+      website: "Site web"
+      new_tab: "(ouvre un nouvel onglet)"
+      verified_reviews:
+        one: "%{count} avis vérifié"
+        other: "%{count} avis vérifiés"
+      no_verified: "Pas encore d'avis vérifié"
+      map_title: "Localisation"
+      record_title: "Fiche fournisseur"
+      facts:
+        capacity: "Capacité mensuelle"
+        lead_time: "Délai"
+        delivers_to: "Livre à"
+        certifications: "Certifications"
+        tax_id: "Numéro fiscal"
+      lead_time_days:
+        one: "%{count} jour"
+        other: "%{count} jours"
+      source: "Source : %{url}"
+      review_form_title: "Partager une observation"
+    picker:
+      no_match: "Aucun fournisseur ne correspond à « %{query} »."
+      already_in_group: "Déjà dans le groupe"
+      add_label: "Ajouter %{name} à %{title}"
+      add: "Ajouter"
+    map:
+      aria_label: "Carte des localisations des fournisseurs"
+
+  approvals:
+    statuses:
+      pending: "En attente"
+      approved: "Approuvé"
+      returned: "Renvoyé"
+    index:
+      title: "Approbations"
+      lead: "Listes de soumissionnaires qui vous sont envoyées. Ouvrez-en une pour l'examiner, puis approuvez-la ou renvoyez-la avec un commentaire."
+      pending_title: "En attente de vous"
+      rfq_default: "Projet RFQ"
+      sent_ago: "envoyé il y a %{time}"
+      area_not_set: "Zone non définie"
+      groups_html:
+        one: "<strong>%{count}</strong> groupe"
+        other: "<strong>%{count}</strong> groupes"
+      suppliers_html:
+        one: "<strong>%{count}</strong> fournisseur"
+        other: "<strong>%{count}</strong> fournisseurs"
+      materials_html:
+        one: "<strong>%{count}</strong> matériau"
+        other: "<strong>%{count}</strong> matériaux"
+      review: "Examiner"
+      caught_up_title: "Vous êtes à jour"
+      caught_up_text: "Aucune liste de soumissionnaires n'attend votre approbation."
+      decided_title: "Décidées"
+      decided_caption: "Listes de soumissionnaires que vous avez déjà tranchées"
+      col_project: "Projet"
+      col_buyer: "Acheteur"
+      col_decision: "Décision"
+      col_date: "Date"
+      decided_empty: "Vos décisions passées seront listées ici."
+    decision:
+      title: "Votre décision"
+      sent: "%{name} a envoyé cette liste de soumissionnaires il y a %{time} : %{suppliers} dans %{groups}."
+      suppliers:
+        one: "%{count} fournisseur"
+        other: "%{count} fournisseurs"
+      groups:
+        one: "%{count} groupe"
+        other: "%{count} groupes"
+      comment_label: "Commentaire"
+      comment_hint: "L'acheteur voit votre commentaire. Renvoyer la liste la déverrouille pour modification."
+      comment_placeholder: "Obligatoire en cas de renvoi : que doit changer l'acheteur ?"
+      return: "Renvoyer à l'acheteur"
+      approve: "Approuver la liste"
+
+  devise_views:
+    shared:
+      art_eyebrow: "Sagasu pour les acheteurs du BTP"
+      art_title: "Trouvez les bons fournisseurs, pas juste des résultats de recherche."
+      art_text: "Regroupez vos matériaux, examinez les suggestions de l'IA avec leurs preuves, et faites approuver votre liste de soumissionnaires."
+      have_account: "Déjà un compte ?"
+      log_in: "Se connecter"
+      new_here: "Nouveau sur Sagasu ?"
+      create_account: "Créer un compte"
+      forgot_password: "Mot de passe oublié ?"
+    sessions:
+      title: "Connexion"
+      heading: "Bon retour"
+      lead: "Connectez-vous à vos listes de soumissionnaires."
+      remember_me: "Rester connecté"
+      log_in: "Se connecter"
+      demo_accounts: "Comptes de démo (mot de passe %{password})"
+      demo_buyer: "Acheteur : %{email}"
+      demo_approver: "Approbateur : %{email}"
+    registrations:
+      new:
+        title: "Créer un compte"
+        heading: "Créez votre compte"
+        lead: "Cela prend une minute."
+        full_name: "Nom complet"
+        password_hint: "Au moins %{count} caractères"
+        role_legend: "Votre rôle"
+        role_buyer: "Acheteur"
+        role_buyer_hint: "Je construis les listes de soumissionnaires."
+        role_approver: "Approbateur"
+        role_approver_hint: "Je valide les listes de soumissionnaires."
+        role_note: "Dans un contexte d'entreprise, un administrateur attribuerait les rôles."
+        create: "Créer le compte"
+      edit:
+        title: "Compte"
+        heading: "Votre compte"
+        signed_in_as: "Connecté en tant que %{email}"
+        full_name: "Nom complet"
+        new_password: "Nouveau mot de passe"
+        new_password_hint: "Laissez vide si vous ne voulez pas le changer"
+        confirm_password: "Confirmez le nouveau mot de passe"
+        current_password_hint: "Nécessaire pour confirmer vos changements"
+        waiting_confirmation: "En attente de confirmation pour : %{email}"
+        save: "Enregistrer les changements"
+        delete_title: "Supprimer le compte"
+        delete_text: "Cela supprime vos projets et vos avis. Action irréversible."
+        delete_button: "Supprimer mon compte"
+        delete_confirm: "Supprimer votre compte et tous vos projets ? Action irréversible."
+    passwords:
+      new:
+        title: "Mot de passe oublié"
+        heading: "Mot de passe oublié ?"
+        lead: "Nous vous enverrons un lien pour en choisir un nouveau."
+        submit: "Envoyer le lien"
+      edit:
+        title: "Choisissez un nouveau mot de passe"
+        heading: "Choisissez un nouveau mot de passe"
+        new_password: "Nouveau mot de passe"
+        password_hint: "Au moins %{count} caractères"
+        confirm_password: "Confirmez le nouveau mot de passe"
+        submit: "Changer mon mot de passe"
+
+  flashes:
+    application:
+      not_authorized: "Vous n'avez pas accès à cela."
+      not_found: "Nous n'avons pas trouvé cette page."
+    projects:
+      created_with_materials:
+        one: "Projet créé avec %{count} matériau."
+        other: "Projet créé avec %{count} matériaux."
+      created_empty: "Projet créé. Ajoutez vos matériaux pour commencer."
+    items:
+      added:
+        one: "%{count} matériau ajouté."
+        other: "%{count} matériaux ajoutés."
+      none_found: "Aucun matériau trouvé. Écrivez un matériau par ligne, ex. « Briques rouges ; 50000 ; pcs »."
+      updated: "Matériau mis à jour."
+      moved: "Déplacé vers « %{group} »."
+      ungrouped: "Retiré de son groupe."
+      removed: "« %{item} » retiré."
+    item_groups:
+      need_materials: "Ajoutez des matériaux avant de les regrouper."
+      already_grouping: "Sagasu regroupe déjà ces matériaux."
+      grouping_started: "Sagasu regroupe vos matériaux."
+      added: "Groupe « %{title} » ajouté."
+      renamed: "Groupe renommé."
+    group_suppliers:
+      already_searching: "Sagasu recherche déjà pour ce groupe."
+      searching: "Sagasu cherche des fournisseurs pour « %{title} »."
+      added: "%{name} ajouté à « %{title} »."
+      added_to_list: "%{name} ajouté à la liste de soumissionnaires."
+      removed: "%{name} retiré de la liste de soumissionnaires."
+      declined: "%{name} refusé."
+      reason_thanks: " Merci, votre motif améliore les prochaines suggestions."
+    approvals:
+      choose_approver: "Choisissez qui doit approuver cette liste de soumissionnaires."
+      sent: "Envoyé à %{name} pour approbation."
+      choose_decision: "Choisissez Approuver ou Renvoyer."
+      approved: "« %{title} » approuvé. L'acheteur peut maintenant contacter les soumissionnaires."
+      returned: "« %{title} » renvoyé à %{buyer} avec votre commentaire."
+    reviews:
+      shared_project: "Merci ! Votre avis est partagé avec les personnes sur « %{title} »."
+      shared_organization: "Merci ! Votre avis est partagé avec les acheteurs de toute l'organisation."
+
+  jobs:
+    group_items:
+      done:
+        one: "%{count} groupe proposé%{note}. Vérifiez et ajustez-les."
+        other: "%{count} groupes proposés%{note}. Vérifiez et ajustez-les."
+      failed: "Le regroupement a échoué. Veuillez réessayer."
+    suggest_suppliers:
+      failed: "Les suggestions de fournisseurs ont échoué. Veuillez réessayer."
+      none: "Aucun nouveau fournisseur ne correspond à « %{group} ». Essayez la recherche pour en ajouter un."
+      done:
+        one: "%{count} fournisseur suggéré pour « %{group} »%{note}."
+        other: "%{count} fournisseurs suggérés pour « %{group} »%{note}."
+      offline_note: " (correspondance hors ligne)"
+    fallback:
+      ai: " par l'IA Sagasu"
+      offline: " avec la correspondance hors ligne de Sagasu"
+
+  js:
+    materials:
+      empty: "Un matériau par ligne"
+      count:
+        one: "%{count} matériau détecté"
+        other: "%{count} matériaux détectés"
+
+  items:
+    quantity_to_confirm: "Qté à confirmer"
+
+  simple_form:
+    "yes": "Oui"
+    "no": "Non"
+    required:
+      text: "obligatoire"
+      mark: "*"
+    error_notification:
+      default_message: "Veuillez vérifier les problèmes ci-dessous :"
+
+  errors:
+    messages:
+      required_to_return: "est obligatoire pour expliquer quoi changer"
+      required_for_project_visibility: "est obligatoire quand l'avis est limité à un projet"
+      already_in_group: "est déjà dans ce groupe"
+      same_project: "doit appartenir au même projet"
+      approver_role: "doit avoir le rôle approbateur"
+      already_pending: "Cette liste de soumissionnaires attend déjà une approbation"
+      cannot_submit: "Cette liste de soumissionnaires ne peut pas être envoyée maintenant"

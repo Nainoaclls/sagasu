@@ -1,83 +1,84 @@
-<% content_for :title, "New RFQ project" %>
+<% content_for :title, t("projects.new.title") %>
 <% example = "Facing bricks 215x102x65, red; 50000; pcs\\nEngineering bricks class B; 8000; pcs\\nMortar mix M4; 300; bag\\nPortland cement 25kg; 400; bag\\nRebar D13 SD345; 40; t\\nGlass wool insulation 100mm; 1200; m2" %>
 
 <div class="sg-container sg-page">
   <nav aria-label="Breadcrumb" class="mb-3">
-    <%= link_to projects_path, class: "small" do %><%= icon("fa-arrow-left") %> All projects<% end %>
+    <%= link_to projects_path, class: "small" do %><%= icon("fa-arrow-left") %> <%= t("projects.show.all_projects") %><% end %>
   </nav>
 
   <header class="sg-page-head">
     <div>
-      <h1>New RFQ project</h1>
-      <p>Describe what you need. You can add or fix materials later.</p>
+      <h1><%= t("projects.new.title") %></h1>
+      <p><%= t("projects.new.lead") %></p>
     </div>
   </header>
 
   <div class="row g-4 align-items-start">
     <div class="col-lg-8">
     <%= simple_form_for @project, html: { class: "card card-body", novalidate: false } do |f| %>
-      <%= f.error_notification message: "Please check the fields below." %>
+      <%= f.error_notification message: t("projects.new.error_notification") %>
 
       <fieldset class="sg-fieldset">
-        <legend><%= icon("fa-clipboard-list") %> The need</legend>
-        <%= f.input :title, label: "Project title", placeholder: "Shinjuku office tower, façade works",
+        <legend><%= icon("fa-clipboard-list") %> <%= t("projects.new.need_legend") %></legend>
+        <%= f.input :title, label: t("projects.new.title_label"), placeholder: t("projects.new.title_placeholder"),
                     input_html: { autofocus: true, maxlength: 120 } %>
-        <%= f.input :scope, as: :text, label: "Describe the need",
-                    hint: "Plain words are fine. Sagasu uses this to explain supplier fit.",
-                    placeholder: "Facing bricks delivered in Tokyo, about 50,000 per month from April, plus mortar.",
+        <%= f.input :scope, as: :text, label: t("projects.new.scope_label"),
+                    hint: t("projects.new.scope_hint"),
+                    placeholder: t("projects.new.scope_placeholder"),
                     input_html: { rows: 3, maxlength: 2000 } %>
       </fieldset>
 
       <fieldset class="sg-fieldset">
-        <legend><%= icon("fa-building") %> Client and budget</legend>
+        <legend><%= icon("fa-building") %> <%= t("projects.new.client_legend") %></legend>
         <div class="row g-3">
-          <div class="col-md-6"><%= f.input :client_name, label: "Client", placeholder: "Aoyama Development" %></div>
+          <div class="col-md-6"><%= f.input :client_name, label: t("projects.new.client_label"), placeholder: t("projects.new.client_placeholder") %></div>
           <div class="col-md-6">
-            <%= f.input :client_area, label: "Delivery area", collection: Prefecture::ALL, prompt: "Choose a prefecture",
-                        hint: "Used to check which suppliers deliver there. Type to search.",
-                        input_html: { data: { controller: "tom-select", tom_select_placeholder_value: "Type a prefecture…" } } %>
+            <%= f.input :client_area, label: t("projects.new.area_label"), collection: Prefecture::ALL, prompt: t("projects.new.area_prompt"),
+                        hint: t("projects.new.area_hint"),
+                        input_html: { data: { controller: "tom-select", tom_select_placeholder_value: t("projects.new.area_search") } } %>
           </div>
-          <div class="col-md-4"><%= f.input :erp_rfq, label: "ERP RFQ number", placeholder: "RFQ-2026-118", required: false %></div>
-          <div class="col-md-5"><%= f.input :budget_amount, label: "Budget", input_html: { min: 0, step: 1000, inputmode: "decimal" } %></div>
-          <div class="col-md-3"><%= f.input :budget_currency, label: "Currency", collection: Project::CURRENCIES, include_blank: false %></div>
+          <div class="col-md-4"><%= f.input :erp_rfq, label: t("projects.new.erp_label"), placeholder: "RFQ-2026-118", required: false %></div>
+          <div class="col-md-5"><%= f.input :budget_amount, label: t("projects.new.budget_label"), input_html: { min: 0, step: 1000, inputmode: "decimal" } %></div>
+          <div class="col-md-3"><%= f.input :budget_currency, label: t("projects.new.currency_label"), collection: Project::CURRENCIES, include_blank: false %></div>
         </div>
       </fieldset>
 
-      <fieldset class="sg-fieldset mb-3" data-controller="materials">
-        <legend><%= icon("fa-cubes-stacked") %> Materials <span class="fw-normal text-muted small">(optional now)</span></legend>
-        <label for="project_materials_text" class="form-label">Paste your material list</label>
-        <p id="materials-help" class="form-text mt-0 mb-2">
-          One material per line: <strong>description; quantity; unit</strong>. Columns copied from Excel or your ERP work too.
-        </p>
+      <fieldset class="sg-fieldset mb-3" data-controller="materials"
+                data-materials-empty-text-value="<%= t("js.materials.empty") %>"
+                data-materials-count-text-one-value="<%= t("js.materials.count", count: 1) %>"
+                data-materials-count-text-other-value="<%= t("js.materials.count", count: 2) %>">
+        <legend><%= icon("fa-cubes-stacked") %> <%= t("projects.new.materials_legend") %> <span class="fw-normal text-muted small"><%= t("projects.new.optional_now") %></span></legend>
+        <label for="project_materials_text" class="form-label"><%= t("projects.new.paste_label") %></label>
+        <p id="materials-help" class="form-text mt-0 mb-2"><%= t("projects.new.paste_hint") %></p>
         <%= f.text_area :materials_text, rows: 7, class: "form-control sg-paste", id: "project_materials_text",
                         "aria-describedby": "materials-help materials-count",
                         data: { materials_target: "input", action: "input->materials#update" },
-                        placeholder: "Facing bricks, red; 50000; pcs\nMortar mix M4; 300; bag" %>
+                        placeholder: t("projects.new.paste_placeholder") %>
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-2">
-          <span id="materials-count" class="sg-hint-count" data-materials-target="count" aria-live="polite">One material per line</span>
+          <span id="materials-count" class="sg-hint-count" data-materials-target="count" aria-live="polite"><%= t("js.materials.empty") %></span>
           <button type="button" class="btn btn-quiet btn-sm" data-action="materials#example" data-example="<%= example %>">
-            <%= icon("fa-wand-magic-sparkles") %> Use an example list
+            <%= icon("fa-wand-magic-sparkles") %> <%= t("projects.new.use_example") %>
           </button>
         </div>
       </fieldset>
 
       <div class="d-flex flex-wrap gap-2 justify-content-end pt-2">
-        <%= link_to "Cancel", projects_path, class: "btn btn-quiet" %>
+        <%= link_to t("common.cancel"), projects_path, class: "btn btn-quiet" %>
         <%= f.button :button, class: "btn btn-primary btn-lg", data: { controller: "ripple", action: "click->ripple#burst" } do %>
-          Create project <%= icon("fa-arrow-right") %>
+          <%= t("projects.new.create") %> <%= icon("fa-arrow-right") %>
         <% end %>
       </div>
     <% end %>
     </div>
 
-    <aside class="col-lg-4 sg-sticky-lg" aria-label="What happens next">
+    <aside class="col-lg-4 sg-sticky-lg" aria-label="<%= t("projects.new.next_label") %>">
       <div class="card card-body">
         <%= image_tag "mascot/welcome.webp", alt: "", width: 160, height: 177, class: "sg-new-mascot" %>
-        <h2 class="h4">What happens next</h2>
+        <h2 class="h4"><%= t("projects.new.next_title") %></h2>
         <ol class="sg-next-steps">
-          <li><strong>Group with AI.</strong> Sagasu groups your materials by supplier type and explains why.</li>
-          <li><strong>Review suppliers.</strong> Each suggestion shows its evidence and what to confirm.</li>
-          <li><strong>Send for approval.</strong> Your manager approves or returns the list.</li>
+          <% t("projects.new.next_steps").each do |step| %>
+            <li><strong><%= step[:title] %></strong> <%= step[:text] %></li>
+          <% end %>
         </ol>
       </div>
     </aside>

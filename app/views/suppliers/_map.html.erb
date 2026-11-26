@@ -1,0 +1,17 @@
+<%# Mapbox map of geocoded suppliers. Rendered only when MAPBOX_ACCESS_TOKEN is set
+    and at least one supplier has coordinates; the page works fine without it. %>
+<% if (mapbox_token = ENV["MAPBOX_ACCESS_TOKEN"].presence) && suppliers.any? %>
+  <% content_for :head do %>
+    <link href="https://cdn.jsdelivr.net/npm/mapbox-gl@3.16.0/dist/mapbox-gl.min.css" rel="stylesheet">
+  <% end %>
+  <div class="card mb-4 sg-reveal">
+    <div class="card-body">
+      <h2 class="h5 mb-3"><%= icon("fa-map-location-dot") %> <%= title %></h2>
+      <div class="sg-map" data-controller="map"
+           data-map-token-value="<%= mapbox_token %>"
+           data-map-markers-value="<%= map_markers(suppliers) %>"
+           data-map-zoom-value="11"
+           role="img" aria-label="<%= t("suppliers.map.aria_label") %>"></div>
+    </div>
+  </div>
+<% end %>

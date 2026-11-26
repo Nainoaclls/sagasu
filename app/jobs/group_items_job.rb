@@ -10,10 +10,10 @@ class GroupItemsJob < ApplicationJob
     project = ai_run.project
     Ai::ItemGrouper.new(project: project, user: ai_run.user, run: ai_run).call
     broadcast_toast(project, :notice,
-                    "#{project.item_groups.count} groups proposed#{fallback_note(ai_run)}. Review and adjust them.")
+                    I18n.t("jobs.group_items.done", count: project.item_groups.count, note: fallback_note(ai_run)))
   rescue StandardError => e
     fail_run(ai_run, e)
-    broadcast_toast(project, :alert, "Grouping failed. Please try again.") if project
+    broadcast_toast(project, :alert, I18n.t("jobs.group_items.failed")) if project
     raise
   ensure
     broadcast_refresh(project)

@@ -53,6 +53,9 @@ gem "pundit"
 gem "ruby_llm"
 # Full-text supplier search in PostgreSQL
 gem "pg_search"
+gem "geocoder"
+gem "rails-i18n"
+gem "devise-i18n"
 
 group :development, :test do
   gem "dotenv-rails"
