@@ -54,6 +54,9 @@ gem "ruby_llm"
 # Full-text supplier search in PostgreSQL
 gem "pg_search"
 gem "geocoder"
+# Bid approval form PDF, generated from the frozen approval snapshot
+gem "prawn"
+gem "prawn-table"
 gem "rails-i18n"
 gem "devise-i18n"
 

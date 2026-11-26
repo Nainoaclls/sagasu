@@ -48,7 +48,11 @@ versioned `Ai::Prompts`, input, output, status `running/succeeded/fallback/faile
 - **Traceability**: submissions store frozen snapshots; AI calls store AiRuns. The project activity page
   (`ProjectActivitiesController`, `ProjectTimeline`) lists them with decisions for the owner and the
   approvers; it shows AI run metadata only, never prompts or outputs. Its translations live in their own
-  files (`config/locales/project_activities.{en,fr,ja}.yml`).
+  files (`config/locales/project_activities.{en,fr,ja}.yml`). Each approval can also be downloaded as a
+  PDF approval form (`ApprovalsController#document`, `ApprovalDocument` service, Prawn) generated on the
+  fly from the frozen snapshot — strengths from `evidence`, points to confirm from `missing_info`, no AI
+  involved; Japanese uses the bundled Noto Sans JP font and a 承認 seal. Its translations live in
+  `config/locales/approval_document.{en,fr,ja}.yml`.
 
 ## Technology stack
 

@@ -41,5 +41,7 @@ Rails.application.routes.draw do
 
   resources :reviews, only: [:update] # approvers verify or dispute an observation (status)
 
-  resources :approvals, only: %i[index update] # 13, 14
+  resources :approvals, only: %i[index update] do # 13, 14
+    member { get :document } # the frozen snapshot as a downloadable approval form (PDF)
+  end
 end

@@ -9,6 +9,7 @@
     <div>
       <strong><%= t("projects.approval_banner.waiting", name: latest.approver.name) %></strong>
       <p><%= t("projects.approval_banner.waiting_text", time: time_ago_in_words(latest.created_at)) %></p>
+      <p class="small mb-0"><%= link_to document_approval_path(latest, format: :pdf) do %><%= icon("fa-file-pdf") %> <%= t("approval_document.link") %><% end %></p>
     </div>
   </div>
 <% elsif project.returned? && latest&.returned? %>
@@ -18,6 +19,7 @@
       <strong><%= t("projects.approval_banner.returned", name: latest.approver.name) %></strong>
       <p>“<%= latest.comment %>”</p>
       <p class="small mb-0"><%= t("projects.approval_banner.returned_hint") %></p>
+      <p class="small mb-0"><%= link_to document_approval_path(latest, format: :pdf) do %><%= icon("fa-file-pdf") %> <%= t("approval_document.link") %><% end %></p>
     </div>
   </div>
 <% elsif project.approved? && latest&.approved? %>
@@ -26,6 +28,7 @@
     <div>
       <strong><%= t("projects.approval_banner.approved", name: latest.approver.name) %></strong>
       <p><%= latest.comment.presence || t("projects.approval_banner.approved_default") %></p>
+      <p class="small mb-0"><%= link_to document_approval_path(latest, format: :pdf) do %><%= icon("fa-file-pdf") %> <%= t("approval_document.link") %><% end %></p>
     </div>
   </div>
 <% end %>
