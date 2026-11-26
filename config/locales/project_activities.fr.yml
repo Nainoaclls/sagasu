@@ -1,0 +1,23 @@
+fr:
+  project_activities:
+    show:
+      link: "Activité"
+      title: "Activité · %{project}"
+      back: "Retour à %{project}"
+      heading: "Activité du projet"
+      lead: "Tout ce qui s'est passé sur ce projet, du plus récent au plus ancien. Les appels à l'IA indiquent ce qui a tourné et comment cela s'est terminé, jamais les prompts."
+      list_label: "Historique du projet"
+      model: "Modèle : %{model}"
+    events:
+      created: "%{actor} a créé le projet"
+      grouping: "%{actor} a lancé le regroupement des matériaux par l'IA"
+      suggestion: "%{actor} a demandé des suggestions de fournisseurs pour « %{group} »"
+      suggestion_no_group: "%{actor} a demandé des suggestions de fournisseurs pour un groupe supprimé depuis"
+      submitted: "%{actor} a envoyé la liste des soumissionnaires à %{approver} pour approbation"
+      approved: "%{actor} a approuvé la liste des soumissionnaires"
+      returned: "%{actor} a renvoyé la liste des soumissionnaires"
+    ai_status:
+      running: "En cours"
+      succeeded: "Réalisé par l'IA"
+      fallback: "Appariement hors ligne"
+      failed: "Échec"

@@ -1,0 +1,39 @@
+<% content_for :title, t("project_activities.show.title", project: @project.title) %>
+
+<div class="sg-container sg-page">
+  <nav aria-label="Breadcrumb" class="mb-3">
+    <%= link_to project_path(@project), class: "small" do %><%= icon("fa-arrow-left") %> <%= t("project_activities.show.back", project: @project.title) %><% end %>
+  </nav>
+
+  <header class="sg-page-head">
+    <div>
+      <h1><%= t("project_activities.show.heading") %></h1>
+      <p><%= t("project_activities.show.lead") %></p>
+    </div>
+  </header>
+
+  <ol class="sg-activity card card-body" aria-label="<%= t("project_activities.show.list_label") %>">
+    <% @events.each do |event| %>
+      <li class="sg-activity-item">
+        <span class="sg-activity-icon is-<%= event.kind %>"><%= icon(activity_icon(event.kind)) %></span>
+        <div>
+          <p>
+            <%= t("project_activities.events.#{event.kind}#{'_no_group' if event.kind == :suggestion && event.group_title.blank?}",
+                  actor: event.actor_name, group: event.group_title, approver: event.approver_name) %>
+            <% if event.ai_status %>
+              <%= badge(event.ai_status == "failed" ? :danger : :neutral, "fa-robot",
+                        t("project_activities.ai_status.#{event.ai_status}")) %>
+            <% end %>
+          </p>
+          <% if event.model.present? && event.ai_status == "succeeded" %>
+            <p class="sg-caption mb-0"><%= t("project_activities.show.model", model: event.model) %></p>
+          <% end %>
+          <% if event.comment %>
+            <p class="sg-buyer-comment small mb-0"><%= icon("fa-comment") %> “<%= event.comment %>”</p>
+          <% end %>
+          <time class="sg-caption d-block" datetime="<%= event.at.iso8601 %>"><%= l(event.at, format: :long) %></time>
+        </div>
+      </li>
+    <% end %>
+  </ol>
+</div>

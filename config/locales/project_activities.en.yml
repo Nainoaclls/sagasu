@@ -1,0 +1,23 @@
+en:
+  project_activities:
+    show:
+      link: "Activity"
+      title: "Activity · %{project}"
+      back: "Back to %{project}"
+      heading: "Project activity"
+      lead: "Everything that happened on this project, newest first. AI runs show what ran and how it ended, never the prompts."
+      list_label: "Project history"
+      model: "Model: %{model}"
+    events:
+      created: "%{actor} created the project"
+      grouping: "%{actor} started AI grouping of the materials"
+      suggestion: "%{actor} asked for supplier suggestions for “%{group}”"
+      suggestion_no_group: "%{actor} asked for supplier suggestions for a group that has since been removed"
+      submitted: "%{actor} sent the bidder list to %{approver} for approval"
+      approved: "%{actor} approved the bidder list"
+      returned: "%{actor} returned the bidder list"
+    ai_status:
+      running: "In progress"
+      succeeded: "Done by AI"
+      fallback: "Offline matching"
+      failed: "Failed"

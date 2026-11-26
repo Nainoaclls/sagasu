@@ -45,7 +45,10 @@ versioned `Ai::Prompts`, input, output, status `running/succeeded/fallback/faile
   never excludes.
 - **Privacy is not one boolean**: review visibility, AI use (`ai_usable`), and author attribution are
   separate controls (see `Review.visible_to` and `Review.ai_context_for` scopes).
-- **Traceability**: submissions store frozen snapshots; AI calls store AiRuns.
+- **Traceability**: submissions store frozen snapshots; AI calls store AiRuns. The project activity page
+  (`ProjectActivitiesController`, `ProjectTimeline`) lists them with decisions for the owner and the
+  approvers; it shows AI run metadata only, never prompts or outputs. Its translations live in their own
+  files (`config/locales/project_activities.{en,fr,ja}.yml`).
 
 ## Technology stack
 

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       collection { post :generate }                              # 5 (AI)
     end
     resources :approvals, only: [:create]                        # 12
+    resource :activity, only: [:show], controller: "project_activities" # traceability (AI runs, decisions)
   end
 
   resources :items, only: %i[update destroy] # 4, 6

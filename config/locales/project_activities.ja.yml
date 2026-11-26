@@ -1,0 +1,23 @@
+ja:
+  project_activities:
+    show:
+      link: "アクティビティ"
+      title: "アクティビティ · %{project}"
+      back: "%{project}に戻る"
+      heading: "プロジェクトのアクティビティ"
+      lead: "このプロジェクトで起きたことを新しい順に表示します。AIの実行は、何が実行されどう終わったかのみを示し、プロンプトは表示しません。"
+      list_label: "プロジェクトの履歴"
+      model: "モデル：%{model}"
+    events:
+      created: "%{actor}さんがプロジェクトを作成しました"
+      grouping: "%{actor}さんがAIによる資材のグループ化を開始しました"
+      suggestion: "%{actor}さんが「%{group}」のサプライヤー提案を依頼しました"
+      suggestion_no_group: "%{actor}さんが、その後削除されたグループのサプライヤー提案を依頼しました"
+      submitted: "%{actor}さんが入札先リストを承認のため%{approver}さんに送信しました"
+      approved: "%{actor}さんが入札先リストを承認しました"
+      returned: "%{actor}さんが入札先リストを差し戻しました"
+    ai_status:
+      running: "実行中"
+      succeeded: "AIで完了"
+      fallback: "オフラインマッチング"
+      failed: "失敗"
