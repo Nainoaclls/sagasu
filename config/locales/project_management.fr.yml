@@ -1,0 +1,16 @@
+fr:
+  project_management:
+    copy_title: "%{title} (copie)"
+    actions:
+      edit: "Modifier les détails"
+      duplicate: "Dupliquer"
+      delete: "Supprimer"
+      delete_confirm: "Supprimer « %{title} » ? Ses matériaux et ses groupes seront supprimés. Cette action est irréversible."
+    edit:
+      title: "Modifier le projet"
+      lead: "Modifiez le besoin, le client ou le budget. Les matériaux et les groupes se modifient sur la page du projet."
+      save: "Enregistrer"
+    flashes:
+      updated: "Projet mis à jour."
+      deleted: "Projet « %{title} » supprimé."
+      duplicated: "Projet dupliqué. Les matériaux et les groupes ont été copiés ; choisissez à nouveau les fournisseurs."

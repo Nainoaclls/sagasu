@@ -6,7 +6,19 @@
 <div class="sg-container sg-page sg-workspace">
   <nav aria-label="Breadcrumb" class="mb-3 d-flex justify-content-between flex-wrap gap-2">
     <%= link_to projects_path, class: "small" do %><%= icon("fa-arrow-left") %> <%= t("projects.show.all_projects") %><% end %>
-    <%= link_to project_activity_path(@project), class: "small" do %><%= icon("fa-clock-rotate-left") %> <%= t("project_activities.show.link") %><% end %>
+    <div class="d-flex flex-wrap align-items-center gap-3 small">
+      <%= link_to project_activity_path(@project) do %><%= icon("fa-clock-rotate-left") %> <%= t("project_activities.show.link") %><% end %>
+      <% if policy(@project).edit? %>
+        <%= link_to edit_project_path(@project) do %><%= icon("fa-pen") %> <%= t("project_management.actions.edit") %><% end %>
+      <% end %>
+      <% if policy(@project).duplicate? %>
+        <%= button_to duplicate_project_path(@project), method: :post, class: "btn btn-link btn-sm p-0 align-baseline" do %><%= icon("fa-copy") %> <%= t("project_management.actions.duplicate") %><% end %>
+      <% end %>
+      <% if policy(@project).destroy? %>
+        <%= button_to project_path(@project), method: :delete, class: "btn btn-link btn-sm p-0 align-baseline text-danger",
+                      form: { data: { turbo_confirm: t("project_management.actions.delete_confirm", title: @project.title) } } do %><%= icon("fa-trash") %> <%= t("project_management.actions.delete") %><% end %>
+      <% end %>
+    </div>
   </nav>
 
   <header class="sg-project-head">

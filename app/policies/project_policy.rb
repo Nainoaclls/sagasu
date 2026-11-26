@@ -26,6 +26,24 @@ class ProjectPolicy < ApplicationPolicy
     edit_content?
   end
 
+  # Details (title, client, budget) change under the same rule as the content.
+  def edit?
+    edit_content?
+  end
+
+  def update?
+    edit?
+  end
+
+  # Only an untouched draft: a project that was ever submitted keeps its approval history.
+  def destroy?
+    owner? && record.draft? && record.approvals.none?
+  end
+
+  def duplicate?
+    owner? && user.buyer?
+  end
+
   private
 
   def owner?

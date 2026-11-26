@@ -36,6 +36,22 @@ class Project < ApplicationRecord
     draft? || returned?
   end
 
+  # A fresh draft for `user` from this project as a template: details, materials and groups are copied;
+  # suppliers, approvals and AI runs are not (the new list is searched and approved on its own).
+  def duplicate_for(user)
+    copy = user.projects.new(slice(:scope, :client_name, :client_area, :budget_amount, :budget_currency)
+                               .merge(title: I18n.t("project_management.copy_title", title: title).truncate(120)))
+    transaction do
+      copy.save!
+      groups = item_groups.to_h { |group| [group.id, copy.item_groups.create!(group.slice(:title, :description))] }
+      items.each do |item|
+        copy.items.create!(item.slice(:description, :quantity, :unit_of_measure, :erp_material)
+                               .merge(item_group: groups[item.item_group_id]))
+      end
+    end
+    copy
+  end
+
   def ungrouped_items
     items.select { |item| item.item_group_id.nil? }
   end
