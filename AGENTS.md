@@ -49,7 +49,7 @@ versioned `Ai::Prompts`, input, output, status `running/succeeded/fallback/faile
 
 ## Technology stack
 
-- **Ruby 3.3.5** (`.ruby-version`), **Rails 8.1** (`config.load_defaults 8.1`), **PostgreSQL** (`pg` gem),
+- **Ruby 3.3.14** (`.ruby-version`), **Rails 8.1** (`config.load_defaults 8.1`), **PostgreSQL** (`pg` gem),
   **Puma**.
 - **Frontend**: Hotwire (Turbo + Stimulus), **importmap-rails** (no Node build), **Bootstrap 5.3** via the
   `bootstrap`/`sassc-rails`/`autoprefixer-rails` gems, Font Awesome, Simple Form, SweetAlert2 (confirm
@@ -168,8 +168,10 @@ bin/ci                          # everything: setup, rubocop, audits, tests, see
   catch missing translations).
 - Capybara/selenium-webdriver are in the Gemfile for system tests, but no system tests exist yet
   (the `bin/ci` system-test step is commented out).
-- CI definition: `config/ci.rb` (run via `bin/ci`); no GitHub Actions workflow — only Dependabot.
-
+- CI definition: `config/ci.rb` (run via `bin/ci`), mirrored by the GitHub Actions workflow
+  `.github/workflows/ci.yml` (pull requests and pushes to main); Dependabot keeps gems and actions current.
+- AI actions (`ItemGroupsController#generate`, `GroupSuppliersController#suggest`) are rate limited per user
+  (`AiRateLimit` concern, 10 per minute); the test environment gives `rate_limit` a memory store.
 ## Code style guidelines
 
 - RuboCop config (`.rubocop.yml`) extends **rubocop-rails-omakase** (Rails omakase style); several Style

@@ -563,6 +563,7 @@ ja:
     application:
       not_authorized: "アクセス権がありません。"
       not_found: "そのページは見つかりませんでした。"
+      rate_limited: "AIへのリクエストが多すぎます。1分ほど待ってからもう一度お試しください。"
     projects:
       created_with_materials: "プロジェクトを作成しました（資材%{count}件）。"
       created_empty: "プロジェクトを作成しました。資材を追加して始めましょう。"

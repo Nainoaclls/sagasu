@@ -14,7 +14,8 @@ class MaterialListParser
   # Units that mean "how many". Specs such as "100mm" or "D13" stay in the description.
   UNIT = Regexp.union(
     %w[pcs pc pieces units unit ea bags bag sacks sack t tons ton tonnes tonne kg m m2 m² sqm m3 m³ l
-       liters liter litres litre sets set rolls roll sheets sheet boxes box pallets pallet lengths length coils coil lots lot]
+       liters liter litres litre sets set rolls roll sheets sheet boxes box pallets pallet
+       lengths length coils coil lots lot]
       .sort_by { |unit| -unit.length }
   )
   QTY_FIRST = /\A(?<qty>#{NUMBER})\s*(?<unit>#{UNIT})?\s+(?<desc>[^\d].+)\z/i
