@@ -6,7 +6,8 @@ class SuppliersController < ApplicationController
   # Story 9: search. Also renders a compact result list inside a project group (turbo frame).
   def index
     @suppliers = policy_scope(Supplier).filter_by(query: params[:query], category: params[:category],
-                                                  area: params[:area])
+                                                  area: params[:area], certification: params[:certification],
+                                                  max_lead_time: params[:max_lead_time])
     return render_picker if params[:item_group_id].present?
 
     # Overview map of every geocoded supplier, independent of the current search

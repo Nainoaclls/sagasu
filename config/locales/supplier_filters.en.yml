@@ -1,0 +1,9 @@
+en:
+  supplier_filters:
+    certification_label: "Certification"
+    any_certification: "Any certification"
+    lead_time_label: "Lead time"
+    any_lead_time: "Any lead time"
+    within_days:
+      one: "Within %{count} day"
+      other: "Within %{count} days"

@@ -32,6 +32,21 @@
                      class: "form-select", data: { controller: "tom-select", action: "change->autosubmit#now" } %>
       </div>
     </div>
+    <div class="row g-2 mt-0">
+      <div class="col-md-6">
+        <%= f.label :certification, t("supplier_filters.certification_label"), class: "visually-hidden" %>
+        <%= f.select :certification, Supplier.certification_options,
+                     { include_blank: t("supplier_filters.any_certification"), selected: params[:certification] },
+                     class: "form-select", data: { controller: "tom-select", action: "change->autosubmit#now" } %>
+      </div>
+      <div class="col-md-6">
+        <%= f.label :max_lead_time, t("supplier_filters.lead_time_label"), class: "visually-hidden" %>
+        <%= f.select :max_lead_time,
+                     Supplier::LEAD_TIME_CHOICES.map { |days| [t("supplier_filters.within_days", count: days), days] },
+                     { include_blank: t("supplier_filters.any_lead_time"), selected: params[:max_lead_time].presence&.to_i },
+                     class: "form-select", data: { action: "change->autosubmit#now" } %>
+      </div>
+    </div>
     <noscript><%= f.submit t("suppliers.index.search"), class: "btn btn-primary mt-2" %></noscript>
   <% end %>
 

@@ -1,0 +1,8 @@
+ja:
+  supplier_filters:
+    certification_label: "認証"
+    any_certification: "すべての認証"
+    lead_time_label: "リードタイム"
+    any_lead_time: "すべてのリードタイム"
+    within_days:
+      other: "%{count}日以内"

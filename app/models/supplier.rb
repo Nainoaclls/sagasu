@@ -34,13 +34,23 @@ class Supplier < ApplicationRecord
     where("prefecture = :area OR :area = ANY(delivery_areas) OR :nation = ANY(delivery_areas)",
           area: area, nation: NATIONWIDE)
   }
+  scope :certified, ->(certification) { certification.present? ? where("? = ANY(certifications)", certification) : all }
+  # A supplier with no known lead time is not "fast": it stays out until the buyer confirms it.
+  scope :within_lead_time, ->(days) { days.to_i.positive? ? where(lead_time_days: ..days.to_i) : all }
   # Suppliers that can appear on the map
   scope :with_coordinates, -> { where.not(latitude: nil, longitude: nil) }
 
+  LEAD_TIME_CHOICES = [3, 7, 14, 30].freeze
+
   # Supplier search page: text search ranked by relevance, otherwise alphabetical
-  def self.filter_by(query:, category:, area:)
-    suppliers = in_category(category).delivering_to(area)
+  def self.filter_by(query:, category:, area:, certification: nil, max_lead_time: nil)
+    suppliers = in_category(category).delivering_to(area).certified(certification).within_lead_time(max_lead_time)
     query.present? ? suppliers.search_text(query) : suppliers.order(:name)
+  end
+
+  # Every certification recorded on a supplier, for the search filter
+  def self.certification_options
+    distinct.pluck(Arel.sql("unnest(certifications)")).sort
   end
 
   def category_label
