@@ -1,0 +1,16 @@
+<% content_for :title, t("supplier_management.edit.title", name: @supplier.name) %>
+
+<div class="sg-container sg-page">
+  <nav aria-label="Breadcrumb" class="mb-3">
+    <%= link_to supplier_path(@supplier), class: "small" do %><%= icon("fa-arrow-left") %> <%= @supplier.name %><% end %>
+  </nav>
+
+  <header class="sg-page-head">
+    <div>
+      <h1><%= t("supplier_management.edit.title", name: @supplier.name) %></h1>
+      <p><%= t("supplier_management.edit.lead") %></p>
+    </div>
+  </header>
+
+  <div class="row"><div class="col-lg-8"><%= render "suppliers/form", supplier: @supplier %></div></div>
+</div>

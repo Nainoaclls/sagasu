@@ -1,0 +1,64 @@
+<%# Supplier record form, shared by new and edit. supplier = the record %>
+<%= simple_form_for supplier, html: { class: "card card-body" } do |f| %>
+  <%= f.error_notification message: t("supplier_management.form.error_notification") %>
+
+  <fieldset class="sg-fieldset">
+    <legend><%= icon("fa-building") %> <%= t("supplier_management.form.identity") %></legend>
+    <%= f.input :name, label: t("supplier_management.form.name"), input_html: { autofocus: true, maxlength: 120 } %>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <%= f.input :category, label: t("supplier_management.form.category"), collection: MaterialCategory.options,
+                    include_blank: false %>
+      </div>
+      <div class="col-md-6">
+        <%= f.input :erp_vendor_code, label: t("supplier_management.form.erp_vendor_code"), required: false %>
+      </div>
+    </div>
+    <%= f.input :description, as: :text, label: t("supplier_management.form.description"), required: false,
+                input_html: { rows: 3 } %>
+    <%= f.input :website, label: t("supplier_management.form.website"), required: false,
+                hint: t("supplier_management.form.website_hint"), input_html: { inputmode: "url", placeholder: "https://" } %>
+  </fieldset>
+
+  <fieldset class="sg-fieldset">
+    <legend><%= icon("fa-location-dot") %> <%= t("supplier_management.form.where") %></legend>
+    <div class="row g-3">
+      <div class="col-md-6"><%= f.input :city, label: t("supplier_management.form.city"), required: false %></div>
+      <div class="col-md-6">
+        <%= f.input :prefecture, label: t("supplier_management.form.prefecture"), collection: Prefecture::ALL,
+                    include_blank: true, required: false,
+                    hint: t("supplier_management.form.prefecture_hint") %>
+      </div>
+    </div>
+    <%= f.input :delivery_areas, label: t("supplier_management.form.delivery_areas"),
+                collection: [Supplier::NATIONWIDE] + Prefecture::ALL, required: false,
+                hint: t("supplier_management.form.delivery_areas_hint"),
+                input_html: { multiple: true, data: { controller: "tom-select" } } %>
+  </fieldset>
+
+  <fieldset class="sg-fieldset mb-3">
+    <legend><%= icon("fa-gauge-high") %> <%= t("supplier_management.form.capacity") %></legend>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <%= f.input :monthly_capacity, label: t("supplier_management.form.monthly_capacity"), required: false,
+                    input_html: { min: 0, step: 1 } %>
+      </div>
+      <div class="col-md-4">
+        <%= f.input :capacity_unit, label: t("supplier_management.form.capacity_unit"), required: false,
+                    hint: t("supplier_management.form.capacity_unit_hint") %>
+      </div>
+      <div class="col-md-4">
+        <%= f.input :lead_time_days, label: t("supplier_management.form.lead_time_days"), required: false,
+                    input_html: { min: 0, step: 1 } %>
+      </div>
+    </div>
+    <%= f.input :certifications_text, label: t("supplier_management.form.certifications"), required: false,
+                hint: t("supplier_management.form.certifications_hint") %>
+    <p class="form-text"><%= t("supplier_management.form.missing_hint") %></p>
+  </fieldset>
+
+  <div class="d-flex flex-wrap gap-2 justify-content-end pt-2">
+    <%= link_to t("common.cancel"), (supplier.persisted? ? supplier_path(supplier) : suppliers_path), class: "btn btn-quiet" %>
+    <%= f.button :button, class: "btn btn-primary btn-lg" do %><%= t("supplier_management.form.save") %> <%= icon("fa-check") %><% end %>
+  </div>
+<% end %>

@@ -34,7 +34,7 @@ Rails.application.routes.draw do
 
   resources :group_suppliers, only: [:update]                    # 8
 
-  resources :suppliers, only: %i[index show] do # 9, 10
+  resources :suppliers, only: %i[index show new create edit update] do # 9, 10 (+ buyers keep the records)
     resources :reviews, only: [:create] # 11
   end
 

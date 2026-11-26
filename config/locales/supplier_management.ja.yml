@@ -1,0 +1,37 @@
+ja:
+  supplier_management:
+    new_link: "サプライヤーを追加"
+    edit_link: "情報を編集"
+    new:
+      title: "サプライヤーを追加"
+      lead: "Sagasuのサプライヤー情報に企業を追加します。わからない項目は空欄で構いません。未入力の項目は「要確認」と表示されます。"
+    edit:
+      title: "%{name}を編集"
+      lead: "情報を正確に保ってください。Sagasuのマッチングと、購買担当者に示す根拠はこの情報に基づきます。"
+    flashes:
+      created: "%{name}をサプライヤー情報に追加しました。"
+      updated: "サプライヤー情報を更新しました。"
+    form:
+      error_notification: "強調表示された項目を修正してください。"
+      identity: "企業"
+      name: "企業名"
+      category: "主な資材"
+      erp_vendor_code: "ERP仕入先コード"
+      description: "取り扱い内容"
+      website: "ウェブサイト"
+      website_hint: "http://またはhttps://で始まる完全なアドレス。"
+      where: "所在地と配送"
+      city: "市区町村"
+      prefecture: "都道府県"
+      prefecture_hint: "地図と配送エリアのマッチングに使います。"
+      delivery_areas: "配送エリア"
+      delivery_areas_hint: "都道府県を選ぶか、全国の場合は「Nationwide」を選びます。"
+      capacity: "供給能力と認証"
+      monthly_capacity: "月間供給能力"
+      capacity_unit: "能力の単位"
+      capacity_unit_hint: "例：袋、トン、m²。"
+      lead_time_days: "リードタイム（日）"
+      certifications: "認証"
+      certifications_hint: "カンマで区切ります。例：JIS A 5210, ISO 9001。"
+      missing_hint: "供給能力、リードタイム、配送エリア、認証は購買担当者への根拠になります。確認できる内容を入力してください。"
+      save: "サプライヤーを保存"
