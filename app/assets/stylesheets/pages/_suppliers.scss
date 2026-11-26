@@ -1,12 +1,12 @@
 // Layouts use the Bootstrap grid (filters, results, profile + review form) and .pagination.
-.sg-results-count { color: $muted; margin-bottom: 1rem; strong { color: $ink; } }
+.sg-results-count { color: var(--sg-muted); margin-bottom: 1rem; strong { color: var(--sg-text); } }
 
 .sg-supplier-card {
   gap: .75rem;
-  h2 a { color: $blue-slate; text-decoration: none; }
+  h2 a { color: var(--sg-link); text-decoration: none; }
   .badge { align-self: flex-start; margin-top: auto; }
 }
-.sg-supplier-facts { list-style: none; padding: 0; margin: 0; font-size: .875rem; color: $muted; li { margin-bottom: .25rem; } i { width: 1.25em; color: $pacific-blue; } }
+.sg-supplier-facts { list-style: none; padding: 0; margin: 0; font-size: .875rem; color: var(--sg-muted); li { margin-bottom: .25rem; } i { width: 1.25em; color: $pacific-blue; } }
 .min-w-0 { min-width: 0; }
 
 .sg-supplier-head {
@@ -15,9 +15,13 @@
 }
 .sg-supplier-avatar {
   flex: none; width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center; font-size: 1.5rem;
-  background: linear-gradient(135deg, $blue-slate, $pacific-blue); color: $white; box-shadow: $shadow-md;
+  background: linear-gradient(135deg, $blue-slate, $pacific-blue); color: $white; box-shadow: var(--sg-shadow-md);
 }
 .sg-supplier-score { .sg-stars { font-size: 1.25rem; } @include media-breakpoint-up(md) { text-align: right; } }
 
 .sg-reviews { list-style: none; padding: 0; margin: 0; display: grid; gap: .75rem; }
 .sg-review { padding: 1.125rem 1.25rem; }
+
+// Mapbox supplier map (suppliers/_map, map_controller.js)
+.sg-map { height: 420px; border-radius: 12px; overflow: hidden; background: var(--sg-inset); }
+.mapboxgl-popup-content { font-family: $body-font; border-radius: 10px; padding: .625rem .875rem; }

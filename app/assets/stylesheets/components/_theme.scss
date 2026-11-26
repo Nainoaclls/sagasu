@@ -1,0 +1,139 @@
+// Runtime theming. Custom components read these CSS variables, so flipping
+// [data-bs-theme="dark"] (theme_controller.js + the inline script in the layout head)
+// restyles the whole app without a rebuild. Brand constants live in config/_colors.scss.
+:root {
+  color-scheme: light;
+
+  // Surfaces & text
+  --sg-canvas: #{$canvas};
+  --sg-surface: #{$white};
+  --sg-inset: #{$canvas};        // chips and panels sitting on a surface
+  --sg-text: #{$ink};
+  --sg-muted: #{$muted};
+  --sg-heading: #{$blue-slate};  // brand color used as text (fails on dark, see below)
+  --sg-link: #{$blue-slate};
+  --sg-border: #{$border-color};
+  --sg-border-strong: #C9D6DB;   // hover and dashed borders
+  --sg-platinum: #{$platinum};
+  --sg-input-border: #B9C3C8;
+  --sg-nav-bg: rgba(255, 255, 255, .92);
+  --sg-focus: #{$blue-slate};
+  --sg-focus-ring: 0 0 0 .2rem rgba(50, 98, 115, .2);
+
+  // Brand tints
+  --sg-info-soft: #{$pacific-soft};
+  --sg-accent-soft: #{$tangerine-soft};
+  --sg-accent-icon: #{darken($tangerine, 28%)};
+  --sg-accent-strong: #{darken($tangerine, 40%)};
+
+  // Status (always paired with an icon and a text label, never color alone)
+  --sg-success: #{$green};
+  --sg-success-soft: #{$green-soft};
+  --sg-danger: #{$red};
+  --sg-danger-soft: #{$red-soft};
+  --sg-warning: #{$yellow};
+  --sg-warning-soft: #{$yellow-soft};
+
+  // Approval banners: tint / text / icon
+  --sg-pending-bg: #{$yellow-soft};
+  --sg-pending-text: #5E4610;
+  --sg-pending-icon: #{$yellow};
+  --sg-returned-bg: #{$red-soft};
+  --sg-returned-text: #6E2A26;
+  --sg-returned-icon: #{$red};
+  --sg-approved-bg: #{$green-soft};
+  --sg-approved-text: #1F4F3C;
+
+  // Ratings
+  --sg-star: #B7791F;
+  --sg-star-empty: #C9CFD2;
+
+  // Stepper active dot
+  --sg-step-dot-bg: #{$blue-slate};
+  --sg-step-dot-text: #{$white};
+
+  // Odds and ends
+  --sg-paste-line: #F1F3F4;
+  --sg-empty-bg: rgba(255, 255, 255, .6);
+  --sg-shadow-sm: #{$shadow-sm};
+  --sg-shadow-md: #{$shadow-md};
+  --sg-shadow-lg: #{$shadow-lg};
+}
+
+// Dark palette: Ink-based blue-greys derived from the brand. Contrast (WCAG 2.1):
+// text #E9EEF0 on surface #1B2B33 = 11.9:1 · muted #9FB4BD on canvas #121E25 = 6.9:1
+// heading/link #A3CDD6 on canvas = 9.5:1 · status colors >= 5:1 on their soft tints
+[data-bs-theme="dark"] {
+  color-scheme: dark;
+
+  --sg-canvas: #121E25;
+  --sg-surface: #1B2B33;
+  --sg-inset: #233641;
+  --sg-text: #E9EEF0;
+  --sg-muted: #9FB4BD;
+  --sg-heading: #{$light-pacific};
+  --sg-link: #{$light-pacific};
+  --sg-border: #34474F;
+  --sg-border-strong: #47606B;
+  --sg-platinum: #24353D;
+  --sg-input-border: #4A5F68;
+  --sg-nav-bg: rgba(18, 30, 37, .92);
+  --sg-focus: #{$light-pacific};
+  --sg-focus-ring: 0 0 0 .2rem rgba(163, 205, 214, .25);
+
+  --sg-info-soft: #1D343F;
+  --sg-accent-soft: #3A2D25;
+  --sg-accent-icon: #{$tangerine};
+  --sg-accent-strong: #E8AC8F;
+
+  --sg-success: #7BC6A4;
+  --sg-success-soft: #18342B;
+  --sg-danger: #DE948E;
+  --sg-danger-soft: #3D211F;
+  --sg-warning: #E2B45C;
+  --sg-warning-soft: #3A2F16;
+
+  --sg-pending-bg: #3A2F16;
+  --sg-pending-text: #F0D9A4;
+  --sg-pending-icon: #E2B45C;
+  --sg-returned-bg: #3D211F;
+  --sg-returned-text: #F0C0BC;
+  --sg-returned-icon: #DE948E;
+  --sg-approved-bg: #18342B;
+  --sg-approved-text: #BFE3DA;
+
+  --sg-star: #E2B45C;
+  --sg-star-empty: #455862;
+
+  --sg-step-dot-bg: #{$light-pacific};
+  --sg-step-dot-text: #121E25;
+
+  --sg-paste-line: rgba(233, 238, 240, .07);
+  --sg-empty-bg: rgba(27, 43, 51, .6);
+  --sg-shadow-sm: 0 1px 2px rgba(0, 0, 0, .4), 0 1px 3px rgba(0, 0, 0, .35);
+  --sg-shadow-md: 0 8px 24px rgba(0, 0, 0, .45);
+  --sg-shadow-lg: 0 18px 48px rgba(0, 0, 0, .55);
+}
+
+// Gentle fade when the theme flips (prefers-reduced-motion zeroes it via _motion.scss)
+body { transition: background-color $motion-slow $ease-out, color $motion-slow $ease-out; }
+
+// --- Third-party widgets -------------------------------------------------
+
+// Tom Select: the vendored theme hardcodes a dark text color; bind it to Bootstrap's
+// body color so both themes work, and align the focus ring with the brand
+.ts-control, .ts-control input, .ts-dropdown { color: var(--bs-body-color); }
+.ts-wrapper.multi .ts-control > div { background: var(--sg-inset); color: var(--sg-text); border-color: var(--sg-border); }
+.ts-wrapper.multi .ts-control > div.active { background: $blue-slate; color: $white; }
+.ts-dropdown .create { color: var(--sg-muted); }
+.focus .ts-control { border-color: var(--sg-focus); box-shadow: var(--sg-focus-ring); }
+
+[data-bs-theme="dark"] {
+  // SweetAlert2 confirmations (_swal.scss keeps the light look; only surfaces change)
+  .sg-swal { background: var(--sg-surface) !important; color: var(--sg-text); }
+  .sg-swal .swal2-html-container, .sg-swal .swal2-input, .sg-swal .swal2-textarea { color: var(--sg-text); }
+  .sg-swal .swal2-input, .sg-swal .swal2-textarea { background: var(--sg-canvas); border-color: var(--sg-input-border); }
+
+  // The seigaiha wave ornament is near-white: keep it a faint haze on dark surfaces
+  .sg-hero::after { opacity: .12; }
+}

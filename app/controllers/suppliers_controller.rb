@@ -9,6 +9,8 @@ class SuppliersController < ApplicationController
                                                   area: params[:area])
     return render_picker if params[:item_group_id].present?
 
+    # Overview map of every geocoded supplier, independent of the current search
+    @map_suppliers = policy_scope(Supplier).with_coordinates
     @total = @suppliers.count
     @page = [params[:page].to_i, 1].max
     @suppliers = @suppliers.offset((@page - 1) * PER_PAGE).limit(PER_PAGE)
@@ -20,6 +22,7 @@ class SuppliersController < ApplicationController
     authorize @supplier
     load_supplier_reviews(@supplier)
     @review = Review.new(rating: 4, visibility: "organization", ai_usable: true)
+    @map_suppliers = @supplier.latitude.present? && @supplier.longitude.present? ? [@supplier] : []
   end
 
   private

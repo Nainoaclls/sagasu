@@ -7,25 +7,25 @@
   <div class="sg-banner is-pending" role="status">
     <%= icon("fa-hourglass-half") %>
     <div>
-      <strong>Waiting for <%= latest.approver.name %></strong>
-      <p>Sent <%= time_ago_in_words(latest.created_at) %> ago. The bidder list is locked until a decision.</p>
+      <strong><%= t("projects.approval_banner.waiting", name: latest.approver.name) %></strong>
+      <p><%= t("projects.approval_banner.waiting_text", time: time_ago_in_words(latest.created_at)) %></p>
     </div>
   </div>
 <% elsif project.returned? && latest&.returned? %>
   <div class="sg-banner is-returned" role="status">
     <%= icon("fa-rotate-left") %>
     <div>
-      <strong><%= latest.approver.name %> returned the list</strong>
+      <strong><%= t("projects.approval_banner.returned", name: latest.approver.name) %></strong>
       <p>“<%= latest.comment %>”</p>
-      <p class="small mb-0">Adjust the bidder list, then send it again. The previous version is kept in the history.</p>
+      <p class="small mb-0"><%= t("projects.approval_banner.returned_hint") %></p>
     </div>
   </div>
 <% elsif project.approved? && latest&.approved? %>
   <div class="sg-banner is-approved" role="status">
     <span class="sg-hanko sg-hanko-sm" aria-hidden="true">承認</span>
     <div>
-      <strong>Approved by <%= latest.approver.name %></strong>
-      <p><%= latest.comment.presence || "The bidder list is final. You can now contact the bidders." %></p>
+      <strong><%= t("projects.approval_banner.approved", name: latest.approver.name) %></strong>
+      <p><%= latest.comment.presence || t("projects.approval_banner.approved_default") %></p>
     </div>
   </div>
 <% end %>

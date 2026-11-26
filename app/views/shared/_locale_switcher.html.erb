@@ -1,0 +1,18 @@
+<%# Language switcher: the choice is stored in a cookie by LocalesController %>
+<div class="dropdown">
+  <button class="btn btn-quiet btn-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+          aria-label="<%= t("shared.locale_switcher.label") %>">
+    <%= icon("fa-globe") %>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <% { en: t("shared.locale_switcher.english"), fr: t("shared.locale_switcher.french"),
+         ja: t("shared.locale_switcher.japanese") }.each do |locale, name| %>
+      <li>
+        <%= link_to locale_path(locale), class: "dropdown-item #{'active' if I18n.locale == locale}",
+                    "aria-current": (I18n.locale == locale ? "true" : nil) do %>
+          <%= name %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

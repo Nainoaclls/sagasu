@@ -20,14 +20,14 @@ h4, .h4 { font-size: 1.125rem; line-height: 1.4; }
   h2, .h2 { font-size: 1.75rem; }
 }
 
-.lead { font-size: 1.25rem; color: $muted; }
-.text-muted, .sg-muted { color: $muted !important; }
+.lead { font-size: 1.25rem; color: var(--sg-muted); }
+.text-muted, .sg-muted { color: var(--sg-muted) !important; }
 .small, small { font-size: .875rem; }
-.sg-caption { font-size: .75rem; color: $muted; letter-spacing: .02em; }
+.sg-caption { font-size: .75rem; color: var(--sg-muted); letter-spacing: .02em; }
 .sg-eyebrow {
   display: inline-flex; align-items: center; gap: .5rem;
   font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-  color: $blue-slate;
+  color: var(--sg-heading);
 }
 .sg-number { font-variant-numeric: tabular-nums; }
 
@@ -35,7 +35,7 @@ a { text-underline-offset: 3px; }
 
 // One visible focus style everywhere (keyboard users)
 :focus-visible {
-  outline: 3px solid $blue-slate;
+  outline: 3px solid var(--sg-focus);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -58,7 +58,7 @@ a { text-underline-offset: 3px; }
   display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem;
   margin-bottom: 2rem;
   h1 { font-size: 2rem; margin: 0; }
-  p { margin: .25rem 0 0; color: $muted; }
+  p { margin: .25rem 0 0; color: var(--sg-muted); }
 }
 
 .sg-section-title {
@@ -67,7 +67,7 @@ a { text-underline-offset: 3px; }
   h2 { font-size: 1.25rem; margin: 0; display: flex; align-items: center; gap: .5rem; }
 }
 
-.sg-divider { border: 0; border-top: 1px solid $border-color; margin: 1.5rem 0; opacity: 1; }
+.sg-divider { border: 0; border-top: 1px solid var(--sg-border); margin: 1.5rem 0; opacity: 1; }
 
 // Subtle seigaiha wave from the design kit, used as ornament only
 .sg-wave-bg {

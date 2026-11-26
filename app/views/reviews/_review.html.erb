@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center gap-2">
       <%= stars(review.rating) %>
       <span class="small fw-bold"><%= review_author(review) %></span>
-      <span class="sg-caption">· <%= time_ago_in_words(review.created_at) %> ago</span>
+      <span class="sg-caption">· <%= t("reviews.time_ago", time: time_ago_in_words(review.created_at)) %></span>
     </div>
     <div class="d-flex flex-wrap gap-1">
       <%= review_status_badge(review) %>

@@ -20,6 +20,6 @@ module AiJobBroadcasts
   end
 
   def fallback_note(ai_run)
-    ai_run.reload.fallback? ? " with Sagasu's offline matching" : " by Sagasu AI"
+    I18n.t(ai_run.reload.fallback? ? "jobs.fallback.offline" : "jobs.fallback.ai")
   end
 end

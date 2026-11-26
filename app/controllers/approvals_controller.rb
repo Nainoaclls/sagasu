@@ -12,12 +12,12 @@ class ApprovalsController < ApplicationController
     approver = User.approver.find_by(id: params.dig(:approval, :approver_id))
     authorize Approval.new(project: @project, approver: approver)
     unless approver
-      return redirect_to(@project, alert: "Choose who should approve this bidder list.",
+      return redirect_to(@project, alert: t("flashes.approvals.choose_approver"),
                                    status: :see_other)
     end
 
     @project.submit_for_approval!(approver: approver, comment: params.dig(:approval, :buyer_comment))
-    redirect_to @project, notice: "Sent to #{approver.name} for approval.", status: :see_other
+    redirect_to @project, notice: t("flashes.approvals.sent", name: approver.name), status: :see_other
   rescue ActiveRecord::RecordInvalid => e
     redirect_to @project, alert: e.record.errors.full_messages.to_sentence, status: :see_other
   end
@@ -29,7 +29,7 @@ class ApprovalsController < ApplicationController
 
     decision = params.dig(:approval, :status).to_s
     unless %w[approved returned].include?(decision)
-      return redirect_to(@approval.project, alert: "Choose Approve or Return.", status: :see_other)
+      return redirect_to(@approval.project, alert: t("flashes.approvals.choose_decision"), status: :see_other)
     end
 
     @approval.decide!(decision: decision, comment: params.dig(:approval, :comment))
@@ -41,7 +41,10 @@ class ApprovalsController < ApplicationController
   private
 
   def decision_notice
-    title = @approval.project.title
-    @approval.approved? ? "“#{title}” approved. The buyer can now contact the bidders." : "“#{title}” returned to #{@approval.project.user.name} with your comment."
+    if @approval.approved?
+      t("flashes.approvals.approved", title: @approval.project.title)
+    else
+      t("flashes.approvals.returned", title: @approval.project.title, buyer: @approval.project.user.name)
+    end
   end
 end

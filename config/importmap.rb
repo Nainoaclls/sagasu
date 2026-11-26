@@ -11,3 +11,4 @@ pin "sweet_confirm" # app/javascript/sweet_confirm.js: data-turbo-confirm with S
 pin "sweetalert2" # @11.26.26
 pin "typed.js" # @3.0.0
 pin "tom-select", to: "tom-select.complete.min.js" # @2.7.0 self-contained build, sets window.TomSelect
+pin "mapbox-gl", to: "https://cdn.jsdelivr.net/npm/mapbox-gl@3.16.0/+esm" # supplier maps (map_controller.js)

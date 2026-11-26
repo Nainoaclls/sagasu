@@ -14,7 +14,7 @@
     }
   }
 
-  .sg-auth-form { display: grid; place-items: center; padding: 3rem 1.5rem; background: $white; }
+  .sg-auth-form { display: grid; place-items: center; padding: 3rem 1.5rem; background: var(--sg-surface); }
   .sg-auth-card { width: 100%; max-width: 420px; }
   .sg-auth-card h1 { font-size: 2rem; margin-bottom: .25rem; }
 
@@ -25,6 +25,6 @@
 }
 
 .sg-demo-accounts {
-  margin-top: 1.5rem; padding: 1rem; border-radius: 12px; background: $canvas; font-size: .875rem;
-  code { color: $blue-slate; font-size: .875rem; }
+  margin-top: 1.5rem; padding: 1rem; border-radius: 12px; background: var(--sg-inset); font-size: .875rem;
+  code { color: var(--sg-heading); font-size: .875rem; }
 }

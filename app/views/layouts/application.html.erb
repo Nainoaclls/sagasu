@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= I18n.locale %>" data-env="<%= Rails.env %>">
   <head>
-    <title><%= content_for?(:title) ? "#{yield(:title)} · Sagasu" : "Sagasu · Find the right suppliers" %></title>
+    <title><%= content_for?(:title) ? "#{yield(:title)} · Sagasu" : "Sagasu · #{t("layouts.application.tagline")}" %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Sagasu helps construction buyers find, compare and approve the right suppliers with an AI that shows its evidence.">
+    <meta name="description" content="<%= t("layouts.application.description") %>">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Sagasu">
     <meta name="mobile-web-app-capable" content="yes">
@@ -13,12 +13,27 @@
     <%# After an action, Turbo refreshes the page by morphing it: no flash, scroll position kept %>
     <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
     <script>document.documentElement.classList.add("js")</script>
+    <%# Paint the right theme on the first frame: stored choice wins, else the OS preference.
+        theme_controller.js keeps it in sync afterwards. %>
+    <script>
+      (function () {
+        var theme = null;
+        try { theme = localStorage.getItem("sg-theme"); } catch (e) {}
+        if (theme !== "dark" && theme !== "light") {
+          theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.dataset.bsTheme = theme;
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", theme === "dark" ? "#121E25" : "#326273");
+      })();
+    </script>
 
     <%= yield :head %>
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="manifest" href="/manifest.json">
 
     <%# Tom Select theme: plain CSS, kept out of Sass (sassc cannot compile its modern CSS functions) %>
     <%= stylesheet_link_tag "tom-select.bootstrap5", "data-turbo-track": "reload" %>
@@ -27,7 +42,7 @@
   </head>
 
   <body class="<%= yield(:body_class) %>">
-    <a class="sg-skip-link" href="#main">Skip to content</a>
+    <a class="sg-skip-link" href="#main"><%= t("layouts.application.skip_to_content") %></a>
     <%= render "shared/navbar" %>
 
     <main id="main" tabindex="-1">

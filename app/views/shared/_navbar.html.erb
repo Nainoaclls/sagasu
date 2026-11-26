@@ -1,28 +1,28 @@
 <header class="sg-nav" data-controller="navbar">
-  <nav class="sg-container sg-nav-inner navbar navbar-expand-md py-0" aria-label="Main">
-    <%= link_to root_path, class: "sg-brand", "aria-label": "Sagasu home" do %>
+  <nav class="sg-container sg-nav-inner navbar navbar-expand-md py-0" aria-label="<%= t("shared.navbar.main_navigation") %>">
+    <%= link_to root_path, class: "sg-brand", "aria-label": t("shared.navbar.home_label") do %>
       <%= image_tag "sagasu-logo-mark.svg", alt: "", width: 34, height: 34 %>
       <span>Sagasu</span>
     <% end %>
 
     <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
-            aria-controls="main-nav" aria-expanded="false" aria-label="Open the menu">
+            aria-controls="main-nav" aria-expanded="false" aria-label="<%= t("shared.navbar.open_menu") %>">
       <%= icon("fa-bars") %>
     </button>
 
     <div class="collapse navbar-collapse justify-content-between" id="main-nav">
       <% if user_signed_in? %>
         <ul class="sg-nav-links">
-          <li><%= nav_link_to "Projects", projects_path, "fa-folder-open", active: controller_name.in?(%w[projects]) %></li>
-          <li><%= nav_link_to "Suppliers", suppliers_path, "fa-magnifying-glass", active: controller_name.in?(%w[suppliers reviews]) %></li>
+          <li><%= nav_link_to t("shared.navbar.projects"), projects_path, "fa-folder-open", active: controller_name.in?(%w[projects]) %></li>
+          <li><%= nav_link_to t("shared.navbar.suppliers"), suppliers_path, "fa-magnifying-glass", active: controller_name.in?(%w[suppliers reviews]) %></li>
           <% if current_user.approver? %>
             <li>
               <%= link_to approvals_path, class: "sg-nav-link", "aria-current": (controller_name == "approvals" ? "page" : nil) do %>
                 <%= icon("fa-stamp") %>
-                <span>Approvals</span>
+                <span><%= t("shared.navbar.approvals") %></span>
                 <% count = current_user.pending_approvals_count %>
                 <% if count.positive? %>
-                  <span class="badge rounded-pill text-bg-accent"><%= count %><span class="visually-hidden"> waiting</span></span>
+                  <span class="badge rounded-pill text-bg-accent"><%= count %><span class="visually-hidden"> <%= t("shared.navbar.waiting") %></span></span>
                 <% end %>
               <% end %>
             </li>
@@ -30,15 +30,17 @@
         </ul>
 
         <div class="d-flex align-items-center gap-3">
+          <%= render "shared/locale_switcher" %>
+          <%= render "shared/theme_toggle" %>
           <% if current_user.buyer? %>
             <%= link_to new_project_path, class: "btn btn-primary btn-sm d-none d-lg-inline-flex",
                 data: { controller: "ripple", action: "click->ripple#burst" } do %>
-              <%= icon("fa-plus") %> New project
+              <%= icon("fa-plus") %> <%= t("shared.navbar.new_project") %>
             <% end %>
           <% end %>
           <div class="dropdown">
             <button class="btn btn-quiet btn-sm d-inline-flex align-items-center gap-2 px-1" type="button"
-                    data-bs-toggle="dropdown" aria-expanded="false" aria-label="Account menu for <%= current_user.name %>">
+                    data-bs-toggle="dropdown" aria-expanded="false" aria-label="<%= t("shared.navbar.account_menu", name: current_user.name) %>">
               <span class="sg-avatar" aria-hidden="true"><%= current_user.initials %></span>
               <span class="d-md-none d-xl-inline"><%= current_user.first_name %></span>
               <%= icon("fa-chevron-down", class: "small") %>
@@ -47,13 +49,13 @@
               <li class="px-3 py-2">
                 <div class="fw-bold"><%= current_user.name %></div>
                 <div class="small text-muted mb-1"><%= current_user.email %></div>
-                <span class="sg-role-pill"><%= current_user.role %></span>
+                <span class="sg-role-pill"><%= t("users.roles.#{current_user.role}") %></span>
               </li>
               <li><hr class="dropdown-divider"></li>
-              <li><%= link_to edit_user_registration_path, class: "dropdown-item" do %><%= icon("fa-user-gear") %> Account<% end %></li>
+              <li><%= link_to edit_user_registration_path, class: "dropdown-item" do %><%= icon("fa-user-gear") %> <%= t("shared.navbar.account") %><% end %></li>
               <li>
                 <%= button_to destroy_user_session_path, method: :delete, class: "dropdown-item", form: { data: { turbo: false } } do %>
-                  <%= icon("fa-arrow-right-from-bracket") %> Log out
+                  <%= icon("fa-arrow-right-from-bracket") %> <%= t("shared.navbar.log_out") %>
                 <% end %>
               </li>
             </ul>
@@ -61,12 +63,14 @@
         </div>
       <% else %>
         <ul class="sg-nav-links">
-          <li><a class="sg-nav-link" href="<%= root_path %>#how-it-works">How it works</a></li>
-          <li><a class="sg-nav-link" href="<%= root_path %>#trust">Trust &amp; evidence</a></li>
+          <li><a class="sg-nav-link" href="<%= root_path %>#how-it-works"><%= t("shared.navbar.how_it_works") %></a></li>
+          <li><a class="sg-nav-link" href="<%= root_path %>#trust"><%= t("shared.navbar.trust") %></a></li>
         </ul>
         <div class="d-flex align-items-center gap-2">
-          <%= link_to "Log in", new_user_session_path, class: "btn btn-quiet btn-sm" %>
-          <%= link_to "Get started", new_user_registration_path, class: "btn btn-primary btn-sm",
+          <%= render "shared/locale_switcher" %>
+          <%= render "shared/theme_toggle" %>
+          <%= link_to t("shared.navbar.log_in"), new_user_session_path, class: "btn btn-quiet btn-sm" %>
+          <%= link_to t("shared.navbar.get_started"), new_user_registration_path, class: "btn btn-primary btn-sm",
               data: { controller: "ripple", action: "click->ripple#burst" } %>
         </div>
       <% end %>

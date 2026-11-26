@@ -32,3 +32,9 @@ $ease-out: cubic-bezier(.2, .8, .2, 1);
 $motion-fast: 120ms;
 $motion: 180ms;
 $motion-slow: 420ms;
+
+// Dark mode: the values live in components/_theme.scss as CSS variables under
+// [data-bs-theme="dark"]. Contrast (WCAG 2.1): text #E9EEF0 on surface #1B2B33 = 11.9:1,
+// muted #9FB4BD on canvas #121E25 = 6.9:1, heading/link Light Pacific on canvas = 9.5:1,
+// status colors (#7BC6A4 / #DE948E / #E2B45C) >= 5:1 on their dark soft tints.
+// Blue Slate is never used as text on dark backgrounds (too dark); Light Pacific replaces it.

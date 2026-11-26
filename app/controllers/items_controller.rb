@@ -13,10 +13,9 @@ class ItemsController < ApplicationController
       project.items.build(attributes)
     end
     if added.any? && project.save
-      respond_with_workspace(project, notice: "#{added.size} material#{'s' if added.size > 1} added.")
+      respond_with_workspace(project, notice: t("flashes.items.added", count: added.size))
     else
-      respond_with_workspace(project,
-                             alert: "No material found. Write one material per line, e.g. “Red clay bricks; 50000; pcs”.")
+      respond_with_workspace(project, alert: t("flashes.items.none_found"))
     end
   end
 
@@ -31,7 +30,7 @@ class ItemsController < ApplicationController
 
   def destroy
     @item.destroy
-    respond_with_workspace(@item.project, notice: "“#{@item.description}” removed.")
+    respond_with_workspace(@item.project, notice: t("flashes.items.removed", item: @item.description))
   end
 
   private
@@ -46,8 +45,8 @@ class ItemsController < ApplicationController
   end
 
   def update_notice
-    return "Material updated." unless @item.saved_change_to_item_group_id?
+    return t("flashes.items.updated") unless @item.saved_change_to_item_group_id?
 
-    @item.item_group ? "Moved to “#{@item.item_group.title}”." : "Removed from its group."
+    @item.item_group ? t("flashes.items.moved", group: @item.item_group.title) : t("flashes.items.ungrouped")
   end
 end

@@ -15,7 +15,7 @@ class GroupSupplier < ApplicationRecord
 
   enum :source, { ai: "ai", search: "search" }, default: "search", validate: true
 
-  validates :supplier_id, uniqueness: { scope: :item_group_id, message: "is already in this group" }
+  validates :supplier_id, uniqueness: { scope: :item_group_id, message: :already_in_group }
   validates :feedback_reason, length: { maximum: 300 }
 
   scope :selected, -> { where(selected: true) }

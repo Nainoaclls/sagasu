@@ -1,15 +1,15 @@
 <%# Turbo Stream target "reviews": replaced when a review is added %>
 <section id="reviews" aria-labelledby="reviews-title">
   <div class="sg-section-title">
-    <h2 id="reviews-title"><%= icon("fa-comments") %> Team reviews <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis"><%= reviews.size %></span></h2>
+    <h2 id="reviews-title"><%= icon("fa-comments") %> <%= t("reviews.list.title") %> <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis"><%= reviews.size %></span></h2>
   </div>
-  <p class="sg-caption">Unverified observations are shown for context. Sagasu never excludes a supplier on one of them alone.</p>
+  <p class="sg-caption"><%= t("reviews.list.caption") %></p>
 
   <% if reviews.any? %>
     <ol class="sg-reviews">
       <%= render partial: "reviews/review", collection: reviews %>
     </ol>
   <% else %>
-    <p class="sg-empty-compact">No review yet. Share what you know about this supplier.</p>
+    <p class="sg-empty-compact"><%= t("reviews.list.empty") %></p>
   <% end %>
 </section>

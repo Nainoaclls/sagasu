@@ -5,22 +5,22 @@
 
   li {
     position: relative; display: flex; align-items: center; gap: .625rem;
-    padding: .75rem .875rem; border-radius: 12px; background: $white; border: 1px solid $border-color;
-    font-size: .875rem; font-weight: 700; color: $muted;
+    padding: .75rem .875rem; border-radius: 12px; background: var(--sg-surface); border: 1px solid var(--sg-border);
+    font-size: .875rem; font-weight: 700; color: var(--sg-muted);
     transition: background-color $motion, border-color $motion, color $motion;
   }
 
   .sg-step-dot {
     flex: none; width: 28px; height: 28px; border-radius: 50%;
     display: grid; place-items: center; font-size: .8125rem;
-    background: $platinum; color: $muted;
+    background: var(--sg-platinum); color: var(--sg-muted);
     transition: background-color $motion, color $motion, transform $motion $ease-out;
   }
 
-  .is-done { color: $ink; .sg-step-dot { background: $green-soft; color: $green; } }
+  .is-done { color: var(--sg-text); .sg-step-dot { background: var(--sg-success-soft); color: var(--sg-success); } }
   .is-current {
-    color: $blue-slate; border-color: $blue-slate; background: $pacific-soft;
-    .sg-step-dot { background: $blue-slate; color: $white; transform: scale(1.08); }
+    color: var(--sg-heading); border-color: var(--sg-heading); background: var(--sg-info-soft);
+    .sg-step-dot { background: var(--sg-step-dot-bg); color: var(--sg-step-dot-text); transform: scale(1.08); }
   }
 }
 

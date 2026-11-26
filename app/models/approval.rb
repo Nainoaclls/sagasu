@@ -6,7 +6,7 @@ class Approval < ApplicationRecord
        default: "pending", validate: true
 
   validates :comment, length: { maximum: 1000 }
-  validates :comment, presence: { message: "is required to explain what to change" }, if: :returned?
+  validates :comment, presence: { message: :required_to_return }, if: :returned?
   validate :approver_has_approver_role
   validate :single_pending_approval, on: :create
 
@@ -35,12 +35,12 @@ class Approval < ApplicationRecord
   private
 
   def approver_has_approver_role
-    errors.add(:approver, "must have the approver role") unless approver&.approver?
+    errors.add(:approver, :approver_role) unless approver&.approver?
   end
 
   def single_pending_approval
     return unless project && project.approvals.pending.where.not(id: id).exists?
 
-    errors.add(:base, "This bidder list is already waiting for approval")
+    errors.add(:base, :already_pending)
   end
 end

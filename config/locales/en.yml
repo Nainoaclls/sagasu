@@ -1,31 +1,623 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  common:
+    cancel: "Cancel"
+    save: "Save"
+    close: "Close"
+
+  layouts:
+    application:
+      tagline: "Find the right suppliers"
+      description: "Sagasu helps construction buyers find, compare and approve the right suppliers with an AI that shows its evidence."
+      skip_to_content: "Skip to content"
+
+  shared:
+    navbar:
+      main_navigation: "Main"
+      open_menu: "Open the menu"
+      home_label: "Sagasu home"
+      projects: "Projects"
+      suppliers: "Suppliers"
+      approvals: "Approvals"
+      waiting: "waiting"
+      new_project: "New project"
+      account_menu: "Account menu for %{name}"
+      account: "Account"
+      log_out: "Log out"
+      how_it_works: "How it works"
+      trust: "Trust & evidence"
+      log_in: "Log in"
+      get_started: "Get started"
+    footer:
+      tagline: "Find the right suppliers, not just search results. · Le Wagon Tokyo, 2026"
+      ai_note: "AI suggestions are a starting point. People make the decision."
+    locale_switcher:
+      label: "Language"
+      english: "English"
+      french: "Français"
+      japanese: "日本語"
+    toast:
+      dismiss: "Dismiss message"
+    ai_working:
+      title: "Sagasu is searching"
+      body: "%{message}. You can keep working, this updates by itself."
+    theme_toggle:
+      to_dark: "Switch to dark mode"
+      to_light: "Switch to light mode"
+
+  helpers:
+    stars: "%{rating} out of %{max} stars"
+    money_not_set: "Not set"
+    to_confirm: "To confirm"
+    toast_labels:
+      success: "Success"
+      alert: "Attention"
+
+  users:
+    roles:
+      buyer: "buyer"
+      approver: "approver"
+
+  pages:
+    home:
+      title: "Find the right suppliers"
+      eyebrow: "AI supplier discovery for construction buyers"
+      heading_a: "Find the right suppliers,"
+      heading_b: "not just search results."
+      lead: "Paste your material list. Sagasu groups it, suggests suppliers from your own records with the evidence behind each match, and sends a clean bidder list to your manager for approval."
+      cta_projects: "Go to my projects"
+      cta_start: "Start a project"
+      proof_evidence: "Suggestions come with evidence"
+      proof_flagged: "Missing details are flagged"
+      proof_human: "A person always approves"
+      demo_aria: "Example: from a buyer's need to an approved bidder list"
+      demo_need: "The need"
+      demo_grouped: "Grouped by supplier type"
+      demo_suppliers: "Suggested suppliers"
+      demo_selected: "Selected"
+      demo_review: "Review"
+      demo_approved: "Bidder list approved"
+      demo_approved_detail: "by the procurement manager, with the list frozen as submitted."
+      pain_eyebrow: "The problem"
+      pain_title: "“A needle in a haystack.”"
+      pain_lead: "Supplier knowledge is scattered across websites, ERP records and colleagues' memory. Buyers repeat the same research for every tender."
+      stat_bricks: "bricks needed this month"
+      stat_suppliers: "suppliers in the database"
+      stat_shortlist: "on the shortlist, until Sagasu"
+      how_eyebrow: "How it works"
+      how_title: "From material list to approved bidder list"
+      steps:
+        - title: "Describe the need"
+          text: "Create an RFQ project and paste your materials straight from Excel or your ERP."
+        - title: "Group with AI"
+          text: "Sagasu groups materials by supplier type and explains why. Rename or move anything."
+        - title: "Review suggestions"
+          text: "Each supplier comes with evidence and what to confirm. Keep, decline or add your own."
+        - title: "Get it approved"
+          text: "Your manager approves or returns the list with a comment. Every version is kept."
+      trust_eyebrow: "Built for trust"
+      trust_title: "An assistant that shows its work"
+      mascot_alt: "Sagasu's assistant robot, presenting with an open hand"
+      principles:
+        - title: "Evidence before confidence"
+          text: "Every suggestion lists the facts behind it and flags missing capacity or delivery details."
+        - title: "People decide"
+          text: "The AI recommends. Buyers select, managers approve. Nothing is sent automatically."
+        - title: "No silent blacklists"
+          text: "A single negative comment stays an unverified observation until it is confirmed."
+        - title: "Every decision traceable"
+          text: "Each approval keeps a frozen copy of the list, and every AI call is logged."
+      cta_title: "Your next bidder list, in minutes."
+      cta_text_html: "<span class='sg-number'>%{suppliers}</span> supplier records across %{categories} material categories are ready to search."
+      cta_open: "Open Sagasu"
+      cta_create: "Create a free account"
+
+  projects:
+    statuses:
+      draft: "Draft"
+      pending_approval: "Waiting for approval"
+      approved: "Approved"
+      returned: "Returned"
+    steps:
+      materials: "Materials"
+      groups: "Groups"
+      suppliers: "Suppliers"
+      approval: "Approval"
+    step_states:
+      done: "done"
+      current: "current step"
+      todo: "to do"
+    ai_overlay:
+      grouping: "Reading your materials and grouping them by supplier type"
+      suggestion: "Comparing supplier records, evidence and team feedback"
+    submission_blockers:
+      no_materials: "Add at least one material."
+      no_groups: "Group your materials."
+      no_suppliers: "Select at least one supplier for the bidder list."
+      ungrouped:
+        one: "%{count} material is not in a group yet."
+        other: "%{count} materials are not in a group yet."
+      cannot_submit: "This bidder list cannot be sent now"
+    index:
+      title: "Projects"
+      welcome: "Welcome back, %{name}"
+      subtitle_buyer: "Your RFQ projects and bidder lists."
+      subtitle_approver: "Bidder lists you were asked to review."
+      new_project: "New RFQ project"
+      summary_label: "Summary"
+      kpi_active: "Active projects"
+      kpi_shortlisted: "Suppliers on bidder lists"
+      kpi_pending: "Waiting for approval"
+      kpi_ai_kept: "AI suggestions kept by buyers"
+      empty_title: "Let's build your first bidder list"
+      empty_text: "Create an RFQ project, paste your materials, and Sagasu will group them and suggest suppliers."
+      overview_label: "Overview"
+      donut_title: "Pipeline by status"
+      donut_total_html:
+        one: "<strong>%{count}</strong> project"
+        other: "<strong>%{count}</strong> projects"
+      activity_title: "Recent activity"
+      activity:
+        created: "%{actor} created %{project}"
+        submitted: "%{actor} submitted %{project}"
+        approved: "%{actor} approved %{project}"
+        returned: "%{actor} returned %{project}"
+      time_ago: "%{time} ago"
+      filter_label: "Filter projects by status"
+      filters:
+        all: "All"
+        draft: "Draft"
+        pending_approval: "Waiting"
+        returned: "Returned"
+        approved: "Approved"
+      filter_empty: "No project with this status."
+    card:
+      no_erp: "No ERP RFQ yet"
+      client_to_set: "Client to set"
+      area_to_set: "Area to set"
+      materials_html:
+        one: "<strong>%{count}</strong> material"
+        other: "<strong>%{count}</strong> materials"
+      groups_html:
+        one: "<strong>%{count}</strong> group"
+        other: "<strong>%{count}</strong> groups"
+      suppliers_html:
+        one: "<strong>%{count}</strong> supplier selected"
+        other: "<strong>%{count}</strong> suppliers selected"
+      contents_label: "Bidder list contents"
+      progress_label: "Progress"
+      by: "By %{name}"
+      updated: "Updated %{time} ago"
+    new:
+      title: "New RFQ project"
+      lead: "Describe what you need. You can add or fix materials later."
+      error_notification: "Please check the fields below."
+      need_legend: "The need"
+      title_label: "Project title"
+      title_placeholder: "Shinjuku office tower, façade works"
+      scope_label: "Describe the need"
+      scope_hint: "Plain words are fine. Sagasu uses this to explain supplier fit."
+      scope_placeholder: "Facing bricks delivered in Tokyo, about 50,000 per month from April, plus mortar."
+      client_legend: "Client and budget"
+      client_label: "Client"
+      client_placeholder: "Aoyama Development"
+      area_label: "Delivery area"
+      area_prompt: "Choose a prefecture"
+      area_hint: "Used to check which suppliers deliver there. Type to search."
+      area_search: "Type a prefecture…"
+      erp_label: "ERP RFQ number"
+      budget_label: "Budget"
+      currency_label: "Currency"
+      materials_legend: "Materials"
+      optional_now: "(optional now)"
+      paste_label: "Paste your material list"
+      paste_hint: "One material per line: description; quantity; unit. Columns copied from Excel or your ERP work too."
+      paste_placeholder: "Facing bricks, red; 50000; pcs\nMortar mix M4; 300; bag"
+      use_example: "Use an example list"
+      create: "Create project"
+      next_label: "What happens next"
+      next_title: "What happens next"
+      next_steps:
+        - title: "Group with AI."
+          text: "Sagasu groups your materials by supplier type and explains why."
+        - title: "Review suppliers."
+          text: "Each suggestion shows its evidence and what to confirm."
+        - title: "Send for approval."
+          text: "Your manager approves or returns the list."
+    show:
+      all_projects: "All projects"
+      rfq_default: "RFQ project"
+      client_to_set: "Client to set"
+      delivery: "Delivery: %{area}"
+      area_to_set: "to set"
+      budget: "Budget: %{amount}"
+      buyer: "Buyer: %{name}"
+      facts_label: "Project details"
+      bidder_list_label: "Bidder list"
+    stepper:
+      label: "Bidder list progress"
+    materials:
+      title: "Materials"
+      caption: "Materials of this RFQ and their group"
+      col_material: "Material"
+      col_quantity: "Quantity"
+      col_group: "Group"
+      col_actions: "Actions"
+      not_grouped: "Not grouped"
+      group_for: "Group for %{item}"
+      move: "Move"
+      remove_confirm: "Remove “%{item}”?"
+      remove_label: "Remove %{item}"
+      empty: "No materials yet."
+      add: "Add materials"
+      paste_label: "Paste one material per line"
+      paste_placeholder: "Facing bricks, red; 50000; pcs\nMortar mix M4; 300; bag"
+      add_to_project: "Add to project"
+    groups:
+      title: "Groups & suppliers"
+      regroup: "Regroup with AI"
+      group: "Group with AI"
+      starting: "Starting…"
+      regroup_confirm: "Regroup all materials? Current groups and their suppliers will be replaced."
+      ready_title: "Ready to group your materials"
+      ready_text: "Sagasu groups materials that one type of supplier can quote together, and explains each group."
+      need_materials_title: "Add materials first"
+      need_materials_text: "Paste your material list above, then let Sagasu group it."
+      ungrouped_title:
+        one: "%{count} material not in a group"
+        other: "%{count} materials not in a group"
+      ungrouped_text: "Choose a group in the Materials table before sending for approval."
+      add_by_hand: "Add a group by hand"
+      group_name: "Group name"
+      group_placeholder: "e.g. Waterproofing"
+      add_group: "Add group"
+    bidder_list:
+      title: "Bidder list"
+      selected_label: "%{count} suppliers selected"
+      empty_hint: "Your selected suppliers will appear here, group by group."
+      no_supplier_yet: "No supplier selected yet"
+      send_title: "Send for approval"
+      approver_label: "Approver"
+      approver_prompt: "Choose an approver"
+      comment_label: "Comment for the approver"
+      comment_placeholder: "Why these bidders, anything to watch…"
+      send: "Send for approval"
+      checklist_title: "Before sending for approval"
+      history_title: "Approval history"
+      sent: "Sent %{time}"
+      decided: "decided %{time}"
+      snapshot:
+        one: "Submitted version (%{count} supplier)"
+        other: "Submitted version (%{count} suppliers)"
+    approval_banner:
+      waiting: "Waiting for %{name}"
+      waiting_text: "Sent %{time} ago. The bidder list is locked until a decision."
+      returned: "%{name} returned the list"
+      returned_hint: "Adjust the bidder list, then send it again. The previous version is kept in the history."
+      approved: "Approved by %{name}"
+      approved_default: "The bidder list is final. You can now contact the bidders."
+
+  item_groups:
+    materials_count:
+      one: "%{count} material"
+      other: "%{count} materials"
+    on_bidder_list: "%{count} on the bidder list"
+    rename_label: "Rename group %{title}"
+    group_name: "Group name"
+    ai_note: "Why this group"
+    items_label: "Materials in %{title}"
+    no_items: "No material yet: move some here from the Materials table."
+    suppliers_title: "Suppliers"
+    suggest: "Suggest suppliers"
+    suggest_more: "Suggest more"
+    starting: "Starting…"
+    empty_editable: "Ask Sagasu for suggestions, or search a supplier below."
+    empty_readonly: "No supplier for this group."
+    search_label: "Search a supplier to add to %{title}"
+    search_placeholder: "Search a supplier to add (name, city, material)…"
+    results_label: "Search results"
+
+  group_suppliers:
+    ai_badge: "AI suggestion"
+    manual_badge: "Added by buyer"
+    evidence: "Evidence"
+    to_confirm: "To confirm"
+    declined: "Declined: %{reason}"
+    on_bidder_list: "On bidder list"
+    remove: "Remove"
+    remove_label: "Remove %{name} from the bidder list"
+    add_label: "Add %{name} to the bidder list"
+    add_to_list: "Add to list"
+    decline: "Decline"
+    decline_title: "Why not %{name}?"
+    decline_text: "Optional. Your reason helps Sagasu suggest better suppliers. It is a hint, never a blacklist."
+    reason_legend: "Reason"
+    remove_from_list: "Remove from list"
+    decline_suggestion: "Decline suggestion"
+    feedback_reasons:
+      wrong_category: "Doesn't supply this category"
+      low_capacity: "Capacity too low"
+      outside_area: "Outside our delivery area"
+      long_lead_time: "Lead time too long"
+      quality_issues: "Known quality issues"
+      no_reason: "No reason given"
+
+  reviews:
+    list:
+      title: "Team reviews"
+      caption: "Unverified observations are shown for context. Sagasu never excludes a supplier on one of them alone."
+      empty: "No review yet. Share what you know about this supplier."
+    form:
+      error_notification: "Please fix the fields below."
+      rating: "Rating"
+      stars:
+        one: "%{count} star"
+        other: "%{count} stars"
+      comment_label: "What happened?"
+      comment_placeholder: "Facts help most: delivery on time, quality checks, responsiveness…"
+      visibility: "Who can see it"
+      organization: "All buyers"
+      organization_hint: "Shared across the organization."
+      project: "One project only"
+      project_hint: "Only people on that bidder list."
+      choose_project: "Choose a project"
+      ai_usable: "Sagasu AI may use this when suggesting suppliers, without showing my name or quoting it."
+      submit: "Share review"
+    statuses:
+      unverified: "Unverified observation"
+      verified: "Verified"
+      disputed: "Disputed"
+    visibility:
+      project: "Project: %{title}"
+      organization: "Organization"
+    author:
+      you: "You"
+      colleague: "A colleague"
+    time_ago: "%{time} ago"
+
+  suppliers:
+    index:
+      title: "Suppliers"
+      lead: "Search your supplier records by name, city or material. Missing details are shown as “to confirm”."
+      search_label: "Search suppliers"
+      search_placeholder: "Bricks, Saitama, insulation…"
+      material_label: "Material"
+      all_materials: "All materials"
+      area_label: "Delivers to"
+      any_area: "Any delivery area"
+      search: "Search"
+      map_title: "Your supplier network"
+      results:
+        one: "supplier"
+        other: "suppliers"
+      results_for: "for “%{query}”"
+      capacity_to_confirm: "Capacity to confirm"
+      lead_time:
+        one: "%{count}-day lead time"
+        other: "%{count}-day lead time"
+      lead_time_to_confirm: "Lead time to confirm"
+      details_to_confirm:
+        one: "%{count} detail to confirm"
+        other: "%{count} details to confirm"
+      complete_record: "Complete record"
+      pages_label: "Pages"
+      previous: "Previous"
+      next: "Next"
+      page_of: "Page %{page} of %{pages}"
+      empty_title: "No supplier matched"
+      empty_text: "Try a broader word (for example “brick” instead of a product code) or another delivery area."
+      clear_search: "Clear the search"
+    show:
+      all_suppliers: "All suppliers"
+      website: "Website"
+      new_tab: "(opens in a new tab)"
+      verified_reviews:
+        one: "%{count} verified review"
+        other: "%{count} verified reviews"
+      no_verified: "No verified review yet"
+      map_title: "Location"
+      record_title: "Supplier record"
+      facts:
+        capacity: "Monthly capacity"
+        lead_time: "Lead time"
+        delivers_to: "Delivers to"
+        certifications: "Certifications"
+        tax_id: "Tax ID"
+      lead_time_days:
+        one: "%{count} day"
+        other: "%{count} days"
+      source: "Source: %{url}"
+      review_form_title: "Share an observation"
+    picker:
+      no_match: "No supplier matches “%{query}”."
+      already_in_group: "Already in group"
+      add_label: "Add %{name} to %{title}"
+      add: "Add"
+    map:
+      aria_label: "Map of supplier locations"
+
+  approvals:
+    statuses:
+      pending: "Pending"
+      approved: "Approved"
+      returned: "Returned"
+    index:
+      title: "Approvals"
+      lead: "Bidder lists sent to you. Open one to review it, then approve or return it with a comment."
+      pending_title: "Waiting for you"
+      rfq_default: "RFQ project"
+      sent_ago: "sent %{time} ago"
+      area_not_set: "Area not set"
+      groups_html:
+        one: "<strong>%{count}</strong> group"
+        other: "<strong>%{count}</strong> groups"
+      suppliers_html:
+        one: "<strong>%{count}</strong> supplier"
+        other: "<strong>%{count}</strong> suppliers"
+      materials_html:
+        one: "<strong>%{count}</strong> material"
+        other: "<strong>%{count}</strong> materials"
+      review: "Review"
+      caught_up_title: "All caught up"
+      caught_up_text: "No bidder list is waiting for your approval."
+      decided_title: "Decided"
+      decided_caption: "Bidder lists you already decided"
+      col_project: "Project"
+      col_buyer: "Buyer"
+      col_decision: "Decision"
+      col_date: "Date"
+      decided_empty: "Your past decisions will be listed here."
+    decision:
+      title: "Your decision"
+      sent: "%{name} sent this bidder list %{time} ago: %{suppliers} in %{groups}."
+      suppliers:
+        one: "%{count} supplier"
+        other: "%{count} suppliers"
+      groups:
+        one: "%{count} group"
+        other: "%{count} groups"
+      comment_label: "Comment"
+      comment_hint: "The buyer sees your comment. Returning the list unlocks it for changes."
+      comment_placeholder: "Required when you return the list: what should the buyer change?"
+      return: "Return to buyer"
+      approve: "Approve bidder list"
+
+  devise_views:
+    shared:
+      art_eyebrow: "Sagasu for construction buyers"
+      art_title: "Find the right suppliers, not just search results."
+      art_text: "Group your materials, review AI suggestions with their evidence, and get your bidder list approved."
+      have_account: "Already have an account?"
+      log_in: "Log in"
+      new_here: "New to Sagasu?"
+      create_account: "Create an account"
+      forgot_password: "Forgot your password?"
+    sessions:
+      title: "Log in"
+      heading: "Welcome back"
+      lead: "Log in to your bidder lists."
+      remember_me: "Keep me logged in"
+      log_in: "Log in"
+      demo_accounts: "Demo accounts (password %{password})"
+      demo_buyer: "Buyer: %{email}"
+      demo_approver: "Approver: %{email}"
+    registrations:
+      new:
+        title: "Create an account"
+        heading: "Create your account"
+        lead: "It takes one minute."
+        full_name: "Full name"
+        password_hint: "At least %{count} characters"
+        role_legend: "Your role"
+        role_buyer: "Buyer"
+        role_buyer_hint: "I build bidder lists."
+        role_approver: "Approver"
+        role_approver_hint: "I validate bidder lists."
+        role_note: "In a company setup, an administrator would assign roles."
+        create: "Create account"
+      edit:
+        title: "Account"
+        heading: "Your account"
+        signed_in_as: "Signed in as %{email}"
+        full_name: "Full name"
+        new_password: "New password"
+        new_password_hint: "Leave it blank if you don't want to change it"
+        confirm_password: "Confirm new password"
+        current_password_hint: "Needed to confirm your changes"
+        waiting_confirmation: "Currently waiting confirmation for: %{email}"
+        save: "Save changes"
+        delete_title: "Delete account"
+        delete_text: "This removes your projects and reviews. It cannot be undone."
+        delete_button: "Delete my account"
+        delete_confirm: "Delete your account and all your projects? This cannot be undone."
+    passwords:
+      new:
+        title: "Forgot your password"
+        heading: "Forgot your password?"
+        lead: "We'll email you a link to choose a new one."
+        submit: "Send reset link"
+      edit:
+        title: "Choose a new password"
+        heading: "Choose a new password"
+        new_password: "New password"
+        password_hint: "At least %{count} characters"
+        confirm_password: "Confirm new password"
+        submit: "Change my password"
+
+  flashes:
+    application:
+      not_authorized: "You don't have access to that."
+      not_found: "We couldn't find that page."
+    projects:
+      created_with_materials:
+        one: "Project created with %{count} material."
+        other: "Project created with %{count} materials."
+      created_empty: "Project created. Add your materials to start."
+    items:
+      added:
+        one: "%{count} material added."
+        other: "%{count} materials added."
+      none_found: "No material found. Write one material per line, e.g. “Red clay bricks; 50000; pcs”."
+      updated: "Material updated."
+      moved: "Moved to “%{group}”."
+      ungrouped: "Removed from its group."
+      removed: "“%{item}” removed."
+    item_groups:
+      need_materials: "Add materials before grouping them."
+      already_grouping: "Sagasu is already grouping these materials."
+      grouping_started: "Sagasu is grouping your materials."
+      added: "Group “%{title}” added."
+      renamed: "Group renamed."
+    group_suppliers:
+      already_searching: "Sagasu is already searching for this group."
+      searching: "Sagasu is looking for suppliers for “%{title}”."
+      added: "%{name} added to “%{title}”."
+      added_to_list: "%{name} added to the bidder list."
+      removed: "%{name} removed from the bidder list."
+      declined: "%{name} declined."
+      reason_thanks: " Thanks, your reason helps future suggestions."
+    approvals:
+      choose_approver: "Choose who should approve this bidder list."
+      sent: "Sent to %{name} for approval."
+      choose_decision: "Choose Approve or Return."
+      approved: "“%{title}” approved. The buyer can now contact the bidders."
+      returned: "“%{title}” returned to %{buyer} with your comment."
+    reviews:
+      shared_project: "Thanks! Your review is shared with the people on “%{title}”."
+      shared_organization: "Thanks! Your review is shared with buyers across the organization."
+
+  jobs:
+    group_items:
+      done:
+        one: "%{count} group proposed%{note}. Review and adjust them."
+        other: "%{count} groups proposed%{note}. Review and adjust them."
+      failed: "Grouping failed. Please try again."
+    suggest_suppliers:
+      failed: "Supplier suggestions failed. Please try again."
+      none: "No new supplier matched “%{group}”. Try the search to add one."
+      done:
+        one: "%{count} supplier suggested for “%{group}”%{note}."
+        other: "%{count} suppliers suggested for “%{group}”%{note}."
+      offline_note: " (offline matching)"
+    fallback:
+      ai: " by Sagasu AI"
+      offline: " with Sagasu's offline matching"
+
+  js:
+    materials:
+      empty: "One material per line"
+      count:
+        one: "%{count} material detected"
+        other: "%{count} materials detected"
+
+  items:
+    quantity_to_confirm: "Qty to confirm"
+
+  errors:
+    messages:
+      required_to_return: "is required to explain what to change"
+      required_for_project_visibility: "is required when the review is limited to a project"
+      already_in_group: "is already in this group"
+      same_project: "must belong to the same project"
+      approver_role: "must have the approver role"
+      already_pending: "This bidder list is already waiting for approval"
+      cannot_submit: "This bidder list cannot be sent now"

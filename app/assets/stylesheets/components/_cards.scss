@@ -1,11 +1,11 @@
 // Bootstrap .card (radius, border, padding from config/_bootstrap_variables). Brand touches only.
-.card { box-shadow: $shadow-sm; }
+.card { box-shadow: var(--sg-shadow-sm); }
 
 // Cards that are links or contain a primary link: lift on hover, keep focus visible
 .sg-card-interactive {
   position: relative;
   transition: transform $motion $ease-out, box-shadow $motion $ease-out, border-color $motion;
-  &:hover, &:focus-within { transform: translateY(-3px); box-shadow: $shadow-md; border-color: #C9D6DB; }
+  &:hover, &:focus-within { transform: translateY(-3px); box-shadow: var(--sg-shadow-md); border-color: var(--sg-border-strong); }
   // Makes the whole card clickable through its main link (one tab stop)
   .sg-stretched::after { content: ""; position: absolute; inset: 0; z-index: 1; }
   .sg-above { position: relative; z-index: 2; }
@@ -19,30 +19,30 @@
 
 .sg-ai-note {
   display: flex; gap: .75rem; align-items: flex-start;
-  background: $tangerine-soft; border-radius: 10px; padding: .75rem 1rem;
-  font-size: .9rem; color: $ink;
-  > i { color: darken($tangerine, 28%); margin-top: .2rem; }
-  strong { display: block; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: darken($tangerine, 40%); }
+  background: var(--sg-accent-soft); border-radius: 10px; padding: .75rem 1rem;
+  font-size: .9rem; color: var(--sg-text);
+  > i { color: var(--sg-accent-icon); margin-top: .2rem; }
+  strong { display: block; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--sg-accent-strong); }
 }
 
 // Dashboard counters (inside a Bootstrap .card)
 .sg-kpi {
-  .sg-kpi-value { font-size: 2rem; font-weight: 700; color: $blue-slate; line-height: 1.1; font-variant-numeric: tabular-nums; }
-  .sg-kpi-label { color: $muted; font-size: .875rem; margin-top: .25rem; }
+  .sg-kpi-value { font-size: 2rem; font-weight: 700; color: var(--sg-heading); line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .sg-kpi-label { color: var(--sg-muted); font-size: .875rem; margin-top: .25rem; }
   .sg-kpi-icon {
     width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center;
-    background: $pacific-soft; color: $blue-slate; margin-bottom: .75rem;
-    &.is-accent { background: $tangerine-soft; color: darken($tangerine, 30%); }
+    background: var(--sg-info-soft); color: var(--sg-heading); margin-bottom: .75rem;
+    &.is-accent { background: var(--sg-accent-soft); color: var(--sg-accent-icon); }
   }
 }
 
 .sg-facts {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem;
   margin: 0;
-  > div { background: $canvas; border-radius: 10px; padding: .875rem 1rem; }
-  dt { font-size: .75rem; color: $muted; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
-  dd { margin: .25rem 0 0; font-weight: 700; color: $ink; }
-  .is-missing dd { color: $yellow; font-weight: 400; font-style: normal; }
+  > div { background: var(--sg-inset); border-radius: 10px; padding: .875rem 1rem; }
+  dt { font-size: .75rem; color: var(--sg-muted); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  dd { margin: .25rem 0 0; font-weight: 700; color: var(--sg-text); }
+  .is-missing dd { color: var(--sg-warning); font-weight: 400; font-style: normal; }
 }
 
 // Horizontal scroll only (Bootstrap .table-responsive can show a stray vertical scrollbar)
@@ -51,6 +51,6 @@
 // Bootstrap .table: only the small uppercase header style is ours
 .sg-table {
   font-size: .9375rem; margin-bottom: 0;
-  th { font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: $muted; font-weight: 700; }
+  th { font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--sg-muted); font-weight: 700; }
   tbody tr:last-child td { border-bottom: 0; }
 }

@@ -2,47 +2,47 @@
     Simple Form shows each error under its field; the star rating and visibility cards stay custom HTML
     (real radio buttons) because they are more accessible than the generic versions. %>
 <%= simple_form_for [supplier, review], html: { id: "review_form", data: { controller: "visibility" } } do |f| %>
-  <%= f.error_notification message: "Please fix the fields below." %>
+  <%= f.error_notification message: t("reviews.form.error_notification") %>
 
   <fieldset class="mb-3">
-    <legend class="form-label">Rating</legend>
+    <legend class="form-label"><%= t("reviews.form.rating") %></legend>
     <div class="sg-rating">
       <% 5.downto(1) do |value| %>
         <%= f.radio_button :rating, value, id: "review_rating_#{value}" %>
-        <label for="review_rating_<%= value %>"><span aria-hidden="true">★</span><span class="visually-hidden"><%= pluralize(value, "star") %></span></label>
+        <label for="review_rating_<%= value %>"><span aria-hidden="true">★</span><span class="visually-hidden"><%= t("reviews.form.stars", count: value) %></span></label>
       <% end %>
     </div>
     <%= f.error :rating, class: "invalid-feedback d-block" %>
   </fieldset>
 
-  <%= f.input :comment, as: :text, label: "What happened?",
-              input_html: { rows: 4, maxlength: 2000, placeholder: "Facts help most: delivery on time, quality checks, responsiveness…" } %>
+  <%= f.input :comment, as: :text, label: t("reviews.form.comment_label"),
+              input_html: { rows: 4, maxlength: 2000, placeholder: t("reviews.form.comment_placeholder") } %>
 
   <fieldset class="mb-3">
-    <legend class="form-label">Who can see it</legend>
+    <legend class="form-label"><%= t("reviews.form.visibility") %></legend>
     <div class="sg-choice">
       <%= f.radio_button :visibility, "organization", id: "review_visibility_organization", data: { action: "visibility#toggle" } %>
       <label for="review_visibility_organization">
         <%= icon("fa-building") %>
-        <span><strong>All buyers</strong><span>Shared across the organization.</span></span>
+        <span><strong><%= t("reviews.form.organization") %></strong><span><%= t("reviews.form.organization_hint") %></span></span>
       </label>
       <%= f.radio_button :visibility, "project", id: "review_visibility_project", data: { action: "visibility#toggle" } %>
       <label for="review_visibility_project">
         <%= icon("fa-lock") %>
-        <span><strong>One project only</strong><span>Only people on that bidder list.</span></span>
+        <span><strong><%= t("reviews.form.project") %></strong><span><%= t("reviews.form.project_hint") %></span></span>
       </label>
     </div>
     <%= f.error :visibility, class: "invalid-feedback d-block" %>
   </fieldset>
 
-  <%= f.association :project, collection: projects, label_method: :title, include_blank: "Choose a project", required: false,
+  <%= f.association :project, collection: projects, label_method: :title, include_blank: t("reviews.form.choose_project"), required: false,
                     wrapper_html: { data: { visibility_target: "project" } },
                     input_html: { data: { visibility_target: "select" } } %>
 
   <%= f.input :ai_usable, as: :boolean, label_html: { class: "small" },
-              label: "Sagasu AI may use this when suggesting suppliers, without showing my name or quoting it." %>
+              label: t("reviews.form.ai_usable") %>
 
   <%= f.button :button, class: "btn-primary w-100", data: { controller: "ripple", action: "click->ripple#burst" } do %>
-    <%= icon("fa-paper-plane") %> Share review
+    <%= icon("fa-paper-plane") %> <%= t("reviews.form.submit") %>
   <% end %>
 <% end %>

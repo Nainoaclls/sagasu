@@ -1,30 +1,30 @@
-<% content_for :title, "Create an account" %>
+<% content_for :title, t("devise_views.registrations.new.title") %>
 <%= render layout: "devise/shared/auth_shell" do %>
-  <h1>Create your account</h1>
-  <p class="text-muted mb-4">It takes one minute.</p>
+  <h1><%= t("devise_views.registrations.new.heading") %></h1>
+  <p class="text-muted mb-4"><%= t("devise_views.registrations.new.lead") %></p>
 
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= f.error_notification %>
-    <%= f.input :name, label: "Full name", required: true, autofocus: true, input_html: { autocomplete: "name" } %>
+    <%= f.input :name, label: t("devise_views.registrations.new.full_name"), required: true, autofocus: true, input_html: { autocomplete: "name" } %>
     <%= f.input :email, required: true, input_html: { autocomplete: "email" } %>
     <%= f.input :password, required: true,
-                hint: ("At least #{@minimum_password_length} characters" if @minimum_password_length),
+                hint: (t("devise_views.registrations.new.password_hint", count: @minimum_password_length) if @minimum_password_length),
                 input_html: { autocomplete: "new-password" } %>
     <%= f.input :password_confirmation, required: true, input_html: { autocomplete: "new-password" } %>
 
     <fieldset class="mb-3">
-      <legend class="form-label">Your role</legend>
+      <legend class="form-label"><%= t("devise_views.registrations.new.role_legend") %></legend>
       <div class="sg-choice">
         <%= f.radio_button :role, "buyer", id: "user_role_buyer", checked: resource.role.blank? || resource.buyer? %>
-        <label for="user_role_buyer"><%= icon("fa-cart-shopping") %><span><strong>Buyer</strong><span>I build bidder lists.</span></span></label>
+        <label for="user_role_buyer"><%= icon("fa-cart-shopping") %><span><strong><%= t("devise_views.registrations.new.role_buyer") %></strong><span><%= t("devise_views.registrations.new.role_buyer_hint") %></span></span></label>
         <%= f.radio_button :role, "approver", id: "user_role_approver" %>
-        <label for="user_role_approver"><%= icon("fa-stamp") %><span><strong>Approver</strong><span>I validate bidder lists.</span></span></label>
+        <label for="user_role_approver"><%= icon("fa-stamp") %><span><strong><%= t("devise_views.registrations.new.role_approver") %></strong><span><%= t("devise_views.registrations.new.role_approver_hint") %></span></span></label>
       </div>
-      <p class="form-text">In a company setup, an administrator would assign roles.</p>
+      <p class="form-text"><%= t("devise_views.registrations.new.role_note") %></p>
     </fieldset>
 
     <%= f.button :button, class: "btn btn-primary btn-lg w-100", data: { controller: "ripple", action: "click->ripple#burst" } do %>
-      Create account <%= icon("fa-arrow-right") %>
+      <%= t("devise_views.registrations.new.create") %> <%= icon("fa-arrow-right") %>
     <% end %>
   <% end %>
 

@@ -16,13 +16,13 @@
 
 // Discreet text buttons (Bootstrap has no equivalent without underline)
 .btn-quiet {
-  --bs-btn-color: #{$blue-slate}; --bs-btn-bg: transparent; --bs-btn-border-color: transparent;
-  --bs-btn-hover-color: #{$slate-dark}; --bs-btn-hover-bg: #{$pacific-soft}; --bs-btn-hover-border-color: transparent;
-  --bs-btn-active-bg: #{$pacific-soft};
+  --bs-btn-color: var(--sg-heading); --bs-btn-bg: transparent; --bs-btn-border-color: transparent;
+  --bs-btn-hover-color: var(--sg-heading); --bs-btn-hover-bg: var(--sg-info-soft); --bs-btn-hover-border-color: transparent;
+  --bs-btn-active-bg: var(--sg-info-soft);
 }
 .btn-danger-quiet {
-  --bs-btn-color: #{$red}; --bs-btn-bg: transparent; --bs-btn-border-color: transparent;
-  --bs-btn-hover-color: #{$red}; --bs-btn-hover-bg: #{$red-soft}; --bs-btn-hover-border-color: transparent;
+  --bs-btn-color: var(--sg-danger); --bs-btn-bg: transparent; --bs-btn-border-color: transparent;
+  --bs-btn-hover-color: var(--sg-danger); --bs-btn-hover-bg: var(--sg-danger-soft); --bs-btn-hover-border-color: transparent;
 }
 
 .btn-icon { width: 44px; padding: 0; }

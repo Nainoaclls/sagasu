@@ -3,7 +3,7 @@
 
 <div class="sg-container sg-page">
   <nav aria-label="Breadcrumb" class="mb-3">
-    <%= link_to suppliers_path, class: "small" do %><%= icon("fa-arrow-left") %> All suppliers<% end %>
+    <%= link_to suppliers_path, class: "small" do %><%= icon("fa-arrow-left") %> <%= t("suppliers.show.all_suppliers") %><% end %>
   </nav>
 
   <header class="card card-body flex-md-row sg-supplier-head">
@@ -15,34 +15,36 @@
         <li><%= icon("fa-location-dot") %> <%= @supplier.location %></li>
         <% if @supplier.erp_vendor_code.present? %><li><%= icon("fa-barcode") %> ERP <%= @supplier.erp_vendor_code %></li><% end %>
         <% if (website = safe_external_url(@supplier.website)) %>
-          <li><%= link_to website, target: "_blank", rel: "noopener noreferrer" do %><%= icon("fa-arrow-up-right-from-square") %> Website<span class="visually-hidden"> (opens in a new tab)</span><% end %></li>
+          <li><%= link_to website, target: "_blank", rel: "noopener noreferrer" do %><%= icon("fa-arrow-up-right-from-square") %> <%= t("suppliers.show.website") %><span class="visually-hidden"> <%= t("suppliers.show.new_tab") %></span><% end %></li>
         <% end %>
       </ul>
     </div>
     <div class="sg-supplier-score">
       <% if verified.any? %>
         <%= stars(verified.sum(&:rating) / verified.size.to_f) %>
-        <p class="sg-caption mb-0"><%= pluralize(verified.size, "verified review") %></p>
+        <p class="sg-caption mb-0"><%= t("suppliers.show.verified_reviews", count: verified.size) %></p>
       <% else %>
-        <span class="badge rounded-pill border text-body-secondary">No verified review yet</span>
+        <span class="badge rounded-pill border text-body-secondary"><%= t("suppliers.show.no_verified") %></span>
       <% end %>
     </div>
   </header>
 
+  <%= render "suppliers/map", suppliers: @map_suppliers, title: t("suppliers.show.map_title") %>
+
   <div class="row g-4 align-items-start">
     <div class="col-lg-8">
       <section class="card card-body mb-4" aria-labelledby="facts-title">
-        <h2 id="facts-title" class="h5 mb-3"><%= icon("fa-clipboard-check") %> Supplier record</h2>
+        <h2 id="facts-title" class="h5 mb-3"><%= icon("fa-clipboard-check") %> <%= t("suppliers.show.record_title") %></h2>
         <% if @supplier.description.present? %><p><%= @supplier.description %></p><% end %>
         <dl class="sg-facts">
-          <%= supplier_fact("Monthly capacity", @supplier.capacity_label) %>
-          <%= supplier_fact("Lead time", (@supplier.lead_time_days && "#{@supplier.lead_time_days} days")) %>
-          <%= supplier_fact("Delivers to", @supplier.delivery_areas.join(", ").presence) %>
-          <%= supplier_fact("Certifications", @supplier.certifications.join(", ").presence) %>
-          <%= supplier_fact("Tax ID", @supplier.tax_id) %>
+          <%= supplier_fact(t("suppliers.show.facts.capacity"), @supplier.capacity_label) %>
+          <%= supplier_fact(t("suppliers.show.facts.lead_time"), (@supplier.lead_time_days && t("suppliers.show.lead_time_days", count: @supplier.lead_time_days))) %>
+          <%= supplier_fact(t("suppliers.show.facts.delivers_to"), @supplier.delivery_areas.join(", ").presence) %>
+          <%= supplier_fact(t("suppliers.show.facts.certifications"), @supplier.certifications.join(", ").presence) %>
+          <%= supplier_fact(t("suppliers.show.facts.tax_id"), @supplier.tax_id) %>
         </dl>
         <% if (source = safe_external_url(@supplier.source_url)) %>
-          <p class="sg-caption mt-3 mb-0"><%= icon("fa-link") %> Source: <%= link_to source, source, target: "_blank", rel: "noopener noreferrer" %></p>
+          <p class="sg-caption mt-3 mb-0"><%= icon("fa-link") %> <%= t("suppliers.show.source", url: link_to(source, source, target: "_blank", rel: "noopener noreferrer")) %></p>
         <% end %>
       </section>
 
@@ -51,7 +53,7 @@
 
     <aside class="col-lg-4 sg-sticky-lg" aria-labelledby="review-form-title">
       <div class="card card-body sg-review-form">
-        <h2 id="review-form-title" class="h5"><%= icon("fa-pen-to-square") %> Share an observation</h2>
+        <h2 id="review-form-title" class="h5"><%= icon("fa-pen-to-square") %> <%= t("suppliers.show.review_form_title") %></h2>
         <%= render "reviews/form", supplier: @supplier, review: @review, projects: @review_projects %>
       </div>
     </aside>

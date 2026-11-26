@@ -1,8 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Live count of materials detected in the paste box (one per non-empty line).
+// The texts come from the view (data-*-value) so this controller stays language-agnostic.
 export default class extends Controller {
   static targets = ["input", "count"]
+  static values = { emptyText: String, countTextOne: String, countTextOther: String }
 
   connect() {
     this.update()
@@ -10,7 +12,10 @@ export default class extends Controller {
 
   update() {
     const lines = this.inputTarget.value.split("\n").filter((line) => line.trim() !== "").length
-    this.countTarget.textContent = lines === 0 ? "One material per line" : `${lines} material${lines === 1 ? "" : "s"} detected`
+    const template = lines === 0 ? this.emptyTextValue
+      : lines === 1 ? this.countTextOneValue
+      : this.countTextOtherValue
+    this.countTarget.textContent = template.replace("%{count}", lines)
     this.countTarget.classList.toggle("is-ready", lines > 0)
   }
 

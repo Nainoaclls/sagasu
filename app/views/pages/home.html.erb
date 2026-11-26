@@ -1,48 +1,46 @@
-<% content_for :title, "Find the right suppliers" %>
+<% content_for :title, t("pages.home.title") %>
 
 <section class="sg-hero" aria-labelledby="hero-title">
   <div class="sg-container">
    <div class="row g-5 align-items-center">
     <div class="col-lg-6 sg-hero-copy" data-controller="reveal">
-      <p class="sg-eyebrow sg-reveal"><%= icon("fa-helmet-safety") %> AI supplier discovery for construction buyers</p>
-      <h1 id="hero-title" class="sg-reveal">Find the right suppliers, <span class="sg-highlight">not just search results.</span></h1>
-      <p class="lead sg-reveal">
-        Paste your material list. Sagasu groups it, suggests suppliers from your own records with the evidence behind
-        each match, and sends a clean bidder list to your manager for approval.
-      </p>
+      <p class="sg-eyebrow sg-reveal"><%= icon("fa-helmet-safety") %> <%= t("pages.home.eyebrow") %></p>
+      <h1 id="hero-title" class="sg-reveal"><%= t("pages.home.heading_a") %> <span class="sg-highlight"><%= t("pages.home.heading_b") %></span></h1>
+      <p class="lead sg-reveal"><%= t("pages.home.lead") %></p>
       <div class="sg-hero-actions sg-reveal">
         <% if user_signed_in? %>
           <%= link_to projects_path, class: "btn btn-primary btn-lg", data: { controller: "ripple", action: "click->ripple#burst" } do %>
-            Go to my projects <%= icon("fa-arrow-right") %>
+            <%= t("pages.home.cta_projects") %> <%= icon("fa-arrow-right") %>
           <% end %>
         <% else %>
           <%= link_to new_user_registration_path, class: "btn btn-primary btn-lg", data: { controller: "ripple", action: "click->ripple#burst" } do %>
-            Start a project <%= icon("fa-arrow-right") %>
+            <%= t("pages.home.cta_start") %> <%= icon("fa-arrow-right") %>
           <% end %>
-          <%= link_to "Log in", new_user_session_path, class: "btn btn-outline-primary btn-lg" %>
+          <%= link_to t("shared.navbar.log_in"), new_user_session_path, class: "btn btn-outline-primary btn-lg" %>
         <% end %>
       </div>
       <ul class="sg-hero-proof sg-reveal">
-        <li><%= icon("fa-circle-check") %> Suggestions come with evidence</li>
-        <li><%= icon("fa-circle-check") %> Missing details are flagged</li>
-        <li><%= icon("fa-circle-check") %> A person always approves</li>
+        <li><%= icon("fa-circle-check") %> <%= t("pages.home.proof_evidence") %></li>
+        <li><%= icon("fa-circle-check") %> <%= t("pages.home.proof_flagged") %></li>
+        <li><%= icon("fa-circle-check") %> <%= t("pages.home.proof_human") %></li>
       </ul>
     </div>
 
     <div class="col-lg-6 sg-hero-stage" data-controller="tilt" data-action="mousemove->tilt#move mouseleave->tilt#reset">
-      <figure class="sg-demo" data-controller="demo" aria-label="Example: from a buyer's need to an approved bidder list">
+      <figure class="sg-demo" data-controller="demo" aria-label="<%= t("pages.home.demo_aria") %>">
         <div class="sg-demo-head">
           <span class="sg-demo-dots" aria-hidden="true"><span></span><span></span><span></span></span>
           <span>Shinjuku office tower · RFQ-2026-118</span>
         </div>
 
+        <%# Demo content (quotes, names, material lists) stays in English everywhere: it is sample data, not UI %>
         <div class="sg-demo-step" data-demo-target="step">
-          <p class="sg-demo-label">The need</p>
+          <p class="sg-demo-label"><%= t("pages.home.demo_need") %></p>
           <p class="sg-demo-bubble" data-controller="typed">“Facing bricks delivered in Tokyo, 50,000 per month, plus mortar.”</p>
         </div>
 
         <div class="sg-demo-step" data-demo-target="step">
-          <p class="sg-demo-label">Grouped by supplier type</p>
+          <p class="sg-demo-label"><%= t("pages.home.demo_grouped") %></p>
           <div class="d-flex flex-wrap gap-2">
             <span class="sg-chip"><%= icon("fa-cubes-stacked") %> Masonry &amp; bricks · 3 items</span>
             <span class="sg-chip"><%= icon("fa-trowel") %> Mortar &amp; cement · 2 items</span>
@@ -50,28 +48,28 @@
         </div>
 
         <div class="sg-demo-step" data-demo-target="step">
-          <p class="sg-demo-label">Suggested suppliers</p>
+          <p class="sg-demo-label"><%= t("pages.home.demo_suppliers") %></p>
           <div class="sg-demo-supplier">
             <div>
               <strong>Kanto Clayworks</strong> <span class="badge rounded-pill text-bg-accent"><%= icon("fa-wand-magic-sparkles") %> AI</span>
               <p><%= icon("fa-check") %> Delivers to Tokyo · <%= icon("fa-check") %> 60,000 bricks / month</p>
             </div>
-            <span class="badge rounded-pill bg-success-subtle text-success-emphasis"><%= icon("fa-check") %> Selected</span>
+            <span class="badge rounded-pill bg-success-subtle text-success-emphasis"><%= icon("fa-check") %> <%= t("pages.home.demo_selected") %></span>
           </div>
           <div class="sg-demo-supplier">
             <div>
               <strong>Musashi Brick Co.</strong> <span class="badge rounded-pill text-bg-accent"><%= icon("fa-wand-magic-sparkles") %> AI</span>
               <p><%= icon("fa-check") %> JIS certified · <span class="sg-to-confirm"><%= icon("fa-circle-question") %> Capacity to confirm</span></p>
             </div>
-            <span class="badge rounded-pill border text-body-secondary">Review</span>
+            <span class="badge rounded-pill border text-body-secondary"><%= t("pages.home.demo_review") %></span>
           </div>
         </div>
 
         <div class="sg-demo-step sg-demo-approval" data-demo-target="step">
           <span class="sg-hanko" aria-hidden="true">承認</span>
           <div>
-            <p class="sg-demo-label mb-0">Bidder list approved</p>
-            <p class="m-0 small">by the procurement manager, with the list frozen as submitted.</p>
+            <p class="sg-demo-label mb-0"><%= t("pages.home.demo_approved") %></p>
+            <p class="m-0 small"><%= t("pages.home.demo_approved_detail") %></p>
           </div>
         </div>
       </figure>
@@ -83,27 +81,27 @@
 <section class="sg-pain" aria-labelledby="pain-title" data-controller="reveal">
   <div class="sg-container">
     <div class="sg-pain-head sg-reveal">
-      <p class="sg-eyebrow">The problem</p>
-      <h2 id="pain-title">“A needle in a haystack.”</h2>
-      <p class="lead">Supplier knowledge is scattered across websites, ERP records and colleagues' memory. Buyers repeat the same research for every tender.</p>
+      <p class="sg-eyebrow"><%= t("pages.home.pain_eyebrow") %></p>
+      <h2 id="pain-title"><%= t("pages.home.pain_title") %></h2>
+      <p class="lead"><%= t("pages.home.pain_lead") %></p>
     </div>
     <ul class="row g-3 list-unstyled m-0">
       <li class="col-md-4">
         <div class="sg-stat sg-reveal">
           <strong data-controller="countup" data-countup-end-value="50000">50,000</strong>
-          <span>bricks needed this month</span>
+          <span><%= t("pages.home.stat_bricks") %></span>
         </div>
       </li>
       <li class="col-md-4">
         <div class="sg-stat sg-reveal">
           <strong data-controller="countup" data-countup-end-value="2000">2,000</strong>
-          <span>suppliers in the database</span>
+          <span><%= t("pages.home.stat_suppliers") %></span>
         </div>
       </li>
       <li class="col-md-4">
         <div class="sg-stat sg-reveal is-accent">
           <strong>0</strong>
-          <span>on the shortlist, until Sagasu</span>
+          <span><%= t("pages.home.stat_shortlist") %></span>
         </div>
       </li>
     </ul>
@@ -112,18 +110,16 @@
 
 <section id="how-it-works" class="sg-steps-section" aria-labelledby="how-title" data-controller="reveal">
   <div class="sg-container">
-    <p class="sg-eyebrow sg-reveal">How it works</p>
-    <h2 id="how-title" class="sg-reveal">From material list to approved bidder list</h2>
+    <p class="sg-eyebrow sg-reveal"><%= t("pages.home.how_eyebrow") %></p>
+    <h2 id="how-title" class="sg-reveal"><%= t("pages.home.how_title") %></h2>
     <ol class="row g-3 list-unstyled m-0 sg-steps">
-      <% [["fa-clipboard-list", "Describe the need", "Create an RFQ project and paste your materials straight from Excel or your ERP.", false],
-          ["fa-layer-group", "Group with AI", "Sagasu groups materials by supplier type and explains why. Rename or move anything.", false],
-          ["fa-wand-magic-sparkles", "Review suggestions", "Each supplier comes with evidence and what to confirm. Keep, decline or add your own.", true],
-          ["fa-stamp", "Get it approved", "Your manager approves or returns the list with a comment. Every version is kept.", false]].each do |icon_name, title, text, accent| %>
+      <% icons = ["fa-clipboard-list", "fa-layer-group", "fa-wand-magic-sparkles", "fa-stamp"] %>
+      <% t("pages.home.steps").each_with_index do |step, index| %>
         <li class="col-sm-6 col-lg-3">
           <div class="sg-step h-100 sg-reveal">
-            <span class="sg-step-icon <%= 'is-accent' if accent %>"><%= icon(icon_name) %></span>
-            <h3><%= title %></h3>
-            <p><%= text %></p>
+            <span class="sg-step-icon <%= 'is-accent' if index == 2 %>"><%= icon(icons[index]) %></span>
+            <h3><%= step[:title] %></h3>
+            <p><%= step[:text] %></p>
           </div>
         </li>
       <% end %>
@@ -135,20 +131,18 @@
   <div class="sg-container">
     <div class="row g-5 align-items-center">
       <div class="col-lg-5 sg-trust-art sg-reveal">
-        <%= image_tag "mascot/welcome.webp", alt: "Sagasu's assistant robot, presenting with an open hand", width: 640, height: 708, loading: "lazy" %>
+        <%= image_tag "mascot/welcome.webp", alt: t("pages.home.mascot_alt"), width: 640, height: 708, loading: "lazy" %>
       </div>
       <div class="col-lg-7">
-        <p class="sg-eyebrow sg-reveal">Built for trust</p>
-        <h2 id="trust-title" class="sg-reveal">An assistant that shows its work</h2>
+        <p class="sg-eyebrow sg-reveal"><%= t("pages.home.trust_eyebrow") %></p>
+        <h2 id="trust-title" class="sg-reveal"><%= t("pages.home.trust_title") %></h2>
         <div class="row g-3">
-          <% [["fa-magnifying-glass-chart", "Evidence before confidence", "Every suggestion lists the facts behind it and flags missing capacity or delivery details."],
-              ["fa-user-check", "People decide", "The AI recommends. Buyers select, managers approve. Nothing is sent automatically."],
-              ["fa-scale-balanced", "No silent blacklists", "A single negative comment stays an unverified observation until it is confirmed."],
-              ["fa-clock-rotate-left", "Every decision traceable", "Each approval keeps a frozen copy of the list, and every AI call is logged."]].each do |icon_name, title, text| %>
+          <% icons = ["fa-magnifying-glass-chart", "fa-user-check", "fa-scale-balanced", "fa-clock-rotate-left"] %>
+          <% t("pages.home.principles").each_with_index do |principle, index| %>
             <div class="col-md-6">
               <div class="card card-body h-100 flex-row gap-3 sg-principle sg-reveal">
-                <%= icon(icon_name) %>
-                <div><h3><%= title %></h3><p><%= text %></p></div>
+                <%= icon(icons[index]) %>
+                <div><h3><%= principle[:title] %></h3><p><%= principle[:text] %></p></div>
               </div>
             </div>
           <% end %>
@@ -162,14 +156,11 @@
   <div class="sg-container">
     <div class="sg-cta-card sg-reveal">
       <div>
-        <h2 id="cta-title">Your next bidder list, in minutes.</h2>
-        <p>
-          <span class="sg-number"><%= number_with_delimiter(@supplier_count) %></span> supplier records across
-          <%= @category_count %> material categories are ready to search.
-        </p>
+        <h2 id="cta-title"><%= t("pages.home.cta_title") %></h2>
+        <p><%= t("pages.home.cta_text_html", suppliers: number_with_delimiter(@supplier_count), categories: @category_count) %></p>
         <%= link_to (user_signed_in? ? projects_path : new_user_registration_path), class: "btn btn-accent btn-lg",
             data: { controller: "ripple", action: "click->ripple#burst" } do %>
-          <%= user_signed_in? ? "Open Sagasu" : "Create a free account" %> <%= icon("fa-arrow-right") %>
+          <%= user_signed_in? ? t("pages.home.cta_open") : t("pages.home.cta_create") %> <%= icon("fa-arrow-right") %>
         <% end %>
       </div>
       <%= image_tag "mascot/success.webp", alt: "", width: 640, height: 567, loading: "lazy", class: "sg-cta-mascot" %>

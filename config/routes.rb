@@ -5,7 +5,14 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "pages#home" # 1, 2
 
+  # UI language switch (navbar); the choice is kept in a cookie
+  get "locale/:locale" => "locales#update", as: :locale, constraints: { locale: /en|fr|ja/ }
+
   get "up" => "rails/health#show", as: :rails_health_check
+
+  # PWA: installable app + offline fallback (see app/views/pwa)
+  get "manifest.json" => "rails/pwa#manifest", as: :pwa_manifest, defaults: { format: :json }
+  get "service-worker.js" => "rails/pwa#service_worker", as: :pwa_service_worker, defaults: { format: :js }
 
   resources :projects, only: %i[index new create show] do # 3
     resources :items, only: [:create]                            # 4

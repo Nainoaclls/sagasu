@@ -1,31 +1,31 @@
 .form-control, .form-select { min-height: 44px; }
 .form-control-sm, .form-select-sm { min-height: 36px; }
 textarea.form-control { min-height: 120px; }
-.form-text { color: $muted; font-size: .875rem; }
+.form-text { color: var(--sg-muted); font-size: .875rem; }
 .invalid-feedback { font-size: .875rem; font-weight: 700; }
 
 .sg-form { max-width: 640px; }
 
 .sg-fieldset {
   border: 0; padding: 0; margin: 0 0 1.75rem;
-  legend { font-size: 1rem; font-weight: 700; color: $blue-slate; margin-bottom: .75rem; float: none; }
+  legend { font-size: 1rem; font-weight: 700; color: var(--sg-heading); margin-bottom: .75rem; float: none; }
 }
 
 // Monospace-free code-ish textarea for pasted lists
 .sg-paste {
   font-family: $body-font; font-size: .95rem; line-height: 1.7;
-  background-image: repeating-linear-gradient(transparent, transparent 1.6rem, #F1F3F4 1.6rem, #F1F3F4 1.65rem);
+  background-image: repeating-linear-gradient(transparent, transparent 1.6rem, var(--sg-paste-line) 1.6rem, var(--sg-paste-line) 1.65rem);
 }
 
 .sg-hint-count {
-  display: inline-flex; align-items: center; gap: .375rem; font-size: .875rem; color: $muted;
-  &.is-ready { color: $green; font-weight: 700; }
+  display: inline-flex; align-items: center; gap: .375rem; font-size: .875rem; color: var(--sg-muted);
+  &.is-ready { color: var(--sg-success); font-weight: 700; }
 }
 
 // Search field with icon
 .sg-search {
   position: relative;
-  > i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: $muted; pointer-events: none; }
+  > i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--sg-muted); pointer-events: none; }
   .form-control { padding-left: 2.75rem; }
 }
 
@@ -34,12 +34,12 @@ textarea.form-control { min-height: 120px; }
   display: inline-flex; flex-direction: row-reverse; gap: .25rem;
   input { position: absolute; opacity: 0; width: 1px; height: 1px; }
   label {
-    font-size: 1.75rem; line-height: 1; color: #C9CFD2; cursor: pointer; padding: .125rem;
+    font-size: 1.75rem; line-height: 1; color: var(--sg-star-empty); cursor: pointer; padding: .125rem;
     transition: color $motion-fast, transform $motion-fast $ease-out; margin: 0;
   }
-  label:hover, label:hover ~ label, input:checked ~ label { color: #B7791F; }
+  label:hover, label:hover ~ label, input:checked ~ label { color: var(--sg-star); }
   label:hover { transform: scale(1.12); }
-  input:focus-visible + label { outline: 3px solid $blue-slate; outline-offset: 2px; border-radius: 4px; }
+  input:focus-visible + label { outline: 3px solid var(--sg-focus); outline-offset: 2px; border-radius: 4px; }
 }
 
 // Segmented radio choice (visibility)
@@ -48,12 +48,12 @@ textarea.form-control { min-height: 120px; }
   input { position: absolute; opacity: 0; }
   label {
     display: flex; gap: .75rem; align-items: flex-start; height: 100%;
-    border: 2px solid $border-color; border-radius: 12px; padding: .875rem 1rem; cursor: pointer;
-    background: $white; transition: border-color $motion, background-color $motion; margin: 0;
-    i { color: $blue-slate; margin-top: .2rem; }
-    strong { display: block; color: $ink; }
-    span { font-size: .875rem; color: $muted; }
+    border: 2px solid var(--sg-border); border-radius: 12px; padding: .875rem 1rem; cursor: pointer;
+    background: var(--sg-surface); transition: border-color $motion, background-color $motion; margin: 0;
+    i { color: var(--sg-heading); margin-top: .2rem; }
+    strong { display: block; color: var(--sg-text); }
+    span { font-size: .875rem; color: var(--sg-muted); }
   }
-  input:checked + label { border-color: $blue-slate; background: $pacific-soft; }
-  input:focus-visible + label { outline: 3px solid $blue-slate; outline-offset: 2px; }
+  input:checked + label { border-color: var(--sg-heading); background: var(--sg-info-soft); }
+  input:focus-visible + label { outline: 3px solid var(--sg-focus); outline-offset: 2px; }
 }

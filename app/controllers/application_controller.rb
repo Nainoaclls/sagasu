@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
+  around_action :switch_locale
 
   # Every action must call authorize, every index must use policy_scope
   # (conditions instead of only:/except:, which raise in controllers without an index action)
@@ -24,14 +25,20 @@ class ApplicationController < ActionController::Base
   end
 
   def user_not_authorized
-    redirect_back_or_to(projects_path, alert: "You don't have access to that.", status: :see_other)
+    redirect_back_or_to(projects_path, alert: t("flashes.application.not_authorized"), status: :see_other)
   end
 
   def record_not_found
-    redirect_to projects_path, alert: "We couldn't find that page.", status: :see_other
+    redirect_to projects_path, alert: t("flashes.application.not_found"), status: :see_other
   end
 
   def skip_pundit?
-    devise_controller? || params[:controller] =~ %r{(^(rails_)?admin)|(^pages$)|(^rails/health$)}
+    devise_controller? || params[:controller] =~ %r{(^(rails_)?admin)|(^pages$)|(^locales$)|(^rails/health$)}
+  end
+
+  # Cookie-stored language choice, English by default (see LocalesController)
+  def switch_locale(&)
+    locale = cookies[:locale].presence_in(I18n.available_locales.map(&:to_s)) || I18n.default_locale
+    I18n.with_locale(locale, &)
   end
 end

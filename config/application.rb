@@ -28,6 +28,10 @@ module Sagasu
     #
     # Sagasu's first users are buyers in Tokyo
     config.time_zone = "Tokyo"
+
+    # UI in English, French and Japanese; English stays the default
+    config.i18n.available_locales = %i[en fr ja]
+    config.i18n.default_locale = :en
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end

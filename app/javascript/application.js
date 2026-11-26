@@ -15,3 +15,8 @@ const closeOpenModals = () => {
 }
 document.addEventListener("turbo:before-render", closeOpenModals)
 document.addEventListener("turbo:before-cache", closeOpenModals)
+
+// PWA: offline fallback + installable. Production only, so development never serves stale assets.
+if (document.documentElement.dataset.env === "production" && "serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("/service-worker.js"))
+}

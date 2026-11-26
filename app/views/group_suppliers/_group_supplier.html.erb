@@ -6,9 +6,9 @@
     <div class="sg-supplier-title">
       <%= link_to supplier.name, supplier_path(supplier), class: "fw-bold" %>
       <% if link.ai_suggested? %>
-        <span class="badge rounded-pill text-bg-accent <%= 'is-fresh' if link.created_at > 2.minutes.ago %>"><%= icon("fa-wand-magic-sparkles") %> AI suggestion</span>
+        <span class="badge rounded-pill text-bg-accent <%= 'is-fresh' if link.created_at > 2.minutes.ago %>"><%= icon("fa-wand-magic-sparkles") %> <%= t("group_suppliers.ai_badge") %></span>
       <% else %>
-        <span class="badge rounded-pill border text-body-secondary"><%= icon("fa-user") %> Added by buyer</span>
+        <span class="badge rounded-pill border text-body-secondary"><%= icon("fa-user") %> <%= t("group_suppliers.manual_badge") %></span>
       <% end %>
     </div>
     <p class="sg-caption mb-2"><%= icon("fa-location-dot") %> <%= supplier.location %> · <%= supplier.category_label %></p>
@@ -21,7 +21,7 @@
       <div class="sg-evidence">
         <% if link.evidence.any? %>
           <div>
-            <p class="sg-evidence-title">Evidence</p>
+            <p class="sg-evidence-title"><%= t("group_suppliers.evidence") %></p>
             <ul>
               <% link.evidence.each do |fact| %><li><%= icon("fa-check", class: "is-ok") %> <%= fact %></li><% end %>
             </ul>
@@ -29,7 +29,7 @@
         <% end %>
         <% if link.missing_info.any? %>
           <div>
-            <p class="sg-evidence-title">To confirm</p>
+            <p class="sg-evidence-title"><%= t("group_suppliers.to_confirm") %></p>
             <ul>
               <% link.missing_info.each do |gap| %><li><%= icon("fa-circle-question", class: "is-todo") %> <%= gap %></li><% end %>
             </ul>
@@ -39,31 +39,31 @@
     <% end %>
 
     <% if link.rejected_suggestion? %>
-      <p class="sg-caption mt-2 mb-0"><%= icon("fa-comment") %> Declined: <%= link.feedback_reason %></p>
+      <p class="sg-caption mt-2 mb-0"><%= icon("fa-comment") %> <%= t("group_suppliers.declined", reason: feedback_reason_label(link.feedback_reason)) %></p>
     <% end %>
   </div>
 
   <div class="sg-supplier-actions">
     <% if link.selected? %>
-      <span class="badge rounded-pill bg-success-subtle text-success-emphasis"><%= icon("fa-check") %> On bidder list</span>
+      <span class="badge rounded-pill bg-success-subtle text-success-emphasis"><%= icon("fa-check") %> <%= t("group_suppliers.on_bidder_list") %></span>
     <% end %>
 
     <% if can_edit %>
       <% if link.selected? %>
         <% if link.ai_suggested? %>
-          <button type="button" class="btn btn-quiet btn-sm" data-bs-toggle="modal" data-bs-target="#<%= modal_id %>">Remove</button>
+          <button type="button" class="btn btn-quiet btn-sm" data-bs-toggle="modal" data-bs-target="#<%= modal_id %>"><%= t("group_suppliers.remove") %></button>
         <% else %>
-          <%= button_to "Remove", group_supplier_path(link), method: :patch, params: { group_supplier: { selected: false } },
-                class: "btn btn-quiet btn-sm", "aria-label": "Remove #{supplier.name} from the bidder list" %>
+          <%= button_to t("group_suppliers.remove"), group_supplier_path(link), method: :patch, params: { group_supplier: { selected: false } },
+                class: "btn btn-quiet btn-sm", "aria-label": t("group_suppliers.remove_label", name: supplier.name) %>
         <% end %>
       <% else %>
         <%= button_to group_supplier_path(link), method: :patch, params: { group_supplier: { selected: true, feedback_reason: "" } },
-              class: "btn btn-primary btn-sm", "aria-label": "Add #{supplier.name} to the bidder list",
+              class: "btn btn-primary btn-sm", "aria-label": t("group_suppliers.add_label", name: supplier.name),
               data: { controller: "ripple", action: "click->ripple#burst" } do %>
-          <%= icon("fa-plus") %> Add to list
+          <%= icon("fa-plus") %> <%= t("group_suppliers.add_to_list") %>
         <% end %>
         <% if link.ai_suggested? && link.feedback_reason.blank? %>
-          <button type="button" class="btn btn-quiet btn-sm" data-bs-toggle="modal" data-bs-target="#<%= modal_id %>">Decline</button>
+          <button type="button" class="btn btn-quiet btn-sm" data-bs-toggle="modal" data-bs-target="#<%= modal_id %>"><%= t("group_suppliers.decline") %></button>
         <% end %>
       <% end %>
     <% end %>
@@ -81,25 +81,25 @@
             <%# Sent when no reason is picked; a checked radio below comes later in the form and wins %>
             <%= f.input :feedback_reason, as: :hidden, input_html: { value: GroupSupplier::NO_REASON, id: nil } %>
             <div class="modal-header pb-0">
-              <h2 class="modal-title h5" id="<%= dom_id(link, :decline_title) %>">Why not <%= supplier.name %>?</h2>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h2 class="modal-title h5" id="<%= dom_id(link, :decline_title) %>"><%= t("group_suppliers.decline_title", name: supplier.name) %></h2>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t("common.close") %>"></button>
             </div>
             <div class="modal-body">
-              <p class="text-muted">Optional. Your reason helps Sagasu suggest better suppliers. It is a hint, never a blacklist.</p>
+              <p class="text-muted"><%= t("group_suppliers.decline_text") %></p>
               <fieldset>
-                <legend class="visually-hidden">Reason</legend>
+                <legend class="visually-hidden"><%= t("group_suppliers.reason_legend") %></legend>
                 <div class="d-flex flex-wrap gap-2">
                   <% GroupSupplier::FEEDBACK_REASONS.each_with_index do |reason, index| %>
                     <%= f.radio_button :feedback_reason, reason, id: dom_id(link, "reason_#{index}"), class: "btn-check" %>
-                    <%= f.label :feedback_reason, reason, for: dom_id(link, "reason_#{index}"),
+                    <%= f.label :feedback_reason, feedback_reason_label(reason), for: dom_id(link, "reason_#{index}"),
                                 class: "btn btn-outline-primary btn-sm rounded-pill" %>
                   <% end %>
                 </div>
               </fieldset>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-quiet" data-bs-dismiss="modal">Cancel</button>
-              <%= f.button :button, class: "btn-primary" do %><%= link.selected? ? "Remove from list" : "Decline suggestion" %><% end %>
+              <button type="button" class="btn btn-quiet" data-bs-dismiss="modal"><%= t("common.cancel") %></button>
+              <%= f.button :button, class: "btn-primary" do %><%= link.selected? ? t("group_suppliers.remove_from_list") : t("group_suppliers.decline_suggestion") %><% end %>
             </div>
           <% end %>
         </div>
