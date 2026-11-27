@@ -1,0 +1,7 @@
+fr:
+  project_messages:
+    thread:
+      title: "Discussion"
+      empty: "Pas encore de message. Lancez la discussion avec les approbateurs."
+      placeholder: "Écrivez un message aux personnes impliquées dans ce projet…"
+      send: "Envoyer"

@@ -1,0 +1,8 @@
+<%# One message in the project thread. project_message = a ProjectMessage %>
+<div class="sg-thread-message" id="<%= dom_id(project_message) %>">
+  <p class="small text-body-secondary mb-1">
+    <strong><%= project_message.user.name %></strong>
+    <time datetime="<%= project_message.created_at.iso8601 %>">· <%= l(project_message.created_at, format: :short) %></time>
+  </p>
+  <%= simple_format(project_message.body, { class: "mb-0" }, wrapper_tag: "p") %>
+</div>

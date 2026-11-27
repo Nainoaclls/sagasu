@@ -8,6 +8,7 @@ class Project < ApplicationRecord
   has_many :approvals, -> { order(:created_at) }, dependent: :destroy, inverse_of: :project
   has_many :ai_runs, dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :project_messages, dependent: :destroy
   has_many :reviews, dependent: :nullify
 
   enum :status, { draft: "draft", pending_approval: "pending_approval",

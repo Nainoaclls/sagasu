@@ -1,0 +1,16 @@
+<%# The project thread: messages between the buyer and the approvers, live over Turbo Stream.
+    project = the project being shown %>
+<section id="thread" class="card card-body mt-4" aria-labelledby="thread-title">
+  <h2 class="h5 mb-3" id="thread-title"><%= icon("fa-comments") %> <%= t("project_messages.thread.title") %></h2>
+
+  <%= turbo_stream_from project, :project_messages %>
+
+  <div id="project_messages" class="vstack gap-3 mb-3" role="log" aria-live="polite">
+    <%= render partial: "project_messages/project_message", collection: project.project_messages.chronological.includes(:user) %>
+    <% if project.project_messages.empty? %>
+      <p class="text-body-secondary small mb-0" id="project_messages_empty"><%= t("project_messages.thread.empty") %></p>
+    <% end %>
+  </div>
+
+  <%= render "projects/thread_form", project: project, message: project.project_messages.build %>
+</section>

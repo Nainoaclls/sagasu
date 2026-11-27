@@ -103,6 +103,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_27_090001) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "project_messages", force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.bigint "user_id", null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_project_messages_on_project_id"
+    t.index ["user_id"], name: "index_project_messages_on_user_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "title", null: false
@@ -207,6 +217,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_27_090001) do
   add_foreign_key "notifications", "projects", on_delete: :cascade
   add_foreign_key "notifications", "users"
   add_foreign_key "notifications", "users", column: "actor_id", on_delete: :nullify
+  add_foreign_key "project_messages", "projects"
+  add_foreign_key "project_messages", "users"
   add_foreign_key "projects", "users"
   add_foreign_key "reviews", "projects"
   add_foreign_key "reviews", "suppliers"
