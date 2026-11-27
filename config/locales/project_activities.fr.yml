@@ -16,6 +16,7 @@ fr:
       submitted: "%{actor} a envoyé la liste des soumissionnaires à %{approver} pour approbation"
       approved: "%{actor} a approuvé la liste des soumissionnaires"
       returned: "%{actor} a renvoyé la liste des soumissionnaires"
+      invited: "%{actor} a contacté %{supplier} (invitation à l'appel d'offres)"
     ai_status:
       running: "En cours"
       succeeded: "Réalisé par l'IA"

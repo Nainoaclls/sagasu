@@ -16,6 +16,7 @@ en:
       submitted: "%{actor} sent the bidder list to %{approver} for approval"
       approved: "%{actor} approved the bidder list"
       returned: "%{actor} returned the bidder list"
+      invited: "%{actor} contacted %{supplier} (RFQ invitation)"
     ai_status:
       running: "In progress"
       succeeded: "Done by AI"

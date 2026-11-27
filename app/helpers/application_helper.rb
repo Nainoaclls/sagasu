@@ -70,6 +70,7 @@ module ApplicationHelper
   ACTIVITY_ICONS = {
     created: "fa-folder-plus", submitted: "fa-paper-plane",
     approved: "fa-circle-check", returned: "fa-rotate-left",
+    invited: "fa-envelope-open-text",
     grouping: "fa-layer-group", suggestion: "fa-wand-magic-sparkles"
   }.freeze
 
