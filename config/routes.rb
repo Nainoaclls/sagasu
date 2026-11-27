@@ -46,4 +46,12 @@ Rails.application.routes.draw do
   resources :approvals, only: %i[index update] do # 13, 14
     member { get :document } # the frozen snapshot as a downloadable approval form (PDF)
   end
+
+  # RFQ invitations after approval: the buyer contacts each selected supplier from the frozen
+  # snapshot (mailto / copy / link to the approval PDF) and marks it sent — nothing is emailed.
+  resources :approvals, only: [] do
+    resources :rfq_invitations, only: %i[index show] do
+      member { patch :mark_sent }
+    end
+  end
 end

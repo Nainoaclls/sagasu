@@ -17,3 +17,27 @@ fr:
 
       Cordialement,
       %{buyer_name}
+    index:
+      title: "Invitations fournisseurs"
+      back: "%{title}"
+      intro: "La liste des soumissionnaires de « %{title} » est approuvée. Contactez chaque fournisseur avec le texte issu du snapshot figé, puis marquez l'envoi."
+      no_email: "Aucune adresse e-mail enregistrée"
+      sent_at: "Envoyé le %{date}"
+      open: "Invitation"
+    show:
+      title: "Invitation pour %{name}"
+      back: "Toutes les invitations"
+      message: "Texte de l'invitation (issu du snapshot d'approbation figé)"
+      subject_label: "Objet :"
+      copy: "Copier le texte"
+      copied: "Copié !"
+      actions: "Contacter le fournisseur"
+      mailto: "Ouvrir dans ma messagerie"
+      mailto_unavailable: "Ajoutez une adresse e-mail sur la fiche fournisseur pour utiliser le bouton e-mail."
+      no_email: "Aucune adresse e-mail enregistrée — contactez ce fournisseur autrement."
+      approval_pdf: "Formulaire d'approbation (PDF)"
+      mark_sent: "Marquer comme envoyé"
+    flash:
+      sent: "%{name} marqué comme contacté."
+    project:
+      link: "Contacter les fournisseurs (invitations)"

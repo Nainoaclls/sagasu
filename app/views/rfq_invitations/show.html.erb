@@ -1,0 +1,59 @@
+<% content_for :title, t("rfq_invitations.show.title", name: @supplier.name) %>
+
+<div class="sg-container sg-page">
+  <nav aria-label="Breadcrumb" class="mb-3">
+    <%= link_to approval_rfq_invitations_path(@approval), class: "small" do %>
+      <%= icon("fa-arrow-left") %> <%= t("rfq_invitations.show.back") %>
+    <% end %>
+  </nav>
+
+  <header class="mb-4">
+    <h1><%= icon("fa-envelope-open-text") %> <%= t("rfq_invitations.show.title", name: @supplier.name) %></h1>
+    <% if @invitation.sent? %>
+      <span class="badge text-bg-success"><%= icon("fa-check") %> <%= t("rfq_invitations.index.sent_at", date: l(@invitation.sent_at, format: :short)) %></span>
+    <% end %>
+    <% if @supplier.email.blank? %>
+      <p class="badge text-bg-warning mt-2"><%= icon("fa-triangle-exclamation") %> <%= t("rfq_invitations.show.no_email") %></p>
+    <% end %>
+  </header>
+
+  <div class="row g-4 align-items-start">
+    <div class="col-lg-8">
+      <section class="card card-body" aria-labelledby="message-title">
+        <h2 id="message-title" class="h5 mb-3"><%= icon("fa-file-lines") %> <%= t("rfq_invitations.show.message") %></h2>
+        <p><strong><%= t("rfq_invitations.show.subject_label") %></strong> <%= @builder.subject %></p>
+        <div class="border rounded p-3 bg-body-tertiary" data-controller="clipboard"
+             data-clipboard-text-value="<%= [@builder.subject, "", @builder.body].join("\n") %>"
+             data-clipboard-copied-label-value="<%= t("rfq_invitations.show.copied") %>">
+          <%= simple_format(@builder.body, { class: "mb-0" }, wrapper_tag: "p") %>
+          <button type="button" class="btn btn-quiet btn-sm mt-2" data-action="clipboard#copy"
+                  data-clipboard-target="label">
+            <%= icon("fa-copy") %> <%= t("rfq_invitations.show.copy") %>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <aside class="col-lg-4 sg-sticky-lg">
+      <div class="card card-body vstack gap-2">
+        <h2 class="h5"><%= icon("fa-paper-plane") %> <%= t("rfq_invitations.show.actions") %></h2>
+        <% if @supplier.email.present? %>
+          <%= mail_to @supplier.email, subject: @builder.subject, body: @builder.body, class: "btn btn-primary" do %>
+            <%= icon("fa-envelope") %> <%= t("rfq_invitations.show.mailto") %>
+          <% end %>
+        <% else %>
+          <p class="small text-body-secondary mb-0"><%= t("rfq_invitations.show.mailto_unavailable") %></p>
+        <% end %>
+        <%= link_to document_approval_path(@approval), class: "btn btn-quiet" do %>
+          <%= icon("fa-file-pdf") %> <%= t("rfq_invitations.show.approval_pdf") %>
+        <% end %>
+        <% unless @invitation.sent? %>
+          <%= button_to mark_sent_approval_rfq_invitation_path(@approval, @supplier), method: :patch,
+                        class: "btn btn-accent" do %>
+            <%= icon("fa-check") %> <%= t("rfq_invitations.show.mark_sent") %>
+          <% end %>
+        <% end %>
+      </div>
+    </aside>
+  </div>
+</div>

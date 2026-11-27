@@ -1,0 +1,42 @@
+<% content_for :title, t("rfq_invitations.index.title") %>
+
+<div class="sg-container sg-page">
+  <nav aria-label="Breadcrumb" class="mb-3">
+    <%= link_to project_path(@approval.project), class: "small" do %>
+      <%= icon("fa-arrow-left") %> <%= t("rfq_invitations.index.back", title: @approval.project.title) %>
+    <% end %>
+  </nav>
+
+  <header class="mb-4">
+    <p class="sg-eyebrow mb-1"><%= icon("fa-file-signature") %> <%= @approval.project.erp_rfq.presence || t("rfq_invitations.default_reference") %></p>
+    <h1><%= icon("fa-envelope-open-text") %> <%= t("rfq_invitations.index.title") %></h1>
+    <p class="text-body-secondary mb-0"><%= t("rfq_invitations.index.intro", title: @approval.project.title) %></p>
+  </header>
+
+  <div class="vstack gap-3">
+    <% @invitations.each do |entry| %>
+      <% supplier = entry[:supplier] %>
+      <% invitation = entry[:invitation] %>
+      <div class="card card-body d-flex flex-md-row justify-content-between align-items-md-center gap-3">
+        <div>
+          <h2 class="h5 mb-1"><%= link_to supplier.name, supplier_path(supplier) %></h2>
+          <p class="small text-body-secondary mb-0">
+            <% if supplier.email.present? %>
+              <%= icon("fa-envelope") %> <%= supplier.email %>
+            <% else %>
+              <span class="badge text-bg-warning"><%= icon("fa-triangle-exclamation") %> <%= t("rfq_invitations.index.no_email") %></span>
+            <% end %>
+          </p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <% if invitation.sent? %>
+            <span class="badge text-bg-success"><%= icon("fa-check") %> <%= t("rfq_invitations.index.sent_at", date: l(invitation.sent_at, format: :short)) %></span>
+          <% end %>
+          <%= link_to approval_rfq_invitation_path(@approval, supplier), class: "btn btn-primary" do %>
+            <%= t("rfq_invitations.index.open") %> <%= icon("fa-arrow-right") %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

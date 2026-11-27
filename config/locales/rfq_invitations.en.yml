@@ -17,3 +17,27 @@ en:
 
       Best regards,
       %{buyer_name}
+    index:
+      title: "Supplier invitations"
+      back: "%{title}"
+      intro: "The bidder list of “%{title}” is approved. Contact each supplier with the text from the frozen snapshot, then mark it sent."
+      no_email: "No email address on record"
+      sent_at: "Sent %{date}"
+      open: "Invitation"
+    show:
+      title: "Invitation for %{name}"
+      back: "All invitations"
+      message: "Invitation text (from the frozen approval snapshot)"
+      subject_label: "Subject:"
+      copy: "Copy the text"
+      copied: "Copied!"
+      actions: "Contact the supplier"
+      mailto: "Open in my email app"
+      mailto_unavailable: "Add an email address on the supplier record to use the email button."
+      no_email: "No email address on record — contact this supplier another way."
+      approval_pdf: "Approval form (PDF)"
+      mark_sent: "Mark as sent"
+    flash:
+      sent: "%{name} marked as contacted."
+    project:
+      link: "Contact the suppliers (RFQ invitations)"
