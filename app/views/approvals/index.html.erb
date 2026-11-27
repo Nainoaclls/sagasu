@@ -72,13 +72,22 @@
             <tbody>
               <% @decided.each do |approval| %>
                 <tr>
-                  <td><%= link_to approval.project.title, project_path(approval.project), class: "fw-bold" %></td>
+                  <%# A withdrawn submission is no longer the approver's to open: plain title, no form %>
+                  <td>
+                    <% if approval.withdrawn? %>
+                      <span class="fw-bold"><%= approval.project.title %></span>
+                    <% else %>
+                      <%= link_to approval.project.title, project_path(approval.project), class: "fw-bold" %>
+                    <% end %>
+                  </td>
                   <td><%= approval.project.user.name %></td>
                   <td><%= approval_status_badge(approval) %></td>
                   <td class="text-nowrap"><%= l(approval.decided_at, format: :short) %></td>
                   <td>
-                    <%= link_to document_approval_path(approval, format: :pdf), title: t("approval_document.link"), aria: { label: t("approval_document.link") } do %>
-                      <%= icon("fa-file-pdf") %>
+                    <% if policy(approval).document? %>
+                      <%= link_to document_approval_path(approval, format: :pdf), title: t("approval_document.link"), aria: { label: t("approval_document.link") } do %>
+                        <%= icon("fa-file-pdf") %>
+                      <% end %>
                     <% end %>
                   </td>
                 </tr>

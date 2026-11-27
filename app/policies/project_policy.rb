@@ -5,7 +5,7 @@ class ProjectPolicy < ApplicationPolicy
 
   # The buyer who owns it, or an approver it was submitted to.
   def show?
-    owner? || record.approvals.exists?(approver_id: user.id)
+    owner? || record.approvals.where.not(status: "withdrawn").exists?(approver_id: user.id)
   end
 
   # Same audience as the project itself: its history is no more public than its content.

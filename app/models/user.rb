@@ -9,6 +9,9 @@ class User < ApplicationRecord
   has_many :projects, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_many :ai_runs, dependent: :destroy
+  has_many :notifications, dependent: :destroy
+  has_many :acted_notifications, class_name: "Notification", foreign_key: :actor_id, inverse_of: :actor,
+                                 dependent: :nullify
   has_many :approvals_to_decide, class_name: "Approval", foreign_key: :approver_id,
                                  inverse_of: :approver, dependent: :restrict_with_error
 

@@ -1,0 +1,18 @@
+en:
+  submission_withdrawal:
+    button: "Withdraw submission"
+    confirm: "Take this bidder list back from %{name}? It becomes a draft again and %{name} will no longer see it."
+  approvals:
+    statuses:
+      withdrawn: "Withdrawn"
+  flashes:
+    approvals:
+      withdrawn: "Submission withdrawn. The bidder list is a draft again."
+      cannot_withdraw: "It is too late to withdraw: the approver has already decided."
+  projects:
+    index:
+      activity:
+        withdrawn: "%{actor} withdrew %{project}"
+  project_activities:
+    events:
+      withdrawn: "%{actor} withdrew the submission"

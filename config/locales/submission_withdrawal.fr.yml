@@ -1,0 +1,18 @@
+fr:
+  submission_withdrawal:
+    button: "Retirer l'envoi"
+    confirm: "Reprendre cette liste à %{name} ? Elle redevient un brouillon et %{name} ne la verra plus."
+  approvals:
+    statuses:
+      withdrawn: "Retiré"
+  flashes:
+    approvals:
+      withdrawn: "Envoi retiré. La liste est de nouveau un brouillon."
+      cannot_withdraw: "Trop tard pour retirer : l'approbateur a déjà décidé."
+  projects:
+    index:
+      activity:
+        withdrawn: "%{actor} a retiré %{project}"
+  project_activities:
+    events:
+      withdrawn: "%{actor} a retiré l'envoi"
