@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_27_064459) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_27_090001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -123,6 +123,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_27_064459) do
     t.check_constraint "rating >= 1 AND rating <= 5", name: "reviews_rating_range"
   end
 
+  create_table "rfq_invitations", force: :cascade do |t|
+    t.bigint "approval_id", null: false
+    t.bigint "supplier_id", null: false
+    t.bigint "user_id"
+    t.datetime "sent_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["approval_id", "supplier_id"], name: "index_rfq_invitations_on_approval_id_and_supplier_id", unique: true
+    t.index ["approval_id"], name: "index_rfq_invitations_on_approval_id"
+    t.index ["supplier_id"], name: "index_rfq_invitations_on_supplier_id"
+    t.index ["user_id"], name: "index_rfq_invitations_on_user_id"
+  end
+
   create_table "suppliers", force: :cascade do |t|
     t.string "name", null: false
     t.string "country", default: "Japan", null: false
@@ -181,4 +194,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_27_064459) do
   add_foreign_key "reviews", "projects"
   add_foreign_key "reviews", "suppliers"
   add_foreign_key "reviews", "users"
+  add_foreign_key "rfq_invitations", "approvals"
+  add_foreign_key "rfq_invitations", "suppliers"
+  add_foreign_key "rfq_invitations", "users"
 end

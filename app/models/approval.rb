@@ -1,6 +1,7 @@
 class Approval < ApplicationRecord
   belongs_to :project
   belongs_to :approver, class_name: "User", inverse_of: :approvals_to_decide
+  has_many :rfq_invitations, dependent: :destroy
 
   enum :status, { pending: "pending", approved: "approved", returned: "returned" },
        default: "pending", validate: true
