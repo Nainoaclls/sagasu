@@ -9,5 +9,14 @@ class ProjectMessage < ApplicationRecord
   scope :chronological, -> { order(:created_at, :id) }
 
   # Live thread: every new message is appended for everyone viewing the project.
-  after_create_commit -> { broadcast_append_to [project, :project_messages], target: "project_messages" }
+  after_create_commit :broadcast_to_thread
+
+  private
+
+  def broadcast_to_thread
+    stream = [project, :project_messages]
+    # The first message makes the "no message yet" note stale on open pages
+    broadcast_remove_to stream, target: "project_messages_empty" if project.project_messages.one?
+    broadcast_append_to stream, target: "project_messages"
+  end
 end
