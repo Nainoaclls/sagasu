@@ -1,0 +1,19 @@
+fr:
+  rfq_invitations:
+    default_reference: "Appel d'offres"
+    subject: "Appel d'offres %{rfq_reference} — %{project_title}"
+    body: |
+      Bonjour %{supplier_name},
+
+      Vous êtes invité·e à soumissionner à l'appel d'offres suivant.
+
+      Référence : %{rfq_reference}
+      Projet : %{project_title}
+
+      Matériaux demandés :
+      %{material_list}
+
+      Merci de répondre avec votre meilleur prix et votre délai de livraison.
+
+      Cordialement,
+      %{buyer_name}

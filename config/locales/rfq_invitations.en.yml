@@ -1,0 +1,19 @@
+en:
+  rfq_invitations:
+    default_reference: "RFQ"
+    subject: "Request for quotation %{rfq_reference} — %{project_title}"
+    body: |
+      Hello %{supplier_name},
+
+      You are invited to bid on the following request for quotation.
+
+      Reference: %{rfq_reference}
+      Project: %{project_title}
+
+      Materials requested:
+      %{material_list}
+
+      Please reply with your best price and lead time.
+
+      Best regards,
+      %{buyer_name}

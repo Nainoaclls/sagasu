@@ -1,0 +1,19 @@
+ja:
+  rfq_invitations:
+    default_reference: "見積依頼"
+    subject: "見積依頼 %{rfq_reference} — %{project_title}"
+    body: |
+      %{supplier_name} 御中
+
+      下記の見積依頼へご参加いただきたく、ご連絡いたします。
+
+      参照番号: %{rfq_reference}
+      案件名: %{project_title}
+
+      依頼資材:
+      %{material_list}
+
+      お見積金額と納期をご返信ください。
+
+      よろしくお願いいたします。
+      %{buyer_name}
