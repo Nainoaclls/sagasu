@@ -55,8 +55,9 @@ class DashboardStats
       list << Event.new(:submitted, approval.created_at, project, project.user.name)
       next unless approval.decided_at?
 
-      list << Event.new(approval.approved? ? :approved : :returned, approval.decided_at, project,
-                        approval.approver.name)
+      # A withdrawal is the buyer's act, a decision is the approver's
+      actor = approval.withdrawn? ? project.user.name : approval.approver.name
+      list << Event.new(approval.status.to_sym, approval.decided_at, project, actor)
     end
     list
   end

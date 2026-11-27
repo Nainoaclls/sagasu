@@ -1,0 +1,18 @@
+ja:
+  submission_withdrawal:
+    button: "送信を取り下げる"
+    confirm: "この入札先リストを%{name}さんから取り戻しますか？ 下書きに戻り、%{name}さんには表示されなくなります。"
+  approvals:
+    statuses:
+      withdrawn: "取り下げ"
+  flashes:
+    approvals:
+      withdrawn: "送信を取り下げました。入札先リストは下書きに戻りました。"
+      cannot_withdraw: "取り下げできません。承認者がすでに判断しています。"
+  projects:
+    index:
+      activity:
+        withdrawn: "%{actor}さんが%{project}を取り下げました"
+  project_activities:
+    events:
+      withdrawn: "%{actor}さんが送信を取り下げました"

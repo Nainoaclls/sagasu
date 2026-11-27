@@ -7,6 +7,7 @@ class Project < ApplicationRecord
   has_many :group_suppliers, through: :item_groups
   has_many :approvals, -> { order(:created_at) }, dependent: :destroy, inverse_of: :project
   has_many :ai_runs, dependent: :destroy
+  has_many :notifications, dependent: :destroy
   has_many :project_messages, dependent: :destroy
   has_many :reviews, dependent: :nullify
 
@@ -21,7 +22,8 @@ class Project < ApplicationRecord
 
   # Projects a user may open: their own, and those they were asked to approve.
   scope :involving, lambda { |user|
-    where(user: user).or(where(id: Approval.where(approver: user).select(:project_id)))
+    # An approver keeps access to what they decided on, but not to a submission the buyer withdrew
+    where(user: user).or(where(id: Approval.where(approver: user).where.not(status: "withdrawn").select(:project_id)))
   }
   scope :recent_first, -> { order(updated_at: :desc) }
 
@@ -119,7 +121,9 @@ class Project < ApplicationRecord
       ensure_ready_for_approval!
 
       update!(status: :pending_approval, buyer_comment: comment.presence || buyer_comment)
-      approvals.create!(approver: approver, snapshot: build_snapshot)
+      approval = approvals.create!(approver: approver, snapshot: build_snapshot)
+      Notification.notify!(user: approver, project: self, kind: :submitted, actor: user)
+      approval
     end
   end
 

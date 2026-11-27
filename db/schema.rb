@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_27_090001) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_27_090000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -89,6 +89,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_27_090001) do
     t.index ["project_id"], name: "index_items_on_project_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "project_id", null: false
+    t.bigint "actor_id"
+    t.string "kind", null: false
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["actor_id"], name: "index_notifications_on_actor_id"
+    t.index ["project_id"], name: "index_notifications_on_project_id"
+    t.index ["user_id", "read_at"], name: "index_notifications_on_user_id_and_read_at"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "project_messages", force: :cascade do |t|
     t.bigint "project_id", null: false
     t.bigint "user_id", null: false
@@ -133,19 +147,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_27_090001) do
     t.check_constraint "rating >= 1 AND rating <= 5", name: "reviews_rating_range"
   end
 
-  create_table "rfq_invitations", force: :cascade do |t|
-    t.bigint "approval_id", null: false
-    t.bigint "supplier_id", null: false
-    t.bigint "user_id"
-    t.datetime "sent_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["approval_id", "supplier_id"], name: "index_rfq_invitations_on_approval_id_and_supplier_id", unique: true
-    t.index ["approval_id"], name: "index_rfq_invitations_on_approval_id"
-    t.index ["supplier_id"], name: "index_rfq_invitations_on_supplier_id"
-    t.index ["user_id"], name: "index_rfq_invitations_on_user_id"
-  end
-
   create_table "suppliers", force: :cascade do |t|
     t.string "name", null: false
     t.string "country", default: "Japan", null: false
@@ -166,9 +167,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_27_090001) do
     t.datetime "updated_at", null: false
     t.float "latitude"
     t.float "longitude"
-    t.string "contact_name"
-    t.string "email"
-    t.string "phone"
     t.index ["category"], name: "index_suppliers_on_category"
     t.index ["erp_vendor_code"], name: "index_suppliers_on_erp_vendor_code", unique: true, where: "(erp_vendor_code IS NOT NULL)"
     t.index ["latitude", "longitude"], name: "index_suppliers_on_latitude_and_longitude"
@@ -200,13 +198,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_27_090001) do
   add_foreign_key "item_groups", "projects"
   add_foreign_key "items", "item_groups", on_delete: :nullify
   add_foreign_key "items", "projects"
+  add_foreign_key "notifications", "projects", on_delete: :cascade
+  add_foreign_key "notifications", "users"
+  add_foreign_key "notifications", "users", column: "actor_id", on_delete: :nullify
   add_foreign_key "project_messages", "projects"
   add_foreign_key "project_messages", "users"
   add_foreign_key "projects", "users"
   add_foreign_key "reviews", "projects"
   add_foreign_key "reviews", "suppliers"
   add_foreign_key "reviews", "users"
-  add_foreign_key "rfq_invitations", "approvals"
-  add_foreign_key "rfq_invitations", "suppliers"
-  add_foreign_key "rfq_invitations", "users"
 end

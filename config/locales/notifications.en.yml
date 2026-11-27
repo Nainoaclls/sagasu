@@ -1,0 +1,19 @@
+en:
+  notifications:
+    bell: "Notifications"
+    title: "Notifications"
+    lead: "What happened on your projects: submissions waiting for you, decisions and withdrawals."
+    list_label: "Notifications, newest first"
+    mark_all_read: "Mark all as read"
+    new: "New"
+    empty: "Nothing yet. Submissions, decisions and withdrawals will show up here."
+    someone: "Someone"
+    messages:
+      submitted: "%{actor} sent you “%{project}” for approval"
+      approved: "%{actor} approved “%{project}”"
+      returned: "%{actor} returned “%{project}” with a comment"
+      withdrawn: "%{actor} withdrew “%{project}”"
+    flashes:
+      all_read: "All notifications marked as read."
+    mailer:
+      open: "Open in Sagasu"

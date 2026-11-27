@@ -1,0 +1,19 @@
+ja:
+  notifications:
+    bell: "通知"
+    title: "通知"
+    lead: "プロジェクトで起きたこと：承認待ちの送信、判断、取り下げ。"
+    list_label: "通知（新しい順）"
+    mark_all_read: "すべて既読にする"
+    new: "新着"
+    empty: "まだ通知はありません。送信、判断、取り下げがここに表示されます。"
+    someone: "誰か"
+    messages:
+      submitted: "%{actor}さんが「%{project}」を承認依頼として送信しました"
+      approved: "%{actor}さんが「%{project}」を承認しました"
+      returned: "%{actor}さんが「%{project}」をコメント付きで差し戻しました"
+      withdrawn: "%{actor}さんが「%{project}」を取り下げました"
+    flashes:
+      all_read: "すべての通知を既読にしました。"
+    mailer:
+      open: "Sagasuで開く"

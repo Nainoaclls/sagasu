@@ -32,6 +32,8 @@ module Sagasu
     # UI in English, French and Japanese; English stays the default
     config.i18n.available_locales = %i[en fr ja]
     config.i18n.default_locale = :en
+    # E-mail copies of notifications are off until SMTP is configured and this is switched on
+    config.x.mail_notifications = ENV["SAGASU_MAIL_NOTIFICATIONS"] == "1"
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end
