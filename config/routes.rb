@@ -44,6 +44,9 @@ Rails.application.routes.draw do
   resources :reviews, only: [:update] # approvers verify or dispute an observation (status)
 
   resources :approvals, only: %i[index update] do # 13, 14
-    member { get :document } # the frozen snapshot as a downloadable approval form (PDF)
+    member do
+      get :document   # the frozen snapshot as a downloadable approval form (PDF)
+      patch :withdraw # the buyer takes a pending submission back
+    end
   end
 end

@@ -10,7 +10,8 @@ module ProjectsHelper
   APPROVAL_BADGES = {
     "pending" => [:warning, "fa-hourglass-half"],
     "approved" => [:success, "fa-circle-check"],
-    "returned" => [:danger, "fa-rotate-left"]
+    "returned" => [:danger, "fa-rotate-left"],
+    "withdrawn" => [:neutral, "fa-ban"]
   }.freeze
 
   STEPS = %i[materials groups suppliers approval].freeze

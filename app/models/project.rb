@@ -20,7 +20,8 @@ class Project < ApplicationRecord
 
   # Projects a user may open: their own, and those they were asked to approve.
   scope :involving, lambda { |user|
-    where(user: user).or(where(id: Approval.where(approver: user).select(:project_id)))
+    # An approver keeps access to what they decided on, but not to a submission the buyer withdrew
+    where(user: user).or(where(id: Approval.where(approver: user).where.not(status: "withdrawn").select(:project_id)))
   }
   scope :recent_first, -> { order(updated_at: :desc) }
 

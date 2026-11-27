@@ -10,6 +10,12 @@
       <strong><%= t("projects.approval_banner.waiting", name: latest.approver.name) %></strong>
       <p><%= t("projects.approval_banner.waiting_text", time: time_ago_in_words(latest.created_at)) %></p>
       <p class="small mb-0"><%= link_to document_approval_path(latest, format: :pdf) do %><%= icon("fa-file-pdf") %> <%= t("approval_document.link") %><% end %></p>
+      <% if policy(latest).withdraw? %>
+        <%= button_to withdraw_approval_path(latest), method: :patch, class: "btn btn-outline-primary btn-sm mt-2",
+                      form: { data: { turbo_confirm: t("submission_withdrawal.confirm", name: latest.approver.name) } } do %>
+          <%= icon("fa-rotate-left") %> <%= t("submission_withdrawal.button") %>
+        <% end %>
+      <% end %>
     </div>
   </div>
 <% elsif project.returned? && latest&.returned? %>

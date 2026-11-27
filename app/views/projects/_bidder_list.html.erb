@@ -63,7 +63,7 @@
           </div>
           <p class="sg-caption mb-1">
             <%= t("projects.bidder_list.sent", time: l(approval.created_at, format: :short)) %>
-            <% if approval.decided_at %> · <%= t("projects.bidder_list.decided", time: l(approval.decided_at, format: :short)) %><% end %>
+            <% if approval.decided_at && !approval.withdrawn? %> · <%= t("projects.bidder_list.decided", time: l(approval.decided_at, format: :short)) %><% end %>
           </p>
           <% if approval.comment.present? %><p class="small mb-1">“<%= approval.comment %>”</p><% end %>
           <details class="sg-snapshot">
