@@ -13,9 +13,15 @@ class ApprovalPolicy < ApplicationPolicy
     record.approver_id == user.id && record.pending?
   end
 
-  # The approval form (PDF) belongs to the buyer who sent it and the assigned approver
+  # The buyer who sent it takes it back, as long as the approver has not decided
+  def withdraw?
+    record.project.user_id == user.id && record.pending?
+  end
+
+  # The approval form (PDF) belongs to the buyer who sent it and the assigned approver.
+  # A withdrawn submission has no decision to put on a form.
   def document?
-    record.project.user_id == user.id || record.approver_id == user.id
+    !record.withdrawn? && (record.project.user_id == user.id || record.approver_id == user.id)
   end
 
   class Scope < ApplicationPolicy::Scope

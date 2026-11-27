@@ -41,10 +41,17 @@ Rails.application.routes.draw do
     resources :reviews, only: [:create] # 11
   end
 
+  resources :notifications, only: %i[index show] do # the bell: submissions, decisions, withdrawals
+    collection { patch :mark_all_read }
+  end
+
   resources :reviews, only: [:update] # approvers verify or dispute an observation (status)
 
   resources :approvals, only: %i[index update] do # 13, 14
-    member { get :document } # the frozen snapshot as a downloadable approval form (PDF)
+    member do
+      get :document   # the frozen snapshot as a downloadable approval form (PDF)
+      patch :withdraw # the buyer takes a pending submission back
+    end
   end
 
   # RFQ invitations after approval: the buyer contacts each selected supplier from the frozen

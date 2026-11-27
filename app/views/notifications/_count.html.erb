@@ -1,0 +1,2 @@
+<%# The number on the bell. Only the number (no words): it is also pushed by broadcast, rendered in the default language. %>
+<span id="notifications_count" class="badge rounded-pill text-bg-accent sg-bell-count" <%= "hidden" if count.zero? %>><%= count %></span>

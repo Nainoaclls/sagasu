@@ -89,6 +89,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_27_090001) do
     t.index ["project_id"], name: "index_items_on_project_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "project_id", null: false
+    t.bigint "actor_id"
+    t.string "kind", null: false
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["actor_id"], name: "index_notifications_on_actor_id"
+    t.index ["project_id"], name: "index_notifications_on_project_id"
+    t.index ["user_id", "read_at"], name: "index_notifications_on_user_id_and_read_at"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "title", null: false
@@ -190,6 +204,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_27_090001) do
   add_foreign_key "item_groups", "projects"
   add_foreign_key "items", "item_groups", on_delete: :nullify
   add_foreign_key "items", "projects"
+  add_foreign_key "notifications", "projects", on_delete: :cascade
+  add_foreign_key "notifications", "users"
+  add_foreign_key "notifications", "users", column: "actor_id", on_delete: :nullify
   add_foreign_key "projects", "users"
   add_foreign_key "reviews", "projects"
   add_foreign_key "reviews", "suppliers"

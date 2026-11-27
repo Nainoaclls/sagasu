@@ -32,6 +32,18 @@ class ApprovalsController < ApplicationController
                                type: "application/pdf", disposition: "inline"
   end
 
+  # The buyer takes a pending submission back to keep editing it
+  def withdraw
+    @approval = Approval.find(params[:id])
+    authorize @approval
+
+    if @approval.withdraw!
+      redirect_to @approval.project, notice: t("flashes.approvals.withdrawn"), status: :see_other
+    else
+      redirect_to @approval.project, alert: t("flashes.approvals.cannot_withdraw"), status: :see_other
+    end
+  end
+
   # Story 14: approve, or return with a comment
   def update
     @approval = Approval.find(params[:id])

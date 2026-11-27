@@ -40,8 +40,10 @@ class ProjectTimeline
   def decision_event(approval)
     return unless approval.decided_at?
 
-    Event.new(kind: approval.approved? ? :approved : :returned, at: approval.decided_at,
-              actor_name: approval.approver.name, comment: approval.comment.presence)
+    # A withdrawal is the buyer's act, a decision is the approver's
+    actor = approval.withdrawn? ? @project.user.name : approval.approver.name
+    Event.new(kind: approval.status.to_sym, at: approval.decided_at, actor_name: actor,
+              comment: approval.comment.presence)
   end
 
   # RFQ invitations the buyer marked as sent (RfqInvitation carries no text, just the act)
