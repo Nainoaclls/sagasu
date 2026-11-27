@@ -1,0 +1,12 @@
+en:
+  supplier_contacts:
+    form:
+      legend: "Contact"
+      contact_name: "Contact person"
+      email: "Contact email"
+      email_hint: "One address only — used for the invitation mailto link after approval."
+      phone: "Phone"
+    show:
+      contact_name: "Contact person"
+      email: "Email"
+      phone: "Phone"

@@ -21,6 +21,24 @@
   </fieldset>
 
   <fieldset class="sg-fieldset">
+    <legend><%= icon("fa-address-book") %> <%= t("supplier_contacts.form.legend") %></legend>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <%= f.input :contact_name, label: t("supplier_contacts.form.contact_name"), required: false,
+                    input_html: { maxlength: 120 } %>
+      </div>
+      <div class="col-md-4">
+        <%= f.input :email, label: t("supplier_contacts.form.email"), required: false,
+                    hint: t("supplier_contacts.form.email_hint"), input_html: { inputmode: "email" } %>
+      </div>
+      <div class="col-md-4">
+        <%= f.input :phone, label: t("supplier_contacts.form.phone"), required: false,
+                    input_html: { inputmode: "tel", maxlength: 30 } %>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="sg-fieldset">
     <legend><%= icon("fa-location-dot") %> <%= t("supplier_management.form.where") %></legend>
     <div class="row g-3">
       <div class="col-md-6"><%= f.input :city, label: t("supplier_management.form.city"), required: false %></div>

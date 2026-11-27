@@ -16,6 +16,11 @@ class Supplier < ApplicationRecord
   # Full-string match: only http(s) links, no "javascript:" or spaces (they are rendered as hrefs)
   validates :website, :source_url, format: { with: %r{\Ahttps?://[^\s<>"]+\z}i }, allow_blank: true
   validates :erp_vendor_code, uniqueness: true, allow_nil: true
+  validates :contact_name, length: { maximum: 120 }
+  validates :phone, length: { maximum: 30 }
+  # One address a mailto: link can carry — no address lists or header tricks.
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
+  validates :email, format: { without: /[\r\n,;?&#]/ }, allow_blank: true
   validates :prefecture, inclusion: { in: Prefecture::ALL }, allow_blank: true
   validate :known_delivery_areas
 

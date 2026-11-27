@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_26_032133) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_27_064459) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -143,6 +143,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_032133) do
     t.datetime "updated_at", null: false
     t.float "latitude"
     t.float "longitude"
+    t.string "contact_name"
+    t.string "email"
+    t.string "phone"
     t.index ["category"], name: "index_suppliers_on_category"
     t.index ["erp_vendor_code"], name: "index_suppliers_on_erp_vendor_code", unique: true, where: "(erp_vendor_code IS NOT NULL)"
     t.index ["latitude", "longitude"], name: "index_suppliers_on_latitude_and_longitude"

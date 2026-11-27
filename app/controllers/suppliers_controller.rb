@@ -64,7 +64,7 @@ class SuppliersController < ApplicationController
   def supplier_params
     params.require(:supplier).permit(:name, :category, :description, :website, :erp_vendor_code, :city, :prefecture,
                                      :monthly_capacity, :capacity_unit, :lead_time_days, :certifications_text,
-                                     delivery_areas: [])
+                                     :contact_name, :email, :phone, delivery_areas: [])
   end
 
   # Compact results inside a project group, to add a supplier found by search

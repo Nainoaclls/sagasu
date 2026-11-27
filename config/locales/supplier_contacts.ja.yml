@@ -1,0 +1,12 @@
+ja:
+  supplier_contacts:
+    form:
+      legend: "連絡先"
+      contact_name: "担当者名"
+      email: "連絡先メールアドレス"
+      email_hint: "1件のみ — 承認後の招待メールリンク（mailto）に使われます。"
+      phone: "電話番号"
+    show:
+      contact_name: "担当者名"
+      email: "メールアドレス"
+      phone: "電話番号"
