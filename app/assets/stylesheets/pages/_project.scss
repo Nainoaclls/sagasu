@@ -44,6 +44,17 @@
 }
 .sg-add-group { border-top: 0; padding-top: 0; }
 
+// ---------- Foldable sections (materials, groups) ----------
+// Header: title, summary badges, optional action, chevron. The whole header toggles (see group_fold_controller.js).
+.sg-fold-head {
+  cursor: pointer; flex-wrap: wrap;
+  .sg-fold-summary { margin-left: auto; }
+  .sg-group-toggle { flex: none; }
+}
+.sg-fold-summary { display: flex; flex-wrap: wrap; gap: .375rem; align-items: center; justify-content: flex-end; }
+.sg-fold-section.is-collapsed > .sg-fold-head { margin-bottom: 0; }
+.sg-item-edit td { background: var(--sg-info-soft); }
+
 // ---------- Groups ----------
 .sg-groups { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.75rem; }
 .sg-group { border-top: 4px solid $pacific-blue; }

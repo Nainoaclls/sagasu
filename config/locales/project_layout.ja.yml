@@ -12,6 +12,21 @@ ja:
       other: "検討待ち%{count}件"
     to_confirm_count:
       other: "要確認%{count}件"
+    sections:
+      all_grouped: "すべてグループ化済み"
+      ungrouped:
+        other: "未グループ%{count}件"
+      groups:
+        other: "%{count}グループ"
+    materials:
+      edit_label: "「%{item}」を編集"
+      edit_title: "資材を編集"
+      edit_lead: "説明、数量、単位を修正できます。グループは変わりません。"
+      description: "資材"
+      quantity: "数量"
+      unit: "単位"
+      erp_code: "ERPコード"
+      save: "保存"
     blocks:
       selected: "入札先リスト"
       to_review: "検討待ちの提案"

@@ -1,0 +1,12 @@
+<%# The material row while it is being edited: the same fields as the edit page, in place. %>
+<tr id="<%= dom_id(item, :row) %>" class="sg-item-edit">
+  <td colspan="4">
+    <%= simple_form_for item, html: { class: "py-2" } do |f| %>
+      <%= render "items/fields", f: f %>
+      <div class="d-flex flex-wrap gap-2 justify-content-end">
+        <%= link_to t("common.cancel"), row_item_path(item), data: { turbo_stream: true }, class: "btn btn-quiet btn-sm" %>
+        <%= f.button :button, class: "btn-primary btn-sm" do %><%= icon("fa-check") %> <%= t("project_layout.materials.save") %><% end %>
+      </div>
+    <% end %>
+  </td>
+</tr>

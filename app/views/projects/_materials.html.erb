@@ -1,82 +1,73 @@
-<section id="materials" class="card card-body mb-4" aria-labelledby="materials-title">
-  <div class="sg-section-title">
+<%# Foldable section: open while materials are the step to work on (empty list, ungrouped items), folded once
+    they are grouped. The header keeps the story: how many, and whether they are all grouped. %>
+<% open = project.items.empty? || project.progress_step == :materials || (can_edit && project.ungrouped_items.any?) %>
+<section id="materials" class="card card-body mb-4 sg-fold-section <%= 'is-collapsed' unless open %>" aria-labelledby="materials-title"
+         data-controller="group-fold" data-group-fold-key-value="materials_<%= project.id %>"
+         data-group-fold-open-value="<%= open %>" data-group-fold-follow-default-value="true"
+         data-action="submit->group-fold#keep group-fold:open->group-fold#open group-fold:close->group-fold#close">
+  <div class="sg-section-title sg-fold-head" data-action="click->group-fold#headerClick">
     <h2 id="materials-title"><%= icon("fa-cubes-stacked") %> <%= t("projects.materials.title") %> <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis"><%= project.items.size %></span></h2>
+    <div class="sg-fold-summary">
+      <% if project.items.any? && project.item_groups.any? %>
+        <% if project.ungrouped_items.any? %>
+          <%= badge(:warning, "fa-triangle-exclamation", t("project_layout.sections.ungrouped", count: project.ungrouped_items.size)) %>
+        <% else %>
+          <%= badge(:success, "fa-check", t("project_layout.sections.all_grouped")) %>
+        <% end %>
+      <% end %>
+    </div>
+    <button type="button" class="btn btn-quiet btn-icon sg-group-toggle" aria-expanded="<%= open %>" aria-controls="materials-body"
+            aria-label="<%= t("project_layout.toggle", title: t("projects.materials.title")) %>"
+            data-group-fold-target="toggle" data-action="click->group-fold#toggle">
+      <%= icon("fa-chevron-down") %>
+    </button>
   </div>
 
-  <% if project.items.any? %>
-    <div class="table-responsive">
-      <table class="table table-hover align-middle sg-table">
-        <caption class="visually-hidden"><%= t("projects.materials.caption") %></caption>
-        <thead>
-          <tr>
-            <th scope="col"><%= t("projects.materials.col_material") %></th>
-            <th scope="col"><%= t("projects.materials.col_quantity") %></th>
-            <th scope="col"><%= t("projects.materials.col_group") %></th>
-            <% if can_edit %><th scope="col"><span class="visually-hidden"><%= t("projects.materials.col_actions") %></span></th><% end %>
-          </tr>
-        </thead>
-        <tbody>
-          <% project.items.each do |item| %>
-            <tr class="sg-appear">
-              <td>
-                <span class="fw-bold"><%= item.description %></span>
-                <% if item.erp_material.present? %><br><span class="sg-caption"><%= item.erp_material %></span><% end %>
-              </td>
-              <td class="sg-number text-nowrap"><%= item.quantity_label %></td>
-              <td>
-                <% if can_edit && project.item_groups.any? %>
-                  <%= simple_form_for item, data: { controller: "autosubmit" } do |f| %>
-                    <%= f.input :item_group_id, collection: project.item_groups, label_method: :title, value_method: :id,
-                                include_blank: t("projects.materials.not_grouped"), label: t("projects.materials.group_for", item: item.description),
-                                label_html: { class: "visually-hidden" }, wrapper_html: { class: "mb-0" },
-                                input_html: { class: "form-select-sm", id: "item_group_#{item.id}",
-                                              data: { action: "change->autosubmit#now" } } %>
-                    <noscript><%= f.button :submit, t("projects.materials.move"), class: "btn-sm btn-outline-primary mt-1" %></noscript>
-                  <% end %>
-                <% elsif item.item_group %>
-                  <span class="sg-chip"><%= item.item_group.title %></span>
-                <% else %>
-                  <span class="sg-caption"><%= t("projects.materials.not_grouped") %></span>
-                <% end %>
-              </td>
-              <% if can_edit %>
-                <td class="text-end">
-                  <%= button_to item_path(item), method: :delete, class: "btn btn-danger-quiet btn-icon btn-sm",
-                      form: { data: { turbo_confirm: t("projects.materials.remove_confirm", item: item.description) } },
-                      "aria-label": t("projects.materials.remove_label", item: item.description) do %>
-                    <%= icon("fa-trash-can") %>
-                  <% end %>
-                </td>
-              <% end %>
+  <div id="materials-body" data-group-fold-target="body">
+    <% if project.items.any? %>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle sg-table">
+          <caption class="visually-hidden"><%= t("projects.materials.caption") %></caption>
+          <thead>
+            <tr>
+              <th scope="col"><%= t("projects.materials.col_material") %></th>
+              <th scope="col"><%= t("projects.materials.col_quantity") %></th>
+              <th scope="col"><%= t("projects.materials.col_group") %></th>
+              <% if can_edit %><th scope="col"><span class="visually-hidden"><%= t("projects.materials.col_actions") %></span></th><% end %>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  <% elsif !can_edit %>
-    <p class="sg-empty-compact"><%= t("projects.materials.empty") %></p>
-  <% end %>
+          </thead>
+          <tbody>
+            <% project.items.each do |item| %>
+              <%= render "projects/item_row", item: item, project: project, can_edit: can_edit %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% elsif !can_edit %>
+      <p class="sg-empty-compact"><%= t("projects.materials.empty") %></p>
+    <% end %>
 
-  <% if can_edit %>
-    <details class="sg-add-materials" <%= "open" if project.items.empty? %>>
-      <summary><%= icon("fa-plus") %> <%= t("projects.materials.add") %></summary>
-      <%= simple_form_for :items, url: project_items_path(project),
-            html: { class: "mt-3", data: { controller: "materials",
-                                           materials_empty_text_value: t("js.materials.empty"),
-                                           materials_count_text_one_value: t("js.materials.count", count: 1),
-                                           materials_count_text_other_value: t("js.materials.count", count: 2) } } do |f| %>
-        <%= f.input :materials_text, as: :text, label: t("projects.materials.paste_label"), required: true,
-                    wrapper_html: { class: "mb-0" },
-                    input_html: { rows: 5, class: "sg-paste", "aria-describedby": "add-materials-count",
-                                  placeholder: t("projects.materials.paste_placeholder"),
-                                  data: { materials_target: "input", action: "input->materials#update" } } %>
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-2">
-          <span id="add-materials-count" class="sg-hint-count" data-materials-target="count" aria-live="polite"><%= t("js.materials.empty") %></span>
-          <%= f.button :button, class: "btn-primary", data: { controller: "ripple", action: "click->ripple#burst" } do %>
-            <%= icon("fa-plus") %> <%= t("projects.materials.add_to_project") %>
-          <% end %>
-        </div>
-      <% end %>
-    </details>
-  <% end %>
+    <% if can_edit %>
+      <details class="sg-add-materials" <%= "open" if project.items.empty? %>>
+        <summary><%= icon("fa-plus") %> <%= t("projects.materials.add") %></summary>
+        <%= simple_form_for :items, url: project_items_path(project),
+              html: { class: "mt-3", data: { controller: "materials",
+                                             materials_empty_text_value: t("js.materials.empty"),
+                                             materials_count_text_one_value: t("js.materials.count", count: 1),
+                                             materials_count_text_other_value: t("js.materials.count", count: 2) } } do |f| %>
+          <%= f.input :materials_text, as: :text, label: t("projects.materials.paste_label"), required: true,
+                      wrapper_html: { class: "mb-0" },
+                      input_html: { rows: 5, class: "sg-paste", "aria-describedby": "add-materials-count",
+                                    placeholder: t("projects.materials.paste_placeholder"),
+                                    data: { materials_target: "input", action: "input->materials#update" } } %>
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-2">
+            <span id="add-materials-count" class="sg-hint-count" data-materials-target="count" aria-live="polite"><%= t("js.materials.empty") %></span>
+            <%= f.button :button, class: "btn-primary", data: { controller: "ripple", action: "click->ripple#burst" } do %>
+              <%= icon("fa-plus") %> <%= t("projects.materials.add_to_project") %>
+            <% end %>
+          </div>
+        <% end %>
+      </details>
+    <% end %>
+  </div>
 </section>

@@ -1,0 +1,18 @@
+<%# Editable details of a material, shared by the inline edit row and the edit page. f = the form builder %>
+<% quantity = f.object.quantity %>
+<div class="row g-2">
+  <div class="col-md-5">
+    <%= f.input :description, label: t("project_layout.materials.description"), input_html: { maxlength: 255, autofocus: true } %>
+  </div>
+  <div class="col-6 col-md-2">
+    <%= f.input :quantity, label: t("project_layout.materials.quantity"), required: false,
+                input_html: { min: 0, step: "any", inputmode: "decimal",
+                              value: (quantity && (quantity == quantity.to_i ? quantity.to_i : quantity.to_f)) } %>
+  </div>
+  <div class="col-6 col-md-2">
+    <%= f.input :unit_of_measure, label: t("project_layout.materials.unit"), required: false, input_html: { maxlength: 40 } %>
+  </div>
+  <div class="col-md-3">
+    <%= f.input :erp_material, label: t("project_layout.materials.erp_code"), required: false, input_html: { maxlength: 40 } %>
+  </div>
+</div>

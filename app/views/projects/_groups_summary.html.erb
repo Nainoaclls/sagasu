@@ -1,0 +1,11 @@
+<%# Counts shown in the header of the groups section, folded or not. Refreshed by group.turbo_stream.erb. %>
+<% groups = project.item_groups %>
+<div id="groups_summary" class="sg-fold-summary">
+  <% if groups.any? %>
+    <%= badge(:outline, "fa-layer-group", t("project_layout.sections.groups", count: groups.size)) %>
+    <% kept = project.selected_suppliers_size %>
+    <% to_review = groups.sum { |group| group.suggestion_links.size } %>
+    <% if kept.positive? %><%= badge(:success, "fa-check", t("item_groups.on_bidder_list", count: kept)) %><% end %>
+    <% if to_review.positive? %><%= badge(:accent, "fa-wand-magic-sparkles", t("project_layout.to_review", count: to_review)) %><% end %>
+  <% end %>
+</div>

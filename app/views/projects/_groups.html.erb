@@ -1,6 +1,13 @@
-<section id="groups" aria-labelledby="groups-title">
-  <div class="sg-section-title">
+<%# Foldable section, open while groups and suppliers are the step to work on. The header summary (groups, kept
+    suppliers, suggestions to review) is its own element so a change inside one group can refresh it. %>
+<% open = project.item_groups.empty? || !can_edit || project.grouping_in_progress? || %i[groups suppliers].include?(project.progress_step) %>
+<section id="groups" class="sg-fold-section <%= 'is-collapsed' unless open %>" aria-labelledby="groups-title"
+         data-controller="group-fold" data-group-fold-key-value="groups_<%= project.id %>"
+         data-group-fold-open-value="<%= open %>" data-group-fold-follow-default-value="true"
+         data-action="submit->group-fold#keep group-fold:open->group-fold#open group-fold:close->group-fold#close">
+  <div class="sg-section-title sg-fold-head" data-action="click->group-fold#headerClick">
     <h2 id="groups-title"><%= icon("fa-layer-group") %> <%= t("projects.groups.title") %></h2>
+    <%= render "projects/groups_summary", project: project %>
     <% if can_edit && project.items.any? && !project.grouping_in_progress? %>
       <%= button_to generate_project_item_groups_path(project),
             class: "btn #{project.item_groups.any? ? 'btn-outline-primary' : 'btn-accent'}",
@@ -9,47 +16,54 @@
         <%= icon("fa-wand-magic-sparkles") %> <%= project.item_groups.any? ? t("projects.groups.regroup") : t("projects.groups.group") %>
       <% end %>
     <% end %>
+    <button type="button" class="btn btn-quiet btn-icon sg-group-toggle" aria-expanded="<%= open %>" aria-controls="groups-body"
+            aria-label="<%= t("project_layout.toggle", title: t("projects.groups.title")) %>"
+            data-group-fold-target="toggle" data-action="click->group-fold#toggle">
+      <%= icon("fa-chevron-down") %>
+    </button>
   </div>
 
-  <% if project.grouping_in_progress? %>
-    <%= render "shared/ai_working", message: ai_overlay_message(:grouping) %>
-  <% elsif project.item_groups.empty? %>
-    <div class="sg-empty">
-      <%= image_tag "mascot/welcome.webp", alt: "", width: 120, height: 133 %>
-      <div>
-        <h3><%= project.items.any? ? t("projects.groups.ready_title") : t("projects.groups.need_materials_title") %></h3>
-        <p>
-          <%= project.items.any? ? t("projects.groups.ready_text") : t("projects.groups.need_materials_text") %>
-        </p>
-      </div>
-    </div>
-  <% else %>
-    <% if can_edit && project.ungrouped_items.any? %>
-      <div class="sg-banner is-pending mb-3" role="status">
-        <%= icon("fa-triangle-exclamation") %>
+  <div id="groups-body" data-group-fold-target="body">
+    <% if project.grouping_in_progress? %>
+      <%= render "shared/ai_working", message: ai_overlay_message(:grouping) %>
+    <% elsif project.item_groups.empty? %>
+      <div class="sg-empty">
+        <%= image_tag "mascot/welcome.webp", alt: "", width: 120, height: 133 %>
         <div>
-          <strong><%= t("projects.groups.ungrouped_title", count: project.ungrouped_items.size) %></strong>
-          <p><%= t("projects.groups.ungrouped_text") %></p>
+          <h3><%= project.items.any? ? t("projects.groups.ready_title") : t("projects.groups.need_materials_title") %></h3>
+          <p>
+            <%= project.items.any? ? t("projects.groups.ready_text") : t("projects.groups.need_materials_text") %>
+          </p>
+        </div>
+      </div>
+    <% else %>
+      <% if can_edit && project.ungrouped_items.any? %>
+        <div class="sg-banner is-pending mb-3" role="status">
+          <%= icon("fa-triangle-exclamation") %>
+          <div>
+            <strong><%= t("projects.groups.ungrouped_title", count: project.ungrouped_items.size) %></strong>
+            <p><%= t("projects.groups.ungrouped_text") %></p>
+          </div>
+        </div>
+      <% end %>
+
+      <div data-controller="group-nav">
+        <%= render "projects/group_nav", project: project if project.item_groups.size >= 2 %>
+        <div class="sg-groups">
+          <%= render partial: "item_groups/item_group", collection: project.item_groups, locals: { can_edit: can_edit } %>
         </div>
       </div>
     <% end %>
 
-    <div data-controller="group-nav">
-      <%= render "projects/group_nav", project: project if project.item_groups.size >= 2 %>
-      <div class="sg-groups">
-        <%= render partial: "item_groups/item_group", collection: project.item_groups, locals: { can_edit: can_edit } %>
-      </div>
-    </div>
-  <% end %>
-
-  <% if can_edit && project.items.any? %>
-    <details class="sg-add-group mt-3">
-      <summary><%= icon("fa-plus") %> <%= t("projects.groups.add_by_hand") %></summary>
-      <%= simple_form_for [project, ItemGroup.new], html: { class: "d-flex flex-wrap align-items-start gap-2 mt-3" } do |f| %>
-        <%= f.input :title, label: t("projects.groups.group_name"), label_html: { class: "visually-hidden" }, wrapper_html: { class: "mb-0" },
-                    input_html: { placeholder: t("projects.groups.group_placeholder"), maxlength: 80, style: "max-width: 320px" } %>
-        <%= f.button :button, class: "btn-outline-primary" do %><%= icon("fa-plus") %> <%= t("projects.groups.add_group") %><% end %>
-      <% end %>
-    </details>
-  <% end %>
+    <% if can_edit && project.items.any? %>
+      <details class="sg-add-group mt-3">
+        <summary><%= icon("fa-plus") %> <%= t("projects.groups.add_by_hand") %></summary>
+        <%= simple_form_for [project, ItemGroup.new], html: { class: "d-flex flex-wrap align-items-start gap-2 mt-3" } do |f| %>
+          <%= f.input :title, label: t("projects.groups.group_name"), label_html: { class: "visually-hidden" }, wrapper_html: { class: "mb-0" },
+                      input_html: { placeholder: t("projects.groups.group_placeholder"), maxlength: 80, style: "max-width: 320px" } %>
+          <%= f.button :button, class: "btn-outline-primary" do %><%= icon("fa-plus") %> <%= t("projects.groups.add_group") %><% end %>
+        <% end %>
+      </details>
+    <% end %>
+  </div>
 </section>

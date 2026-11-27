@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
   include ProjectWorkspace
 
-  before_action :set_item, only: %i[update destroy]
+  before_action :set_item, only: %i[edit row update destroy]
 
   # Story 4: paste one material per line
   def create
@@ -16,6 +16,22 @@ class ItemsController < ApplicationController
       respond_with_workspace(project, notice: t("flashes.items.added", count: added.size))
     else
       respond_with_workspace(project, alert: t("flashes.items.none_found"))
+    end
+  end
+
+  # Story 6: fix a material in place. Turbo Stream swaps its row for the form; without JavaScript, a page.
+  def edit
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: swap_row("projects/item_edit_row") }
+      format.html
+    end
+  end
+
+  # Cancel of the inline edit: the plain row comes back
+  def row
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: swap_row("projects/item_row") }
+      format.html { redirect_to @item.project }
     end
   end
 
@@ -35,9 +51,16 @@ class ItemsController < ApplicationController
 
   private
 
+  # Every action here changes or prepares a change of the material: the same rule as update
   def set_item
     @item = Item.find(params[:id])
-    authorize @item
+    authorize @item, :update?
+  end
+
+  def swap_row(partial)
+    project = @item.project
+    turbo_stream.replace(helpers.dom_id(@item, :row), partial: partial,
+                                                      locals: { item: @item, project: project, can_edit: true })
   end
 
   def item_params

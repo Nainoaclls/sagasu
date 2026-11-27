@@ -24,7 +24,9 @@ Rails.application.routes.draw do
     resource :activity, only: [:show], controller: "project_activities" # traceability (AI runs, decisions)
   end
 
-  resources :items, only: %i[update destroy] # 4, 6
+  resources :items, only: %i[edit update destroy] do # 4, 6 (edit in place: edit swaps the row, row swaps it back)
+    member { get :row }
+  end
 
   resources :item_groups, only: %i[edit update] do               # 6 (edit in place, Turbo Frame)
     resource :comparison, only: [:show], controller: "supplier_comparisons" # 7, 8 (compare candidates side by side)
