@@ -1,0 +1,19 @@
+fr:
+  notifications:
+    bell: "Notifications"
+    title: "Notifications"
+    lead: "Ce qui s'est passé sur vos projets : envois qui vous attendent, décisions et retraits."
+    list_label: "Notifications, de la plus récente à la plus ancienne"
+    mark_all_read: "Tout marquer comme lu"
+    new: "Nouveau"
+    empty: "Rien pour l'instant. Les envois, décisions et retraits apparaîtront ici."
+    someone: "Quelqu'un"
+    messages:
+      submitted: "%{actor} vous a envoyé « %{project} » pour approbation"
+      approved: "%{actor} a approuvé « %{project} »"
+      returned: "%{actor} a renvoyé « %{project} » avec un commentaire"
+      withdrawn: "%{actor} a retiré « %{project} »"
+    flashes:
+      all_read: "Toutes les notifications sont marquées comme lues."
+    mailer:
+      open: "Ouvrir dans Sagasu"

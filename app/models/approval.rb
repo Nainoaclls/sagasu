@@ -18,6 +18,7 @@ class Approval < ApplicationRecord
     transaction do
       update!(status: decision, comment: comment, decided_at: Time.current)
       project.update!(status: approved? ? :approved : :returned)
+      Notification.notify!(user: project.user, project: project, kind: status, actor: approver)
     end
   end
 
@@ -29,6 +30,7 @@ class Approval < ApplicationRecord
 
       update!(status: :withdrawn, decided_at: Time.current)
       project.update!(status: :draft)
+      Notification.notify!(user: approver, project: project, kind: :withdrawn, actor: project.user)
       true
     end
   end

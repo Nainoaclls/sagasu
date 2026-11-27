@@ -44,6 +44,9 @@
   p { margin: 0; font-size: .9375rem; }
   a { font-weight: 700; }
 }
+// Notifications page: unread rows carry a word ("New") and a bolder link, never colour alone
+.sg-notifications .is-unread a { font-weight: 800; }
+.sg-bell-count { position: absolute; top: -.25rem; right: -.375rem; font-size: .6875rem; }
 .sg-activity-icon {
   flex: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-size: .875rem;
   background: var(--sg-info-soft); color: var(--sg-heading);

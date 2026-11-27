@@ -41,6 +41,10 @@ Rails.application.routes.draw do
     resources :reviews, only: [:create] # 11
   end
 
+  resources :notifications, only: %i[index show] do # the bell: submissions, decisions, withdrawals
+    collection { patch :mark_all_read }
+  end
+
   resources :reviews, only: [:update] # approvers verify or dispute an observation (status)
 
   resources :approvals, only: %i[index update] do # 13, 14

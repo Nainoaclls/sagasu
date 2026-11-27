@@ -30,6 +30,14 @@
         </ul>
 
         <div class="d-flex align-items-center gap-3">
+          <%# The bell: the count is replaced live by Notification#broadcast_count (Turbo Stream) %>
+          <%= turbo_stream_from current_user, :notifications %>
+          <%= link_to notifications_path, class: "btn btn-quiet btn-sm position-relative",
+                      "aria-current": (controller_name == "notifications" ? "page" : nil) do %>
+            <%= icon("fa-bell") %>
+            <span class="visually-hidden"><%= t("notifications.bell") %></span>
+            <%= render "notifications/count", count: current_user.notifications.unread.count %>
+          <% end %>
           <%= render "shared/locale_switcher" %>
           <%= render "shared/theme_toggle" %>
           <% if current_user.buyer? %>

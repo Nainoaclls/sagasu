@@ -7,6 +7,7 @@ class Project < ApplicationRecord
   has_many :group_suppliers, through: :item_groups
   has_many :approvals, -> { order(:created_at) }, dependent: :destroy, inverse_of: :project
   has_many :ai_runs, dependent: :destroy
+  has_many :notifications, dependent: :destroy
   has_many :reviews, dependent: :nullify
 
   enum :status, { draft: "draft", pending_approval: "pending_approval",
@@ -119,7 +120,9 @@ class Project < ApplicationRecord
       ensure_ready_for_approval!
 
       update!(status: :pending_approval, buyer_comment: comment.presence || buyer_comment)
-      approvals.create!(approver: approver, snapshot: build_snapshot)
+      approval = approvals.create!(approver: approver, snapshot: build_snapshot)
+      Notification.notify!(user: approver, project: self, kind: :submitted, actor: user)
+      approval
     end
   end
 

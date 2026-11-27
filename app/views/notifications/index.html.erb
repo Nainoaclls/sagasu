@@ -1,0 +1,36 @@
+<% content_for :title, t("notifications.title") %>
+<% unread = @notifications.count { |notification| !notification.read? } %>
+
+<div class="sg-container sg-page">
+  <header class="sg-page-head">
+    <div>
+      <h1><%= t("notifications.title") %></h1>
+      <p><%= t("notifications.lead") %></p>
+    </div>
+    <% if unread.positive? %>
+      <%= button_to mark_all_read_notifications_path, method: :patch, class: "btn btn-outline-primary" do %>
+        <%= icon("fa-check-double") %> <%= t("notifications.mark_all_read") %>
+      <% end %>
+    <% end %>
+  </header>
+
+  <% if @notifications.any? %>
+    <ul class="sg-activity card card-body sg-notifications" aria-label="<%= t("notifications.list_label") %>">
+      <% @notifications.each do |notification| %>
+        <li class="sg-activity-item <%= 'is-unread' unless notification.read? %>">
+          <span class="sg-activity-icon is-<%= notification.kind %>"><%= icon(activity_icon(notification.kind.to_sym)) %></span>
+          <div>
+            <p>
+              <%= link_to t("notifications.messages.#{notification.kind}", actor: notification.actor&.name || t("notifications.someone"),
+                            project: notification.project.title), notification_path(notification) %>
+              <% unless notification.read? %><span class="badge rounded-pill text-bg-accent"><%= t("notifications.new") %></span><% end %>
+            </p>
+            <span class="sg-caption d-block"><%= t("projects.index.time_ago", time: time_ago_in_words(notification.created_at)) %></span>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="sg-empty-compact"><%= t("notifications.empty") %></p>
+  <% end %>
+</div>
