@@ -1,0 +1,37 @@
+<%# One material row. The pencil swaps it for the edit row (items#edit, Turbo Stream), cancel swaps it back (items#row). %>
+<tr id="<%= dom_id(item, :row) %>" class="sg-appear">
+  <td>
+    <span class="fw-bold"><%= item.description %></span>
+    <% if item.erp_material.present? %><br><span class="sg-caption"><%= item.erp_material %></span><% end %>
+  </td>
+  <td class="sg-number text-nowrap"><%= item.quantity_label %></td>
+  <td>
+    <% if can_edit && project.item_groups.any? %>
+      <%= simple_form_for item, data: { controller: "autosubmit" } do |f| %>
+        <%= f.input :item_group_id, collection: project.item_groups, label_method: :title, value_method: :id,
+                    include_blank: t("projects.materials.not_grouped"), label: t("projects.materials.group_for", item: item.description),
+                    label_html: { class: "visually-hidden" }, wrapper_html: { class: "mb-0" },
+                    input_html: { class: "form-select-sm", id: "item_group_#{item.id}",
+                                  data: { action: "change->autosubmit#now" } } %>
+        <noscript><%= f.button :submit, t("projects.materials.move"), class: "btn-sm btn-outline-primary mt-1" %></noscript>
+      <% end %>
+    <% elsif item.item_group %>
+      <span class="sg-chip"><%= item.item_group.title %></span>
+    <% else %>
+      <span class="sg-caption"><%= t("projects.materials.not_grouped") %></span>
+    <% end %>
+  </td>
+  <% if can_edit %>
+    <td class="text-end text-nowrap">
+      <%= link_to edit_item_path(item), data: { turbo_stream: true }, class: "btn btn-quiet btn-icon btn-sm",
+                  "aria-label": t("project_layout.materials.edit_label", item: item.description) do %>
+        <%= icon("fa-pen") %>
+      <% end %>
+      <%= button_to item_path(item), method: :delete, class: "btn btn-danger-quiet btn-icon btn-sm", form_class: "d-inline",
+          form: { data: { turbo_confirm: t("projects.materials.remove_confirm", item: item.description) } },
+          "aria-label": t("projects.materials.remove_label", item: item.description) do %>
+        <%= icon("fa-trash-can") %>
+      <% end %>
+    </td>
+  <% end %>
+</tr>

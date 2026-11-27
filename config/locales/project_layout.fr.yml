@@ -14,6 +14,23 @@ fr:
     to_confirm_count:
       one: "%{count} à confirmer"
       other: "%{count} à confirmer"
+    sections:
+      all_grouped: "Tout est groupé"
+      ungrouped:
+        one: "%{count} non groupé"
+        other: "%{count} non groupés"
+      groups:
+        one: "%{count} groupe"
+        other: "%{count} groupes"
+    materials:
+      edit_label: "Modifier « %{item} »"
+      edit_title: "Modifier le matériau"
+      edit_lead: "Corrigez la description, la quantité ou l'unité. Son groupe ne change pas."
+      description: "Matériau"
+      quantity: "Quantité"
+      unit: "Unité"
+      erp_code: "Code ERP"
+      save: "Enregistrer"
     blocks:
       selected: "Sur la liste des soumissionnaires"
       to_review: "Suggestions à examiner"

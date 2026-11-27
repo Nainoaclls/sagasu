@@ -1,0 +1,23 @@
+<% content_for :title, t("project_layout.materials.edit_title") %>
+
+<div class="sg-container sg-page">
+  <nav aria-label="Breadcrumb" class="mb-3">
+    <%= link_to project_path(@item.project), class: "small" do %><%= icon("fa-arrow-left") %> <%= @item.project.title %><% end %>
+  </nav>
+
+  <header class="sg-page-head">
+    <div>
+      <h1><%= t("project_layout.materials.edit_title") %></h1>
+      <p><%= t("project_layout.materials.edit_lead") %></p>
+    </div>
+  </header>
+
+  <%= simple_form_for @item, html: { class: "card card-body" } do |f| %>
+    <%= f.error_notification message: t("projects.new.error_notification") %>
+    <%= render "items/fields", f: f %>
+    <div class="d-flex flex-wrap gap-2 justify-content-end">
+      <%= link_to t("common.cancel"), project_path(@item.project), class: "btn btn-quiet" %>
+      <%= f.button :button, class: "btn-primary" do %><%= icon("fa-check") %> <%= t("project_layout.materials.save") %><% end %>
+    </div>
+  <% end %>
+</div>

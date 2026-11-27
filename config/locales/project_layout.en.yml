@@ -14,6 +14,23 @@ en:
     to_confirm_count:
       one: "%{count} to confirm"
       other: "%{count} to confirm"
+    sections:
+      all_grouped: "All grouped"
+      ungrouped:
+        one: "%{count} not grouped"
+        other: "%{count} not grouped"
+      groups:
+        one: "%{count} group"
+        other: "%{count} groups"
+    materials:
+      edit_label: "Edit “%{item}”"
+      edit_title: "Edit material"
+      edit_lead: "Fix the description, quantity or unit. Its group does not change."
+      description: "Material"
+      quantity: "Quantity"
+      unit: "Unit"
+      erp_code: "ERP code"
+      save: "Save"
     blocks:
       selected: "On the bidder list"
       to_review: "Suggestions to review"

@@ -1,9 +1,12 @@
-<ol id="project_stepper" class="sg-stepper mb-4" aria-label="<%= t("projects.stepper.label") %>">
+<%# The four steps are links: each jumps to its section and opens it (group-nav sends the open event) %>
+<% targets = { materials: "materials", groups: "groups", suppliers: "groups", approval: "bidder_list" } %>
+<ol id="project_stepper" class="sg-stepper mb-4" aria-label="<%= t("projects.stepper.label") %>" data-controller="group-nav">
   <% ProjectsHelper::STEPS.each_with_index do |key, index| %>
     <% state = step_state(project, key) %>
-    <li class="is-<%= state %>" <%= "aria-current=step" if state == :current %>>
+    <li class="is-<%= state %>">
       <span class="sg-step-dot"><%= state == :done ? icon("fa-check") : index + 1 %></span>
-      <%= t("projects.steps.#{key}") %>
+      <a href="#<%= targets.fetch(key) %>" data-action="click->group-nav#open" data-group-nav-id-param="<%= targets.fetch(key) %>"
+         <%= "aria-current=step" if state == :current %>><%= t("projects.steps.#{key}") %></a>
       <span class="visually-hidden">(<%= t("projects.step_states.#{state}") %>)</span>
     </li>
   <% end %>
