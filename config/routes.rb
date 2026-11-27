@@ -43,6 +43,11 @@ Rails.application.routes.draw do
 
   resources :reviews, only: [:update] # approvers verify or dispute an observation (status)
 
+  # The project thread: the buyer and the approvers discuss a project, live over Turbo Stream.
+  resources :projects, only: [] do
+    resources :project_messages, only: [:create]
+  end
+
   resources :approvals, only: %i[index update] do # 13, 14
     member { get :document } # the frozen snapshot as a downloadable approval form (PDF)
   end

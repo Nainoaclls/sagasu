@@ -184,3 +184,9 @@ details.sg-declined > summary { cursor: pointer; min-height: 44px; list-style: n
 }
 .sg-decision-head { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; .sg-hanko { color: var(--sg-heading); border-color: var(--sg-heading); } }
 .sg-buyer-comment { margin: .5rem 0 0; color: var(--sg-muted); font-style: italic; }
+
+// ---------- Project thread ----------
+.sg-thread-message { border-top: 1px solid var(--sg-platinum); padding-top: .75rem; }
+.sg-thread-message:first-child { border-top: 0; padding-top: 0; }
+// The "no messages yet" line disappears as soon as the first message lands (Turbo Stream append)
+#project_messages:has(.sg-thread-message) #project_messages_empty { display: none; }

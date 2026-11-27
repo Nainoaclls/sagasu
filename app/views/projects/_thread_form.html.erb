@@ -1,0 +1,13 @@
+<%# Message composer for the project thread. project = the project, message = a (maybe invalid) ProjectMessage %>
+<%= turbo_frame_tag "project_message_form" do %>
+  <%= simple_form_for [project, message] do |f| %>
+    <%= f.input :body, as: :text, label: false, required: false,
+                placeholder: t("project_messages.thread.placeholder"),
+                input_html: { rows: 3, maxlength: 2000, "aria-label": t("project_messages.thread.placeholder") } %>
+    <div class="d-flex justify-content-end">
+      <%= f.button :button, class: "btn btn-primary" do %>
+        <%= icon("fa-paper-plane") %> <%= t("project_messages.thread.send") %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

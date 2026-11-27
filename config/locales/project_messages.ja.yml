@@ -1,0 +1,7 @@
+ja:
+  project_messages:
+    thread:
+      title: "ディスカッション"
+      empty: "まだメッセージはありません。承認者とのやり取りを始めましょう。"
+      placeholder: "このプロジェクトの関係者へのメッセージを書く…"
+      send: "送信"
