@@ -3,14 +3,14 @@
 # prompt or output, which may carry review content.
 class ProjectTimeline
   Event = Struct.new(:kind, :at, :actor_name, :group_title, :ai_status, :model, :approver_name, :comment,
-                     keyword_init: true)
+                     :supplier_name, keyword_init: true)
 
   def initialize(project)
     @project = project
   end
 
   def events
-    (creation_events + ai_events + approval_events).sort_by(&:at).reverse
+    (creation_events + ai_events + approval_events + invitation_events).sort_by(&:at).reverse
   end
 
   private
@@ -44,5 +44,14 @@ class ProjectTimeline
     actor = approval.withdrawn? ? @project.user.name : approval.approver.name
     Event.new(kind: approval.status.to_sym, at: approval.decided_at, actor_name: actor,
               comment: approval.comment.presence)
+  end
+
+  # RFQ invitations the buyer marked as sent (RfqInvitation carries no text, just the act)
+  def invitation_events
+    RfqInvitation.sent.includes(:supplier, :user)
+                 .where(approval: @project.approvals).map do |invitation|
+      Event.new(kind: :invited, at: invitation.sent_at, actor_name: invitation.user&.name,
+                supplier_name: invitation.supplier.name)
+    end
   end
 end

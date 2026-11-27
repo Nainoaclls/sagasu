@@ -31,6 +31,19 @@ class ProjectActivityTest < ActionDispatch::IntegrationTest
     assert_operator response.body.index("returned the bidder list"), :<, response.body.index("created the project")
   end
 
+  test "a sent RFQ invitation shows up as an event" do
+    approval = @project.latest_approval # returned in setup; decide again to reach "approved"
+    approval.decide!(decision: :approved)
+    supplier = @project.selected_group_suppliers.first.supplier
+    approval.rfq_invitations.create!(supplier: supplier).mark_sent!(by: @buyer)
+    sign_in_as @buyer
+
+    get project_activity_path(@project)
+
+    assert_response :success
+    assert_select ".sg-activity-item", text: /Aiko Buyer contacted #{supplier.name}/
+  end
+
   test "the assigned approver can see it" do
     sign_in_as @approver
 

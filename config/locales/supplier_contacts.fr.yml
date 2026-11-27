@@ -1,0 +1,12 @@
+fr:
+  supplier_contacts:
+    form:
+      legend: "Contact"
+      contact_name: "Personne de contact"
+      email: "E-mail de contact"
+      email_hint: "Une seule adresse — utilisée pour le lien mailto de l'invitation après approbation."
+      phone: "Téléphone"
+    show:
+      contact_name: "Personne de contact"
+      email: "E-mail"
+      phone: "Téléphone"

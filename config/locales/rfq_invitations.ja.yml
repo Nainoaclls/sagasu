@@ -1,0 +1,43 @@
+ja:
+  rfq_invitations:
+    default_reference: "見積依頼"
+    subject: "見積依頼 %{rfq_reference} — %{project_title}"
+    body: |
+      %{supplier_name} 御中
+
+      下記の見積依頼へご参加いただきたく、ご連絡いたします。
+
+      参照番号: %{rfq_reference}
+      案件名: %{project_title}
+
+      依頼資材:
+      %{material_list}
+
+      お見積金額と納期をご返信ください。
+
+      よろしくお願いいたします。
+      %{buyer_name}
+    index:
+      title: "サプライヤーへの招待"
+      back: "%{title}"
+      intro: "「%{title}」の入札者リストは承認されました。固定されたスナップショットの文面で各サプライヤーに連絡し、送信済みにマークしてください。"
+      no_email: "メールアドレス未登録"
+      sent_at: "送信済み %{date}"
+      open: "招待文"
+    show:
+      title: "%{name} への招待"
+      back: "招待の一覧"
+      message: "招待文（承認時に固定されたスナップショットから生成）"
+      subject_label: "件名:"
+      copy: "テキストをコピー"
+      copied: "コピーしました！"
+      actions: "サプライヤーに連絡"
+      mailto: "メールアプリで開く"
+      mailto_unavailable: "メールボタンを使うには、サプライヤー情報にメールアドレスを登録してください。"
+      no_email: "メールアドレス未登録 — 別の方法で連絡してください。"
+      approval_pdf: "承認書（PDF）"
+      mark_sent: "送信済みにする"
+    flash:
+      sent: "%{name} を連絡済みにしました。"
+    project:
+      link: "サプライヤーに連絡（見積依頼）"

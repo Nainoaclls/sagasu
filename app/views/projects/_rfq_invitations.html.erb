@@ -1,0 +1,10 @@
+<%# Entry point to the RFQ invitations of the latest approved approval; only the buyer who owns
+    the project sees it (RfqInvitationPolicy). %>
+<% approved = project.approvals.approved.last %>
+<% if approved && RfqInvitationPolicy.new(current_user, approved).index? %>
+  <div class="card card-body mb-4">
+    <%= link_to approval_rfq_invitations_path(approved), class: "btn btn-accent" do %>
+      <%= icon("fa-envelope-open-text") %> <%= t("rfq_invitations.project.link") %>
+    <% end %>
+  </div>
+<% end %>

@@ -180,7 +180,12 @@ SUPPLIERS.each do |category, rows|
       delivery_areas: areas, monthly_capacity: capacity, capacity_unit: (unit if capacity), lead_time_days: lead_time,
       certifications: certifications, description: description,
       erp_vendor_code: "V-#{code}", tax_id: (format("T%013d", 4_011_001_000_000 + (code * 7919)) if code.odd?),
-      website: "https://www.#{slug}.example", source_url: ("https://www.#{slug}.example/catalogue" if capacity)
+      website: "https://www.#{slug}.example", source_url: ("https://www.#{slug}.example/catalogue" if capacity),
+      # Fictional contacts on most suppliers; every fourth has no email, so the
+      # invitations page can show its "no email address" state.
+      contact_name: (["Sato", "Suzuki", "Tanaka", "Yamada"].sample + " " + ["Ken", "Aya", "Ryo", "Mio"].sample if code.even?),
+      email: ("sales@#{slug}.example" unless code % 4 == 0),
+      phone: ("03-%04d-%04d" % [code, (code * 37) % 10_000] if code.even?)
     )
   end
 end

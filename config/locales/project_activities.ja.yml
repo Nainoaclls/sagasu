@@ -16,6 +16,7 @@ ja:
       submitted: "%{actor}さんが入札先リストを承認のため%{approver}さんに送信しました"
       approved: "%{actor}さんが入札先リストを承認しました"
       returned: "%{actor}さんが入札先リストを差し戻しました"
+      invited: "%{actor}さんが%{supplier}に連絡しました（見積依頼）"
     ai_status:
       running: "実行中"
       succeeded: "AIで完了"

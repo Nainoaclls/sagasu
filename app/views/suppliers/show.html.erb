@@ -45,6 +45,9 @@
           <%= supplier_fact(t("suppliers.show.facts.delivers_to"), @supplier.delivery_areas.join(", ").presence) %>
           <%= supplier_fact(t("suppliers.show.facts.certifications"), @supplier.certifications.join(", ").presence) %>
           <%= supplier_fact(t("suppliers.show.facts.tax_id"), @supplier.tax_id) %>
+          <%= supplier_fact(t("supplier_contacts.show.contact_name"), @supplier.contact_name) %>
+          <%= supplier_fact(t("supplier_contacts.show.email"), (@supplier.email.presence && mail_to(@supplier.email))) %>
+          <%= supplier_fact(t("supplier_contacts.show.phone"), @supplier.phone.presence) %>
         </dl>
         <% if (source = safe_external_url(@supplier.source_url)) %>
           <p class="sg-caption mt-3 mb-0"><%= icon("fa-link") %> <%= t("suppliers.show.source", url: link_to(source, source, target: "_blank", rel: "noopener noreferrer")) %></p>

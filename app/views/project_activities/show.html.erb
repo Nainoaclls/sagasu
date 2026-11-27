@@ -19,7 +19,8 @@
         <div>
           <p>
             <%= t("project_activities.events.#{event.kind}#{'_no_group' if event.kind == :suggestion && event.group_title.blank?}",
-                  actor: event.actor_name, group: event.group_title, approver: event.approver_name) %>
+                  actor: event.actor_name, group: event.group_title, approver: event.approver_name,
+                  supplier: event.supplier_name) %>
             <% if event.ai_status %>
               <%= badge(event.ai_status == "failed" ? :danger : :neutral, "fa-robot",
                         t("project_activities.ai_status.#{event.ai_status}")) %>

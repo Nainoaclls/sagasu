@@ -53,4 +53,12 @@ Rails.application.routes.draw do
       patch :withdraw # the buyer takes a pending submission back
     end
   end
+
+  # RFQ invitations after approval: the buyer contacts each selected supplier from the frozen
+  # snapshot (mailto / copy / link to the approval PDF) and marks it sent — nothing is emailed.
+  resources :approvals, only: [] do
+    resources :rfq_invitations, only: %i[index show] do
+      member { patch :mark_sent }
+    end
+  end
 end
